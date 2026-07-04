@@ -17,11 +17,18 @@ function Navbar() {
           <NavLink to="/" className={({ isActive }) => (isActive ? "text-amber-600" : "")}>
             Home
           </NavLink>
-          <NavLink to="/products" className={({ isActive }) => (isActive ? "text-amber-600" : "")}>
-            Products
+           <NavLink to="/shops" className={({ isActive }) => (isActive ? "text-amber-600" : "")}>
+            Dashboard
           </NavLink>
+         
           <NavLink to="/cart" className={({ isActive }) => (isActive ? "text-amber-600" : "")}>
             Cart ({cart.length})
+          </NavLink>
+           <NavLink to="/aboutus" className={({ isActive }) => (isActive ? "text-amber-600" : "")}>
+            About us
+          </NavLink>
+           <NavLink to="/support" className={({ isActive }) => (isActive ? "text-amber-600" : "")}>
+            Contact us
           </NavLink>
         </nav>
 

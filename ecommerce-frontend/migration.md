@@ -119,16 +119,34 @@ The frontend now has separate state modules for each main domain:
 The compatibility layer in [src/context/products.js](/home/fraold/Develop_and_Code/StandardProjects/MyProjects/Guzolink/ecommerce-frontend/src/context/products.js) still exists so the remaining catalog pages can keep working until phase 4 moves the UI into matching feature folders.
 
 #### Phase 4: Move UI into matching features
-- [ ] Step 4.1: Move src/pages/Login.jsx and src/pages/Signup.jsx into `features/auth/pages`
-- [ ] Step 4.2: Move src/pages/Products.jsx and product-related UI into `features/catalog`
-- [ ] Step 4.3: Move src/feat-form/ShopForm.jsx and src/feat-form/ShopRequestPanel.jsx into `features/shop-admin`
-- [ ] Verify: Route imports still resolve and the app builds
+- [x] Step 4.1: Move src/pages/Login.jsx and src/pages/Signup.jsx into `features/auth/pages`
+- [x] Step 4.2: Move src/pages/Products.jsx and product-related UI into `features/catalog`
+- [x] Step 4.3: Move src/feat-form/ShopForm.jsx and src/feat-form/ShopRequestPanel.jsx into `features/shop-admin`
+- [x] Verify: Route imports still resolve and the app builds
+
+#### Phase 4 Result
+
+The frontend UI now lives in feature-owned folders:
+
+- [src/features/auth/pages/Login.jsx](/home/fraold/Develop_and_Code/StandardProjects/MyProjects/Guzolink/ecommerce-frontend/src/features/auth/pages/Login.jsx)
+- [src/features/auth/pages/Signup.jsx](/home/fraold/Develop_and_Code/StandardProjects/MyProjects/Guzolink/ecommerce-frontend/src/features/auth/pages/Signup.jsx)
+- [src/features/catalog/pages/Products.jsx](/home/fraold/Develop_and_Code/StandardProjects/MyProjects/Guzolink/ecommerce-frontend/src/features/catalog/pages/Products.jsx)
+- [src/features/catalog/pages/ProductDetails.jsx](/home/fraold/Develop_and_Code/StandardProjects/MyProjects/Guzolink/ecommerce-frontend/src/features/catalog/pages/ProductDetails.jsx)
+- [src/features/catalog/components/ProductCard.jsx](/home/fraold/Develop_and_Code/StandardProjects/MyProjects/Guzolink/ecommerce-frontend/src/features/catalog/components/ProductCard.jsx)
+- [src/features/shop-admin/components/ShopForm.jsx](/home/fraold/Develop_and_Code/StandardProjects/MyProjects/Guzolink/ecommerce-frontend/src/features/shop-admin/components/ShopForm.jsx)
+- [src/features/shop-admin/components/ShopRequestPanel.jsx](/home/fraold/Develop_and_Code/StandardProjects/MyProjects/Guzolink/ecommerce-frontend/src/features/shop-admin/components/ShopRequestPanel.jsx)
+
+The app router now imports these feature pages directly, and the old page/component files were removed so the old structure no longer acts as a second source of truth.
 
 #### Phase 5: Replace the umbrella context
-- [ ] Step 5.1: Remove direct consumers from `useProducts`
-- [ ] Step 5.2: Replace `useProducts` with `useAuth`, `useCart`, and `useCatalog`
-- [ ] Step 5.3: Keep a temporary compatibility adapter only if needed
-- [ ] Verify: Lint and build pass after the migration
+- [x] Step 5.1: Remove direct consumers from `useProducts`
+- [x] Step 5.2: Replace `useProducts` with `useAuth`, `useCart`, and `useCatalog`
+- [x] Step 5.3: Keep a temporary compatibility adapter only if needed
+- [x] Verify: Lint and build pass after the migration
+
+#### Phase 5 Result
+
+The compatibility bridge has been removed. The app shell now composes the feature providers directly in [src/app/providers/AppProviders.jsx](/home/fraold/Develop_and_Code/StandardProjects/MyProjects/Guzolink/ecommerce-frontend/src/app/providers/AppProviders.jsx), and the old umbrella context is no longer needed.
 
 #### Phase 6: Cleanup
 - [ ] Step 6.1: Delete deprecated `context/products.js` once nothing imports it

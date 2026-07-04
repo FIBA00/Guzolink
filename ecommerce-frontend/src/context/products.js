@@ -4,7 +4,7 @@ import { products as productCatalog } from "../data/products";
 const ProductsContext = createContext(null);
 
 function ProductsProvider({ children }) {
-  const [products] = useState(productCatalog);
+  const [products, setProducts] = useState(productCatalog);
   const [cart, setCart] = useState(() => {
     const storedCart = window.localStorage.getItem("guzolink-cart");
     return storedCart ? JSON.parse(storedCart) : [];
@@ -58,6 +58,39 @@ function ProductsProvider({ children }) {
 
   const clearCart = () => setCart([]);
 
+  const addProduct = (productData) => {
+    const newProduct = {
+      id: Date.now(),
+      name: productData.name,
+      price: Number(productData.price),
+      category: productData.category || "General",
+      description: productData.description || "",
+      badge: productData.badge || "New",
+      size: productData.size || "",
+      color: productData.color || "",
+      stock: Number(productData.stock || 0),
+      image: productData.image || "",
+      sku: productData.sku || "",
+      tags: productData.tags || [],
+      sizes: productData.sizes || [],
+      featured: Boolean(productData.featured),
+      freeShipping: Boolean(productData.freeShipping),
+    };
+
+    setProducts((currentProducts) => [newProduct, ...currentProducts]);
+    return newProduct;
+  };
+
+  const updateProduct = (productId, updates) => {
+    setProducts((currentProducts) =>
+      currentProducts.map((item) => (item.id === productId ? { ...item, ...updates } : item))
+    );
+  };
+
+  const deleteProduct = (productId) => {
+    setProducts((currentProducts) => currentProducts.filter((item) => item.id !== productId));
+  };
+
   const login = (email, password) => {
     const foundUser = registeredUsers.find((entry) => entry.email === email && entry.password === password);
     if (!foundUser) {
@@ -97,6 +130,9 @@ function ProductsProvider({ children }) {
       removeFromCart,
       updateQuantity,
       clearCart,
+      addProduct,
+      updateProduct,
+      deleteProduct,
       login,
       signup,
       logout,

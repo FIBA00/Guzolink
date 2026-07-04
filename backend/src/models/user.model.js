@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
+		shop:{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Shop"
+		}
 	},
 	{
 		timestamps: true,

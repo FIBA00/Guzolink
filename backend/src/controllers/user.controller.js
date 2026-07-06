@@ -40,6 +40,8 @@ export async function GetUserProfile(req, res) {
 				message: "User not found with given id ",
 			});
 		}
+		console.log("Existing user: ", ExistingUser);
+		
 		return res.status(200).json({
 			success: true,
 			user: {
@@ -47,6 +49,8 @@ export async function GetUserProfile(req, res) {
 				username: ExistingUser.username,
 				email: ExistingUser.email,
 				role: ExistingUser.role,
+				phone: ExistingUser.phone,
+				profileImage: ExistingUser.profileImage,
 			},
 		});
 	} catch (error) {
@@ -57,7 +61,7 @@ export async function GetUserProfile(req, res) {
 export async function RegisterUser(req, res) {
 	console.log("Registering user: ");
 	try {
-		const { username, email, password } = req.body;
+		const { username, email, password, phone, address } = req.body;
 		const validation = ValidateUserRegisration(req.body);
 		if (!validation.valid) {
 			return res.status(400).json({
@@ -84,6 +88,8 @@ export async function RegisterUser(req, res) {
 			username,
 			email,
 			password: HashedPassword,
+			...(phone ? { phone } : {}),
+			...(address ? { address } : {}),
 		});
 		console.log(User);
 		const Token = GenerateToken(User);
@@ -159,12 +165,13 @@ export async function LoginUser(req, res) {
 
 export async function UpdateUser(req, res) {
 	try {
-		const { user_id } = req.params;
+		// TODO: email update is not allowed for now, but we can implement it later with email confirmation.
+		const { id } = req.params;
 		// TODO: implement password reset
-		const { username } = req.params;
+		const { username, phone, email, address } = req.body; // read from body, not params
 		const profileimage = req.file ? req.file.path : undefined;
 
-		const user = await UserModel.findById({ user_id });
+		const user = await UserModel.findById(id);
 		if (!user) {
 			return res.status(404).json({
 				success: false,
@@ -175,20 +182,30 @@ export async function UpdateUser(req, res) {
 		const update = {};
 
 		if (username !== undefined) update.username = username;
+		if (email !== undefined) update.email = email;
+		if (phone !== undefined) update.phone = phone;
+		if (address !== undefined) update.address = address;
 		if (profileimage !== undefined) update.profileImage = profileimage;
 
 		const updated_user = await UserModel.findByIdAndUpdate(
-			user_id,
+			id,
 			update,
-			{
-				returnDocument: "after",
-			},
-		).select("-password");
+			{ new: true }
+			,
+		).select("-password -__v");
 
+		// return plain fields so frontend can read .id reliably
 		return res.status(200).json({
 			success: true,
 			message: "Profile updated successfully",
-			user: updated_user,
+			user: {
+				id: updated_user._id,
+				username: updated_user.username,
+				phone: updated_user.phone,
+				email: updated_user.email,
+				role: updated_user.role,
+				profileImage: updated_user.profileImage,
+			},
 		});
 	} catch (error) {
 		console.log("Error occurred while updating user info: ", error);
@@ -220,3 +237,5 @@ export async function DeleteUser(req, res) {
 		});
 	}
 }
+
+// export async function ForgotPassword(req, res){}

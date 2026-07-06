@@ -27,7 +27,7 @@ function Login() {
     setLoading(false);
 
     if (result.success) {
-      navigate("/shops");
+      navigate("/profile/" + result.user.id);
       return;
     }
 
@@ -50,6 +50,7 @@ function Login() {
 
         <form onSubmit={handleSubmit} className="flex-1 rounded-3xl bg-slate-900 p-6 text-white shadow-xl">
           <h2 className="mb-6 text-2xl font-semibold">Login</h2>
+          {/* TODO: implement small notification model card that displays over the window */}
           {error ? <p className="mb-4 rounded-xl bg-red-500/20 p-3 text-sm text-red-200">{error}</p> : null}
 
           <label className="mb-4 block">
@@ -87,7 +88,7 @@ function Login() {
           </button>
 
           <p className="mt-4 text-center text-sm text-slate-400">
-            New here? <Link to="/signup" className="font-semibold text-amber-400">Create an account</Link>
+            New here ? <Link to="/signup" className="font-semibold text-amber-400">Create an account</Link>
           </p>
         </form>
       </div>

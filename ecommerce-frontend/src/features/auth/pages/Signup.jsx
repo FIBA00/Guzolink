@@ -6,7 +6,7 @@ import { useAuth } from "../auth.context";
 function Signup() {
   const navigate = useNavigate();
   const { signup } = useAuth();
-  const [formData, setFormData] = useState({ username: "", email: "", password: "" });
+  const [formData, setFormData] = useState({ username: "", email: "", password: "", countryCode: "+251", phone: "", address: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +24,7 @@ function Signup() {
     setError("");
     setLoading(true);
 
-    const result = await signup(formData.username, formData.email, formData.password);
+    const result = await signup(formData.username, formData.email, formData.password, formData.countryCode + formData.phone, formData.address);
 
     setLoading(false);
 
@@ -77,7 +77,7 @@ function Signup() {
             />
           </label>
 
-          <label className="mb-6 block">
+          <label className="mb-4 block">
             <span className="mb-2 block text-sm">Password</span>
             <input
               type="password"
@@ -88,6 +88,48 @@ function Signup() {
               placeholder="At least 6 characters"
               minLength="6"
               required
+            />
+          </label>
+
+          <label className="mb-4 block">
+            <span className="mb-2 block text-sm">Phone number</span>
+            <div className="flex gap-2">
+              <select
+                name="countryCode"
+                value={formData.countryCode}
+                onChange={handleChange}
+                className="rounded-xl border border-slate-700 bg-slate-800 px-3 py-3 text-sm text-white outline-none"
+              >
+                <option value="+251">🇪🇹 +251</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+254">🇰🇪 +254</option>
+                <option value="+255">🇹🇿 +255</option>
+                <option value="+256">🇺🇬 +256</option>
+                <option value="+27">🇿🇦 +27</option>
+                <option value="+234">🇳🇬 +234</option>
+                <option value="+20">🇪🇬 +20</option>
+              </select>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="flex-1 rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
+                placeholder="912345678"
+              />
+            </div>
+          </label>
+
+          <label className="mb-6 block">
+            <span className="mb-2 block text-sm">Address</span>
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
+              placeholder="City, Country"
             />
           </label>
 

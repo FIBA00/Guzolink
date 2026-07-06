@@ -18,7 +18,7 @@ function Hero() {
               Shop now
             </a>
             {user ? (
-              <a href="/shops" className="rounded-full border border-white/20 px-5 py-3 font-semibold text-white transition hover:bg-white/10">
+              <a href={`/profile/${user.id || user._id}`} className="rounded-full border border-white/20 px-5 py-3 font-semibold text-white transition hover:bg-white/10">
                 My Dashboard
               </a>
             ) : (

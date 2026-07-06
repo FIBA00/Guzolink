@@ -9,12 +9,23 @@ import {
   RegisterUser,
   LoginUser,
   DeleteUser,
+  UpdateUser
+
 } from "../controllers/user.controller.js";
 
+// admin only
 UserRoute.get("/all", IsLoggedIn, IsAdmin, GetAllUsers);
-UserRoute.get("/:id", IsLoggedIn, GetUserProfile);
+UserRoute.delete("/", IsAdmin, DeleteUser);
+
+
+// public only
+UserRoute.get("/profile/:id", IsLoggedIn, GetUserProfile);
 UserRoute.post("/register", RegisterUser);
-UserRoute.post("/login", LoginUser);
-UserRoute.delete("/", DeleteUser);
+UserRoute.post("/login",  LoginUser);
+UserRoute.post("/update/:id", IsLoggedIn, UpdateUser)
+
+
+// TODO: upcoming routes
+// UserRoute.post("/forgotPassword", IsLoggedIn, ForgotPassword)
 
 export default UserRoute;

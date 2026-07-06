@@ -14,11 +14,12 @@ const client = new ApolloClient({
 // auth
 import Login from "./features/auth/pages/Login";
 import Signup from "./features/auth/pages/Signup";
+import UpdateUserInfo from "./features/auth/pages/Update";
+import Dashboard from "./features/auth/pages/Dashboard";
 
 // essentials
 import CreateShop from "./features/shop/pages/CreateShop";
 import MyShops from "./features/shop/pages/MyShops";
-import ShopDashboard from "./features/shop/pages/ShopDashboard";
 import CreateProduct from "./features/shop/pages/CreateProduct";
 import Products from "./features/products/pages/Products";
 
@@ -55,14 +56,33 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
+          {/* TODO: update the shop path from the dashboard page */}
+          {/* <Route
             path="/shop/:shopId"
             element={
               <ProtectedRoute>
                 <ShopDashboard />
               </ProtectedRoute>
             }
+          /> */}
+          <Route
+            path="/profile/:userId"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
           />
+
+          <Route
+            path="/update/:userId"
+            element={
+              <ProtectedRoute>
+                <UpdateUserInfo />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/shop/:shopId/product/create"
             element={

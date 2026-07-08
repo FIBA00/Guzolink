@@ -1,5 +1,5 @@
-import Product from "../models/product.model.js";
-import Shop from "../models/shop.model.js";
+import Product from "../src/models/product.model.js";
+import Shop from "../src/models/shop.model.js";
 
 export const resolvers = {
   // Queries

@@ -5,13 +5,13 @@ function ShopCard({ shop, onDelete }) {
     <div className="relative rounded-xl overflow-hidden shadow-lg transform transition-shadow duration-300 hover:scale-[1.01]">
       <div className="relative rounded-xl overflow-hidden shadow-lg">
         <img
-          src={shop.posterimage || "https://picsum.photos/200/300?random=1"}
+          src={shop.posterimage || "https://picsum.photos/200/300"}
           alt={shop.name}
           className="w-full h-48 object-cover"
           onError={(e) => {
             // Prevents infinite loops if the fallback fails
             e.currentTarget.onerror = null;
-            e.currentTarget.src = "https://placeholder.com/200x300.png?text=No+Image";
+            e.currentTarget.src = "https://placeholder.com";
           }}
         />
       </div>

@@ -1,11 +1,9 @@
 import { createHandler } from "graphql-http/lib/use/express";
-import { schema } from "./typeDefs.js";
-import { resolvers } from "./resolvers.js";
+import { ProductRootSchema } from "./schema.js";
 
 // Create GraphQL handler with context containing authenticated user (if any)
 export const productHandler = createHandler({
-  schema,
-  rootValue: resolvers,
+  schema: ProductRootSchema,
   context: (request) => {
     // Express adds `user` via IsLoggedIn middleware for REST routes; 
     // for GraphQL we need to extract token manually?

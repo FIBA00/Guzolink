@@ -1,40 +1,86 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { request } from "../../../shared/lib/apiClient";
+import { useShops } from "../shop.context.js";
+import { useAuth } from "../../../features/auth/auth.context.js";
 import useShopProducts from "../../products/hooks/useShopProducts";
+import ProductCard from "../components/ProductCard.jsx";
 
 function ShopDashboard() {
   const { shopId } = useParams();
+  const { user } = useAuth();
+  const { fetchSingleShop, shopError } = useShops();
   const [shop, setShop] = useState(null);
-  const [shopError, setShopError] = useState("");
-  
-  const { products, loading: productsLoading, error: productsError, deleteProduct } = useShopProducts(shopId);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const data = await request(`/api/shop/${shopId}`);
-        if (data.success) setShop(data.shop);
-        else setShopError(data.message);
-      } catch (e) {
-        setShopError(e.message);
+    const loadShop = async () => {
+      const result = await fetchSingleShop(shopId);
+      if (result.success) {
+        setShop(result.shop);
       }
-    })();
-  }, [shopId]);
+    };
+    loadShop();
+  }, [shopId, fetchSingleShop]);
+
+  const {
+    products,
+    loading: productsLoading,
+    error: productsError,
+    deleteProduct,
+  } = useShopProducts(shopId);
 
   if (shopError) return <p className="p-6 text-red-600">{shopError}</p>;
   if (!shop) return <p className="p-6 text-white">Loading…</p>;
 
   return (
-    <div className="mx-auto max-w-7xl p-6 sm:px-6 lg:px-8">
-      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-800 p-8 shadow-sm">
-        <Link to="/shops" className="inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white transition mb-2">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+    <div className="mx-auto p-6 sm:px-6 lg:px-8 rounded 3xl border border-white/10 bg-slate-800 shadow-sm">
+      <div className="relative rounded-xl overflow-hidden shadow-lg">
+        <img
+          src={shop.posterimage || "https://picsum.photos/200/300?random=1"}
+          alt={shop.name}
+          className="w-full h-48 object-cover "
+          onError={(e) => {
+            // Prevents infinite loops if the fallback fails
+            e.currentTarget.onerror = null;
+            e.currentTarget.src =
+              "https://placeholder.com/200x300.png?text=No+Image";
+          }}
+        />
+
+        <Link
+          to={`/profile/${user.id}`}
+          className="inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white transition mb-2 mt-4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
           Back to shops
         </Link>
-        <h2 className="text-3xl font-bold text-white mb-2">{shop.name}</h2>
-        <p className="text-slate-300 mb-6">{shop.description}</p>
 
+        {/* Shop Details */}
+        <div className="p-4 mt-4 mb-4 rounded-2xl bg-white/10 backdrop-blur border-t border-white/10">
+          <h3 className="text-xl font-semibold text-white">{shop.name}</h3>
+          {shop.location && (
+            <p className="text-sm text-slate-300">{shop.location}</p>
+          )}
+          {shop.contact && (
+            <p className="text-sm font-medium text-amber-400 mt-1">
+              {shop.contact}
+            </p>
+          )}
+        </div>
+
+        {/* creating new product */}
         <Link
           to={`/shop/${shopId}/product/create`}
           className="inline-flex items-center rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-slate-900 hover:bg-amber-400 transition"
@@ -43,38 +89,12 @@ function ShopDashboard() {
         </Link>
       </div>
 
-      <div className="mt-8">
-        <h3 className="text-2xl font-bold text-white mb-4">Manage Products</h3>
-        
-        {productsLoading ? (
-          <p className="text-slate-300">Loading products...</p>
-        ) : productsError ? (
-          <p className="text-red-400">{productsError}</p>
-        ) : products.length === 0 ? (
-          <p className="text-slate-400">No products found. Create your first product above!</p>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {products.map((product) => (
-              <div key={product._id} className="rounded-2xl border border-white/10 bg-white/5 p-4 flex flex-col justify-between">
-                <div>
-                  <h4 className="text-lg font-semibold text-white">{product.name}</h4>
-                  <p className="text-sm text-slate-400 mb-2">{product.category?.name || product.category} • ${product.price}</p>
-                  <p className="text-sm text-slate-300 line-clamp-2 mb-4">{product.description}</p>
-                </div>
-                <div className="flex gap-2">
-                  <button 
-                    onClick={() => deleteProduct(product._id)}
-                    className="rounded-lg bg-red-500/20 px-3 py-1.5 text-sm font-medium text-red-300 hover:bg-red-500/40 transition"
-                  >
-                    Delete
-                  </button>
-                  {/* Edit can be added later */}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <ProductCard
+        productsLoading={productsLoading}
+        productsError={productsError}
+        products={products}
+        deleteProduct={deleteProduct}
+      />
     </div>
   );
 }

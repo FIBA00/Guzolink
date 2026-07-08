@@ -1,4 +1,3 @@
-import React from "react";
 import { useProductForm } from "../hooks/useProductForm";
 
 function ProductForm({ onAddItem, shop }) {

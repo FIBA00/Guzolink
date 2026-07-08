@@ -48,13 +48,12 @@ export async function CreateMerchantShop(req, res) {
 export async function GetAllMerchantShops(req, res) {
   try {
     const userid = req.user.id;
-    console.log("User id:", userid);
     const shops = await Shop.find({ owner: userid }).populate("category", "name");
 
     if (!shops || shops.length === 0) {
       return res
         .status(404)
-        .json({ success: false, message: "No shops found for this user" });
+        .json({ success: false, message: "No shops found for this user please add new shop", shops: [] });
     }
 
     return res

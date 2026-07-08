@@ -6,7 +6,7 @@ import {
   CreateMerchantShop,
   GetMerchantShopDetails,
   GetAllMerchantShops,
-} from "../controllers/shop.controller.js";
+} from "../controllers/shops.controller.js";
 
 ShopRoute.get("/", IsLoggedIn, GetAllMerchantShops);
 ShopRoute.get("/:id", IsLoggedIn, GetMerchantShopDetails);

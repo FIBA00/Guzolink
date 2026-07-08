@@ -11,7 +11,7 @@ export function VerifyToken(token) {
 			"JWT secret is missing. Set JW_SECRET in your .env file.",
 		);
 	}
-	console.log("Token Provided, verifying...", token);
-	console.log("The Secret: ", SECRET);
+	// console.log("Token Provided, verifying...", token);
+	// console.log("The Secret: ", SECRET);
 	return jwt.verify(token, SECRET);
 }

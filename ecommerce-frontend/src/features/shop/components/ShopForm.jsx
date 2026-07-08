@@ -1,108 +1,161 @@
-import { useState, useEffect } from "react";
-import { useCategories } from "../../categories/category.context";
 
-function ShopForm({ onAddShop }) {
-  const { shopCategories } = useCategories();
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    contact: "",
-    category: "",
-    location: "",
-    posterimage: "",
-  });
-  const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    if (shopCategories.length > 0 && !formData.category) {
-      setFormData((prev) => ({ ...prev, category: shopCategories[0]._id }));
-    }
-  }, [shopCategories, formData.category]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!formData.name || !formData.contact) {
-      setMessage("Name and contact are required.");
-      return;
-    }
-    const payload = {
-      name: formData.name,
-      description: formData.description,
-      contact: formData.contact,
-      category: formData.category,
-      location: formData.location,
-      posterimage: formData.posterimage,
-    };
-    onAddShop(payload);
-    setMessage(`Shop "${payload.name}" created.`);
-    setFormData({
-      name: "",
-      description: "",
-      contact: "",
-      category: shopCategories[0]?._id || "",
-      location: "",
-      posterimage: "",
-    });
-  };
-
+function ShopFormUi({
+  message,
+  error,
+  handleSubmit,
+  shopDetails,
+  handleChange,
+  shopCategories = [],
+  fileInputRef
+}) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="text-2xl font-semibold text-slate-900">Create Shop</h2>
-      <p className="mt-2 text-sm text-slate-600">Provide basic shop information.</p>
-
-      {message && <p className="mt-4 rounded-xl bg-emerald-50 p-3 text-sm text-emerald-700">{message}</p>}
-
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-        <label className="block text-sm text-slate-600">
-          <span className="mb-2 block">Shop name</span>
-          <input name="name" value={formData.name} onChange={handleChange} className="w-full rounded-xl border border-slate-300 px-3 py-2" required />
-        </label>
-
-        <label className="block text-sm text-slate-600">
-          <span className="mb-2 block">Description</span>
-          <textarea name="description" value={formData.description} onChange={handleChange} rows="3" className="w-full rounded-xl border border-slate-300 px-3 py-2" placeholder="Brief description..." />
-        </label>
-
-        <label className="block text-sm text-slate-600">
-          <span className="mb-2 block">Contact (email or phone)</span>
-          <input name="contact" value={formData.contact} onChange={handleChange} className="w-full rounded-xl border border-slate-300 px-3 py-2" required />
-        </label>
-
-        <label className="block text-sm text-slate-600">
-          <span className="mb-2 block">Category</span>
-          <select name="category" value={formData.category} onChange={handleChange} className="w-full rounded-xl border border-slate-300 px-3 py-2">
-            {shopCategories.map((c) => (
-              <option key={c._id} value={c._id}>{c.name}</option>
-            ))}
-          </select>
-        </label>
-
-        <label className="block text-sm text-slate-600">
-          <span className="mb-2 block">Location</span>
-          <input name="location" value={formData.location} onChange={handleChange} className="w-full rounded-xl border border-slate-300 px-3 py-2" placeholder="City, Country" />
-        </label>
-
-        <label className="block text-sm text-slate-600">
-          <span className="mb-2 block">Poster Image URL</span>
-          <input name="posterimage" value={formData.posterimage} onChange={handleChange} className="w-full rounded-xl border border-slate-300 px-3 py-2" placeholder="https://example.com/image.jpg" />
-        </label>
-
-        <div className="flex items-center gap-4">
-          <button type="submit" className="rounded-full bg-slate-900 px-5 py-3 font-semibold text-white">
-            Create Shop
-          </button>
-          {formData.posterimage && (
-            <img src={formData.posterimage} alt="preview" className="h-12 w-12 rounded-md object-cover" />
-          )}
+    <div className="min-h-screen bg-slate-50 px-4 py-16 text-slate-800">
+      <div className="mx-auto flex max-w-5xl flex-col gap-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm lg:flex-row lg:items-center">
+        <div className="flex-1 space-y-4">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-600">
+            Add new Guzolink shop
+          </p>
+          <h1 className="text-4xl font-bold">Create new shop</h1>
+          <p className="max-w-xl text-lg text-slate-600">
+            Enter information about your shop to reach millions of customers.
+          </p>
         </div>
-      </form>
+        
+        {message && (
+          <p className="mt-4 rounded-xl bg-emerald-50 p-3 text-sm text-emerald-700">
+            {message}
+          </p>
+        )}
+        {/* Error Banner */}
+  {error && (
+    <p className="mt-4 rounded-xl bg-rose-50 p-3 text-sm text-rose-700 border border-rose-200">
+      {error}
+    </p>
+  )}
+        <form
+          onSubmit={handleSubmit}
+          className="flex-1 rounded-3xl bg-slate-900 p-6 text-white shadow-xl space-y-4"
+        >
+          {/* Shop Name */}
+          <label className="block text-sm text-slate-300">
+            <span className="mb-2 block">Shop name</span>
+            <input
+              name="name"
+              value={shopDetails.name}
+              onChange={handleChange}
+              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
+              required
+            />
+          </label>
+
+          {/* Description */}
+          <label className="block text-sm text-slate-300">
+            <span className="mb-2 block">Description</span>
+            <textarea
+              name="description"
+              value={shopDetails.description}
+              onChange={handleChange}
+              rows="3"
+              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
+              placeholder="Brief description..."
+            />
+          </label>
+
+          {/* Contact Details */}
+          <label className="block text-sm text-slate-300">
+            <span className="mb-2 block">Contact (email or phone)</span>
+            <input
+              name="contact"
+              value={shopDetails.contact}
+              onChange={handleChange}
+              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
+              required
+            />
+          </label>
+
+          {/* Category Dropdown */}
+          <label className="block text-sm text-slate-300">
+            <span className="mb-2 block">Category</span>
+            <select
+              name="category"
+              value={shopDetails.category}
+              onChange={handleChange}
+              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
+            >
+              {shopCategories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          {/* Location */}
+          <label className="block text-sm text-slate-300">
+            <span className="mb-2 block">Location</span>
+            <input
+              name="location"
+              value={shopDetails.location}
+              onChange={handleChange}
+              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
+              placeholder="City, Country"
+            />
+          </label>
+
+          {/* Poster Image (Changed to type="text" to accept the URL cleanly) */}
+          <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+          <label className="block text-sm text-slate-300">
+            <span className="mb-2 block">Poster Image URL</span>
+            <input
+              type="text"
+              name="posterimage"
+              value={shopDetails.posterimage}
+              onChange={handleChange}
+              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
+              placeholder="https://example.com/image.jpg"
+            />
+          </label>
+
+          {/* upload your own poster */}
+          <label className="block text-sm text-slate-300">
+            <span className="mb-2 block">Upload Poster Image</span>
+            <input
+              type="file"
+              name="posterimage"
+              ref={fileInputRef}
+              onChange={handleChange}
+              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
+            />
+          </label>
+          </div>
+
+
+          {/* Submission and Preview Actions */}
+          <div className="flex items-center gap-4">
+            <button
+              type="submit"
+              disabled={!shopDetails.name || !shopDetails.contact}
+              className="w-full rounded-xl bg-amber-500 px-4 py-3 font-semibold text-slate-950 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:bg-amber-300"
+            >
+              Create Shop
+            </button>
+
+            {shopDetails.posterimage && (
+              <img
+                src={shopDetails.posterimage}
+                alt="preview"
+                className="h-12 w-12 rounded-md object-cover shrink-0"
+              />
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
 
-export default ShopForm;
+export default ShopFormUi;
+
+

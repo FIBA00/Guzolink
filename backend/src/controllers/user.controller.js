@@ -190,7 +190,7 @@ export async function UpdateUser(req, res) {
 		const updated_user = await UserModel.findByIdAndUpdate(
 			id,
 			update,
-			{ new: true }
+			{ returnDocument: "after" }
 			,
 		).select("-password -__v");
 

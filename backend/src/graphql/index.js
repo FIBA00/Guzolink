@@ -2,7 +2,7 @@ import { createHandler } from "graphql-http/lib/use/express";
 import { ProductRootSchema } from "./schema.js";
 
 // Create GraphQL handler with context containing authenticated user (if any)
-export const productHandler = createHandler({
+export const ProductRoute = createHandler({
   schema: ProductRootSchema,
   context: (request) => {
     // Express adds `user` via IsLoggedIn middleware for REST routes; 

@@ -2,8 +2,6 @@ import "./env.config.js";
 import jwt from "jsonwebtoken";
 
 const SECRET = process.env.JW_SECRET || process.env.JWT_SECRET;
-const EXPIRES_IN =
-	process.env.JW_EXPIRES_IN || process.env.JWT_EXPIRES_IN || "1d";
 
 export default function GenerateToken(user) {
 	if (!SECRET) {
@@ -19,7 +17,7 @@ export default function GenerateToken(user) {
 		},
 		SECRET,
 		{
-			expiresIn: EXPIRES_IN,
+			expiresIn: '2h', // Token expires in 2 hours
 		},
 	);
 }

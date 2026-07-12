@@ -3,14 +3,35 @@ import ShopCard from "../components/ShopCard";
 import { useShops } from "../shop.context.js";
 
 function MyShops() {
-  const { shops, error, deleteShop } = useShops();
+  const { shops, shopError, isLoading, isRefreshing, fetchShops, deleteShop } =
+    useShops();
+
+  // Full-page loading state — only true on a genuinely empty first load
+  // (see ShopContext: cache-first means this almost never fires on a
+  // return visit, only the very first time a merchant ever lands here).
+  console.log("Fetched shops", shops)
+  if (isLoading) {
+    return (
+      <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
+        Loading your shops...
+      </p>
+    );
+  }
+
+  if (shopError) {
+    return (
+      <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
+        Couldn't load shops: {shopError}
+      </p>
+    );
+  }
 
   return (
     <div className="mx-auto p-6 sm:px-6 lg:px-8 rounded 3xl border border-white/10 bg-slate-800 shadow-sm transform transition-all duration-300 hover:scale-[1.01]">
       <div className="p-3 space-x-12 sm:space-x-3 sm:flex sm:flex-wrap ">
-        {error && (
+        {shopError && (
           <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
-            {error}
+            {shopError}
           </p>
         )}
         <Link
@@ -35,12 +56,43 @@ function MyShops() {
         </Link>
       </div>
       <div>
-        <Link
-          to="/shop/create"
-          className="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-amber-400 transition mb-4 mt-6"
-        >
-          + Add New Shop
-        </Link>
+        <div className="flex items-center justify-between mb-4 mt-6">
+          <Link
+            to="/shop/create"
+            className="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-amber-400 transition"
+          >
+            + Add New Shop
+          </Link>
+
+          {/* Manual refresh — this is the "merchant just made a sale,
+              pull the latest numbers" button. It calls fetchShops with
+              silent: true, which drives isRefreshing instead of isLoading,
+              so the existing shop cards stay on screen the whole time
+              instead of being replaced by a full-page spinner. */}
+          <button
+            type="button"
+            onClick={() => fetchShops({ silent: true })}
+            disabled={isRefreshing}
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-600 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-slate-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            {isRefreshing ? "Refreshing..." : "Refresh"}
+          </button>
+        </div>
+
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {!shops || shops.length === 0 ? (
             <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
@@ -52,12 +104,6 @@ function MyShops() {
             ))
           )}
         </div>
-
-        {/* Merchant details section */}
-        {/* <div className="mt-8">
-        <h3 className="text-lg font-semibold text-white mb-2">All Shops Summary </h3>
-        <p className="text-slate-300 rounded-2xl text-center border border-amber-300 p-5">Shop information will be displayed here.</p>
-      </div> */}
       </div>
     </div>
   );

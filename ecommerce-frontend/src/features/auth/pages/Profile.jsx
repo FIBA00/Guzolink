@@ -24,21 +24,12 @@ function ProfileCard() {
         
         <div className="text-center sm:text-left flex-1 space-y-1">
           <h2 className="text-2xl font-bold tracking-tight text-white">
-            {user.username}
+            Welcome {user.username}
           </h2>
-          <p className="text-sm font-medium text-amber-400">
-            Active Profile
-          </p>
+    
         </div>
 
-        <div>
-          <Link
-            to={`/update/${user.id || user._id}`}
-            className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-md hover:bg-amber-400 active:scale-[0.98] transition-all duration-200"
-          >
-            Update Profile
-          </Link>
-        </div>
+        
       </div>
 
       {/* User Technical Details Grid */}
@@ -59,6 +50,17 @@ function ProfileCard() {
           <span className="text-slate-200 font-medium">
             {user.phone || "Not provided"}
           </span>
+        </div>
+        <div>
+               <p className="text-sm tracking-tight text-gray-500 mb-2">
+            You can update your info with this button
+          </p>
+          <Link
+            to={`/update/${user.id || user._id}`}
+            className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-md hover:bg-amber-400 active:scale-[0.98] transition-all duration-200"
+          >
+            Update Profile
+          </Link>
         </div>
       </div>
 

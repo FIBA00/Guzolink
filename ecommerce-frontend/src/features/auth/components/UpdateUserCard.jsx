@@ -1,17 +1,41 @@
+import { Link } from "react-router-dom";
 
 
 function UpdateUserCard({formData, loading , handleSubmit, handleChange, error}) {
     return  (
 
     <div className="min-h-screen bg-slate-500 px-4 py-16 text-slate-800">
+      
         <div className="mx-auto flex max-w-5xl flex-col gap-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm lg:flex-row lg:items-center">
+             
             <div className="flex-1 space-y-4">
-                <h3 className="text-4xl font-bold">Hello {formData.name}!</h3>
                 <p className="text-sm font-semibold uppercase tracking-wider text-amber-600">Update your account information below:</p>
+                      <Link
+          to={`/profile/${formData.id}`}
+          className="inline-flex items-center gap-1 text-lg text-slate-800 hover:text-red-600 transition mb-2 mt-4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to profile
+        </Link>
             </div>
+
 
             {/* user info form */}
             <form onSubmit={handleSubmit} className="flex-1 rounded-3xl bg-slate-900 p-6 text-white shadow-xl">
+      
                 <h2 className="mb-6 text-2xl font-semibold">Update account</h2>
                 {error && <p className="mb-4 rounded-xl bg-red-500/20 p-3 text-sm text-red-200">{error}</p>}
 

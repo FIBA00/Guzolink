@@ -34,7 +34,7 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           build-args: |
-            VITE_API_URL=/guzolink/api
+            VITE_API_URL=/guzolink
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/guzolink-frontend:latest
 
       - name: Ensure deployment directory exists

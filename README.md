@@ -1,52 +1,84 @@
 # Guzolink
 
 A lightweight marketplace platform where local merchants create online shops and sell products. The project includes a Node.js + Express backend and a Vite-based frontend.
+<!-- home image inside imgs/home.png -->
+
+
+
+## Team & Authors
+
+* **Fraol Bulti**
+* **Daniel**
+* **Gemechis Bekena**
+
+---
 
 ## Overview
 
 This repository contains a full-stack application named Guzolink. The backend provides REST APIs for merchant and shop management, product catalog, orders, customers, and payments. The frontend is a Vite-powered client that lets merchants manage shops and customers browse and buy products.
 
+### Project Previews
+
+| Marketplace Storefront | Merchant Dashboard |
+| --- | --- |
+|  |  |
+
+---
+
 ## Frontend Flow
 
 The frontend follows a render-then-init pattern: the router selects a page, the page returns markup, and an init function attaches event handlers. Key flows include merchant onboarding, shop management, product CRUD, and customer checkout.
 
-## Tech stack
+---
 
-- Backend: Node.js, Express, Mongoose (MongoDB)
-- Frontend: Vite, vanilla JS, Tailwind CSS
-- Payments: Stripe (or pluggable provider)
-- Dev tooling: nodemon, Jest, Supertest
+## Tech Stack
 
-## Repository layout
+* **Backend:** Node.js, Express, Mongoose (MongoDB)
+* **Frontend:** Vite, Vanilla JS, Tailwind CSS
+* **Payments:** Stripe (or pluggable provider)
+* **Dev Tooling:** nodemon, Jest, Supertest
 
-- backend/ — Express API server, models for merchants, shops, products, orders
-- guzolink_client/ — Vite frontend application for merchants and customers
-- scripts/ — utility scripts (eg. seed data, create demo merchant)
+---
 
-## Quick start
+## Repository Layout
 
-Prerequisites:
+```text
+├── backend/            # Express API server, models for merchants, shops, products, orders
+├── guzolink_client/    # Vite frontend application for merchants and customers
+├── imgs/               # Application screenshots and assets used in README
+└── scripts/            # Utility scripts (e.g., seed data, create demo merchant)
 
-- Node.js (v18+ recommended)
-- npm
-- MongoDB (local or remote)
+```
 
-1) Backend
+---
+
+## Quick Start
+
+### Prerequisites
+
+* Node.js (v18+ recommended)
+* npm
+* MongoDB (local or remote instance running)
+
+### 1) Backend Setup
 
 Install dependencies and start the API server:
 
 ```bash
 cd backend
 npm install
-# development with auto-reload
+
+# Development environment with auto-reload (nodemon)
 npm run dev
-# or start production-like server
+
+# Start production-ready server
 npm run start
+
 ```
 
-Server defaults to port `9000` unless `PORT` is set.
+*The server defaults to port `9000` unless the `PORT` environment variable is set.*
 
-2) Frontend
+### 2) Frontend Setup
 
 Install and run the Vite dev server:
 
@@ -54,70 +86,105 @@ Install and run the Vite dev server:
 cd guzolink_client
 npm install
 npm run dev
+
 ```
 
-The frontend runs via Vite and talks to the backend API as configured.
+The frontend runs via Vite and points to the backend API layer as configured.
 
-## Environment variables (backend)
+---
 
-Place environment variables in one of these locations (the project checks them in order):
+## Environment Variables (Backend)
 
-- `backend/envs/.env.local` (development)
-- `backend/envs/.env.prod` (production)
-- `backend/.env`
+Place environment variables in one of these locations (the project checks them in priority order):
 
-Common variables used by the project:
+1. `backend/envs/.env.local` (Development)
+2. `backend/envs/.env.prod` (Production)
+3. `backend/.env`
 
-- `DB_URI` / `DB_URL` — MongoDB connection URI
-- `HOST` — MongoDB host (default: localhost)
-- `DB_NAME` — Database name (default: Guzolink)
-- `PORT` — API server port (default: 9000)
-- `JWT_SECRET` — JWT signing secret
-- `JWT_EXPIRES_IN` — JWT expiration (e.g. 1d)
-- `PAYMENTS_PROVIDER_KEY` — API key for payments provider (eg. Stripe)
+### Example Configuration (`backend/envs/.env.local.example`)
 
-## Useful scripts
+Create your local file based on this template:
 
-- Backend
-  - `npm run dev` — start `nodemon` development server
-  - `npm start` — start node server
-  - `npm test` — run tests (Jest)
-- Frontend (guzolink_client)
-  - `npm run dev` — start Vite dev server
-  - `npm run build` — build for production
-  - `npm run preview` — preview build
+```env
+# Server Configuration
+PORT=9000
+JWT_SECRET=your_super_secret_jwt_key_here
+JWT_EXPIRES_IN=1d
 
-## Create demo merchant
+# Database Connection
+DB_URI=mongodb://localhost:27017/Guzolink
+HOST=localhost
+DB_NAME=Guzolink
 
-The backend includes a script to create a demo merchant and sample shop/products for local development:
+# Third-Party Payments Integrations
+PAYMENTS_PROVIDER_KEY=sk_test_yourStripeKeyHere
+
+```
+
+---
+
+## Core API Reference
+
+Below is a reference outlining the primary REST endpoints accessible on the backend:
+
+| Method | Endpoint | Description | Auth Required |
+| --- | --- | --- | --- |
+| **POST** | `/api/auth/register` | Registers a new local merchant account | No |
+| **POST** | `/api/auth/login` | Authenticates merchant and returns JWT token | No |
+| **GET** | `/api/shops` | Lists all active marketplace online shops | No |
+| **POST** | `/api/shops` | Creates a new vendor shop storefront | **Yes** (Merchant) |
+| **GET** | `/api/products` | Fetches a global or shop-specific product catalog | No |
+| **POST** | `/api/products` | Adds a new product inventory item to a shop | **Yes** (Merchant) |
+| **PUT** | `/api/products/:id` | Updates an existing product listing details | **Yes** (Merchant) |
+| **DELETE** | `/api/products/:id` | Removes a product item from the storefront catalog | **Yes** (Merchant) |
+
+---
+
+## Useful Scripts
+
+### Backend Scripts
+
+* `npm run dev` — Starts the `nodemon` development server with auto-reload.
+* `npm start` — Runs the application standard Node process execution.
+* `npm test` — Executes the test suites using Jest runner framework.
+
+### Frontend Scripts (`guzolink_client`)
+
+* `npm run dev` — Launches local Vite dev instance.
+* `npm run build` — Compiles and optimizes assets into distribution files for deployment.
+* `npm run preview` — Statically serves the locally built production output for verification.
+
+---
+
+## Create Demo Merchant
+
+The backend includes a utility script to instantly build a demo merchant, sample shop, and initial mock products for swift sandbox experimentation:
 
 ```bash
 cd backend
 node src/scripts/createDemoMerchant.js
+
 ```
-
-Use this for local development and testing.
-
-## Testing
-
-Backend tests use Jest + Supertest. From the `backend` folder run:
-
-```bash
-npm test
-```
-
-## Contributing
-
-Contributions welcome. Open an issue or submit a pull request with a clear description of changes and rationale.
-
-## License
-
-This project is provided under the `ISC` license (see LICENSE file).
 
 ---
 
-If you'd like, I can also:
+## Testing
 
-- add a short API reference for merchant/shop/product endpoints,
-- add an `.env.local` example in `backend/envs/.env.local.example`, or
-- create a CONTRIBUTING.md with contribution guidelines.
+Backend unit and integration tests use Jest + Supertest. From the `backend` directory, run:
+
+```bash
+npm test
+
+```
+
+---
+
+## Contributing
+
+Contributions are welcome! Please feel free to open an issue or submit a pull request with a clear description of changes and their corresponding rationale.
+
+---
+
+## License
+
+This project is open-source and provided under the terms of the `ISC` license (see the accompanying `LICENSE` file for details).

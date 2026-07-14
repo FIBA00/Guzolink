@@ -1,11 +1,14 @@
 services:
   backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     image: fraolbmax/guzolink-backend:latest
     container_name: guzolink-backend
     restart: unless-stopped
 
     env_file:
-      - /home/fraol/secrets/guzolink-app.env
+      - ./backend/.env.production
 
     depends_on:
       - mongodb
@@ -20,9 +23,15 @@ services:
       retries: 3
 
   frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     image: fraolbmax/guzolink-frontend:latest
     container_name: guzolink-frontend
     restart: unless-stopped
+
+    env_file:
+      - ./frontend/.env.local
 
     depends_on:
       - backend

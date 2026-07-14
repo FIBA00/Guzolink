@@ -6,6 +6,7 @@ import { ProductRoute } from "../graphql/index.js";
 
 export default function RegisterRoutes(app) {
 	console.log(`Registering routes: `);
+	
 	app.use("/api/user", UserRoute);
 	app.use("/api/shops", ShopRoute);
 	app.use("/api/products", ProductRoute);

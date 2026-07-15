@@ -1,7 +1,6 @@
 import UserRoute from "./user.route.js";
 import OrderRoute from "./orders.routes.js";
 import ShopRoute from "./shops.route.js";
-import MarketPlaceRoute from "./market.route.js";
 import ShopCategoryRoute from "./shopCategory.route.js";
 import ProductCategoryRoute from "./productCategory.route.js";
 import ProductGraphQLRoute from "./product.graphql.route.js"; // the file above
@@ -11,9 +10,7 @@ export default function RegisterRoutes(app) {
   app.use("/api/user", UserRoute);
   app.use("/api/orders", OrderRoute);
   app.use("/api/shops", ShopRoute);
-  app.use("/api/marketplace", MarketPlaceRoute);
   app.use("/api/products", ProductGraphQLRoute);
-
   app.use("/api/shop-category", ShopCategoryRoute);
   app.use("/api/product-category", ProductCategoryRoute);
 }

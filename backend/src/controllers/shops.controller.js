@@ -75,7 +75,7 @@ export async function GetMerchantShops(req, res) {
 
 export async function GetAllShops(req, res) {
   try {
-    // GET /shops?page=1&limit=10
+    // GET /shops/all?page=1&limit=10
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
@@ -98,7 +98,7 @@ export async function GetAllShops(req, res) {
         shops: [],
       });
     }
-
+    console.log("Total shops:", totalShops, "Current page:", page, "Limit:", limit);
     return res.status(200).json({
       success: true,
       message: "Shops retrieved successfully",

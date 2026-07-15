@@ -6,13 +6,27 @@ import MerchantCTA from "../components/MerchantCTA.jsx";
 import HomePageProductCard from "../features/products/components/HomePageProductCard.jsx";
 import useProducts from "../features/products/hooks/useProducts.js";
 import LoadingSpinnerModal from "../components/LoadingSpinnerModal.jsx";
-
+import {useRef} from "react";
 function Home() {
   const { products, loading, isLoadingMore, hasMore, loadMore, error } =
     useProducts();
 
   const featured = products.slice(0, 4);
+  const scrollRef = useRef(null);
 
+  const scrollLeft = () => {
+    scrollRef.current?.scrollBy({
+      left: -250,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollRight = () => {
+    scrollRef.current?.scrollBy({
+      left: 250,
+      behavior: "smooth",
+    });
+  };
   return (
     <div>
       <Hero />
@@ -23,16 +37,42 @@ function Home() {
         {/* Featured teaser — reuses the same products array already
             fetched by useProducts, no extra network call */}
         {!loading && !error && featured.length > 0 && (
-          <section className="mx-auto max-w-7xl px-4 sm:px-3 lg:px-4 border border-amber-400  rounded-3xl bg-slate-800 p-6 shadow-sm">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-500">
-              Featured
-            </p>
-            <h2 className="mt-2 text-3xl font-bold text-white">
-              Popular picks right now
-            </h2>
-            <div className="mt-2 grid gap-2 justify-items-center sm:grid-cols-2 xl:grid-cols-4">
+          <section className="mx-auto max-w-7xl px-6 py-20">
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <p className="text-sm uppercase tracking-widest text-amber-500">
+                  Featured
+                </p>
+                <h2 className="text-3xl font-bold text-white">
+                  Popular picks right now
+                </h2>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={scrollLeft}
+                  className="rounded-full bg-slate-700 px-4 py-2 text-white"
+                >
+                  ←
+                </button>
+
+                <button
+                  onClick={scrollRight}
+                  className="rounded-full bg-slate-700 px-4 py-2 text-white"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+
+            <div
+              ref={scrollRef}
+              className="flex gap-4 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory"
+            >
               {featured.map((product) => (
-                <HomePageProductCard key={product.id} product={product} />
+                <div key={product.id} className="w-52 flex-shrink-0 snap-start">
+                  <HomePageProductCard product={product} />
+                </div>
               ))}
             </div>
           </section>

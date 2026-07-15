@@ -20,6 +20,7 @@ import Dashboard from "./features/auth/pages/Dashboard.jsx";
 import MyShops from "./features/shop/pages/MyShops.jsx";
 import CreateShop from "./features/shop/pages/CreateShop.jsx";
 import ShopDashboard from "./features/shop/pages/ShopDashboard.jsx";
+import ShopProducts from "./features/shop/pages/ShopProducts.jsx";
 
 // products
 import CreateProductCard from "./features/products/pages/CreateProduct.jsx";
@@ -80,7 +81,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="/shop/:shopId/product"
+            element={
+              <ProtectedRoute>
+                <ShopProducts />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/shop/:shopId/product/create"
             element={

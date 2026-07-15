@@ -61,7 +61,8 @@ export const ProductResolvers = {
     // Only the product's creator (or an admin) may delete it.
     const isOwner =
       product.createdBy?.toString() === (user._id || user.id)?.toString();
-    if (!isOwner && user.role !== "admin") {
+   
+      if (!isOwner && user.role !== "admin") {
       throw new Error("You are not authorized to delete this product");
     }
 

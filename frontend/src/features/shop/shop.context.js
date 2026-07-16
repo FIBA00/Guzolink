@@ -16,6 +16,7 @@ const ShopContext = createContext(null);
 
 function ShopProvider({ children }) {
   const { token, isAuthLoading } = useAuth();
+  const prevTokenRef = useRef(token);
 
   // --- Caching strategy: "stale-while-revalidate" -----------------------
   // Unlike the user object (which barely changes and we trust once
@@ -41,9 +42,10 @@ function ShopProvider({ children }) {
   // refresh, they'd lose their place and the UI would feel like it broke
   // — bad UX even though the underlying fetch logic is identical.
   const [isRefreshing, setIsRefreshing] = useState(false);
-
   const [shopError, setShopError] = useState(null);
-  const [allShopsError, setAllShopsError] = useState(null)
+  const [allShopsError, setAllShopsError] = useState(null);
+  const [isUpdatingShop, setIsUpdatingShop] = useState(false);
+  const [updateShopError, setUpdateShopError] = useState(null);
 
   // A ref (not state) that tracks whether this component is still
   // mounted. We use this instead of a per-effect `cancelled` flag
@@ -76,7 +78,7 @@ function ShopProvider({ children }) {
       }
     } catch (err) {
       if (!isMountedRef.current) return;
-      console.error("Error fetching shops:", err.message);
+      // console.error("Error fetching shops:", err.message);
       setShopError(err.message || "Failed to load shops");
     } finally {
       if (isMountedRef.current) {
@@ -88,9 +90,19 @@ function ShopProvider({ children }) {
 
   useEffect(() => {
     if (isAuthLoading) return; // wait for auth to resolve first
+    const tokenChanged = prevTokenRef.current !== token;
+    prevTokenRef.current = token;
     if (!token) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- resetting loading state when auth resolves to "no user", not reacting to our own state change
+      setShops([]); // clear out any cached shops if the user logs out
+      storage.shops.set([]);
       setIsLoading(false);
+      return;
+    }
+    if (tokenChanged) {
+      setShops([]);
+      storage.shops.set([]);
+      fetchUserShops();
       return;
     }
 
@@ -109,16 +121,29 @@ function ShopProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally checking shops.length only on mount, not re-running when shops changes
   }, [isAuthLoading, token]); //shops.length used inside, not listed as dependency on purpose: we only want to run this effect once per auth resolution, not every time the shop list changes
 
+  const buildShopBody = (shopInfo) => {
+    const { posterImageFile, ...rest } = shopInfo;
+    if (posterImageFile) {
+      const formData = new FormData();
+      Object.entries(rest).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) formData.append(key, value);
+      });
+      formData.append("posterImage", posterImageFile);
+      return formData;
+    }
+    return JSON.stringify(rest);
+  };
+
   const createShop = async (shopInfo) => {
     try {
       const data = await request("/api/shops", {
         method: "POST",
-        body: JSON.stringify(shopInfo),
+        body: buildShopBody(shopInfo),
       });
       if (data.success) {
         setShops((prev) => {
           const next = [...prev, data.shop];
-          storage.shops.set(next); // keep cache in sync with state
+          storage.shops.set(next);
           return next;
         });
         return {
@@ -156,6 +181,44 @@ function ShopProvider({ children }) {
       console.error("Error deleting shop:", err);
     }
   };
+  
+  const updateShop = async (id, shopInfo) => {
+    setIsUpdatingShop(true);
+    setUpdateShopError(null);
+    try {
+      const data = await request(`/api/shops/${id}`, {
+        method: "PUT",
+        body: buildShopBody(shopInfo),
+      });
+      if (data.success) {
+        setShops((prev) => {
+          const next = prev.map((s) => (s._id === id ? data.shop : s));
+          storage.shops.set(next);
+          return next;
+        });
+        return {
+          success: true,
+          shop: data.shop,
+          message: data.message || "Shop updated successfully",
+        };
+      }
+      setUpdateShopError(data.message || "Failed to update shop");
+      return {
+        success: false,
+        message: data.message || "Failed to update shop",
+      };
+    } catch (err) {
+      console.error("Error updating shop:", err.message);
+      setUpdateShopError(err.message || "Failed to update shop");
+      return {
+        success: false,
+        message: err.message || "Failed to update shop",
+      };
+    } finally {
+      setIsUpdatingShop(false);
+    }
+  };
+
 
   const fetchSingleShopDetails = async (id) => {
     setShopError(null);
@@ -183,7 +246,6 @@ function ShopProvider({ children }) {
       const data = await request(`/api/shops/all?page=${page}&limit=${limit}`);
       // const data = await request(`/api/shops/all`, { method: "GET" });
 
-
       if (data.success) {
         return {
           success: true,
@@ -198,7 +260,8 @@ function ShopProvider({ children }) {
         };
       }
     } catch (error) {
-      console.error("Error fetching shops:", error.message);
+      // console.error("Error fetching shops:", error.message);
+      console.error("Error fetching shops:");
 
       setAllShopsError(error.message || "Failed to load all shops");
 
@@ -221,6 +284,9 @@ function ShopProvider({ children }) {
       deleteShop,
       fetchSingleShopDetails,
       fetchAllShops,
+      updateShop,
+      isUpdatingShop,
+      updateShopError,
     }),
     [shops, isLoading, isRefreshing, shopError, allShopsError],
   );

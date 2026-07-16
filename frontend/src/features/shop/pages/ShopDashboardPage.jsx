@@ -30,6 +30,11 @@ function ShopDashboard() {
   const { fetchSingleShopDetails, shopError } = useShops();
   const [shop, setShop] = useState(null);
 
+  const isOwner =
+    user &&
+    shop &&
+    (user.id || user._id)?.toString() === shop.owner?.toString();
+
   useEffect(() => {
     const loadShop = async () => {
       const result = await fetchSingleShopDetails(shopId);
@@ -47,9 +52,8 @@ function ShopDashboard() {
     error: productsError,
     fetchProducts, // the silent-refetch wrapper from useShopProducts
     deleteProduct,
-    
   } = useShopProducts(shopId);
-  
+
   if (shopError) return <p className="p-6 text-red-600">{shopError}</p>;
   if (!shop) return <p className="p-6 text-white">Loading…</p>;
 
@@ -57,7 +61,7 @@ function ShopDashboard() {
     <div className="flex flex-col mx-auto p-6 sm:px-6 lg:px-8 rounded 3xl border border-white/10 bg-slate-800 shadow-sm">
       <div className="relative rounded-xl overflow-hidden shadow-lg">
         <img
-          src={shop.posterimage || "https://picsum.photos/200/300?random=1"}
+          src={shop.posterImage || "https://picsum.photos/200/300?random=1"}
           alt={shop.name}
           className="w-full h-48 object-cover "
           onError={(e) => {
@@ -128,7 +132,8 @@ function ShopDashboard() {
         productsLoading={productsLoading}
         productsError={productsError}
         products={products}
-        deleteProduct={deleteProduct}
+        deleteProduct={deleteProduct} 
+        isOwner={isOwner}
       />
     </div>
   );

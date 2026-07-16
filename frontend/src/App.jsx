@@ -9,6 +9,9 @@ import { client } from "./providers/ApolloClient.js";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
+import AboutUs from "./pages/AboutUs.jsx";
+
 
 // auth
 import Login from "./features/auth/pages/Login.jsx";
@@ -28,6 +31,7 @@ import CreateProductCard from "./features/products/pages/CreateProductPage.jsx";
 
 // shoping and marketing
 // import Cart from "./pages/Cart";
+import Cart from "./pages/Cart.jsx";
 // import Checkout from "./pages/Checkout";
 
 function App() {
@@ -36,11 +40,18 @@ function App() {
       <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-700 text-slate-100">
         <Navbar />
         <Routes>
-
-        {/* auth related */}
+          {/* auth related */}
           <Route path="/" element={<Home />} />
+          <Route path="/aboutus" element={<AboutUs/>}/>
+           <Route path="/support" element={<ContactUs/>}/> 
+           
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/cart" 
+          element={
+          <ProtectedRoute>
+            <Cart/>
+            </ProtectedRoute>}/>
           <Route
             path="/profile/:userId"
             element={
@@ -49,7 +60,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/update/:userId"
             element={
@@ -58,9 +68,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           {/* shop related */}
-
           <Route
             path="/shops"
             element={
@@ -93,7 +101,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* product related */}
+          b{/* product related */}
           <Route
             path="/shops/:shopId/products/create"
             element={

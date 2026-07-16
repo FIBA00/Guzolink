@@ -1,6 +1,27 @@
 import { Link } from "react-router-dom";
+import EditShopModal from "../components/EditShopModal.jsx";
+import ConfirmModal from "../../../components/ConfirmModal.jsx";
+import { useState } from "react";
+import { useShops } from "../shop.context.js";
 
-function ShopCard({ shop, onDelete, isOwner }) {
+function ShopCard({ shop, isOwner }) {
+  const { updateShop, isUpdatingShop, updateShopError, deleteShop } =
+    useShops();
+  const [pendingDelete, setPendingDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [editingShop, setEditingShop] = useState(null);
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDelete) return;
+    setIsDeleting(true);
+    try {
+      await deleteShop(pendingDelete.id);
+      setPendingDelete(null);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <div className="relative w-64 justify-items-center rounded-xl overflow-hidden shadow-lg transform transition-shadow duration-300 hover:scale-[1.01]">
       <div className="relative rounded-xl overflow-hidden shadow-lg">
@@ -29,32 +50,53 @@ function ShopCard({ shop, onDelete, isOwner }) {
         {shop.rating !== undefined && (
           <p className="mt-1 text-sm text-amber-500">Rating: {shop.rating}/5</p>
         )}
-       
-       
 
-        {isOwner && ( 
-        <div className="mt-4 flex flex-wrap gap-2">
-
-          <Link
-            to={`/shops/${shop._id}`}
-            className="inline-flex items-center rounded-lg bg-white/20 px-4 py-2 text-white font-medium hover:bg-white/30 transition"
-          >
-            Manage
-          </Link>
-          <Link
-            to={`/shops/${shop._id}/edit`}
-            className="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-slate-900 font-medium hover:bg-amber-400 transition"
-          >
-            Edit
-          </Link>
-          <button
-            onClick={() => onDelete(shop._id)}
-            className="inline-flex items-center rounded-lg bg-red-500/20 px-4 py-2 text-red-300 font-medium hover:bg-red-500/40 transition"
-          >
-            Delete
-          </button>
-        </div>)}
+        {isOwner && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Link
+              to={`/shops/${shop._id}`}
+              className="inline-flex items-center rounded-lg bg-white/20 px-4 py-2 text-white font-medium hover:bg-white/30 transition"
+            >
+              Manage
+            </Link>
+            <button
+              onClick={() => setEditingShop(shop)}
+              className="inline-flex items-center rounded-lg bg-amber-500/20 px-4 py-2 text-amber-300 font-medium hover:bg-amber-500/40 transition"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => setPendingDelete(shop)}
+              className="inline-flex items-center rounded-lg bg-red-500/20 px-4 py-2 text-red-300 font-medium hover:bg-red-500/40 transition"
+            >
+              Delete
+            </button>
+          </div>
+        )}
       </div>
+      <ConfirmModal
+        open={!!pendingDelete}
+        title="Delete this shop?"
+        message={
+          pendingDelete
+            ? `"${pendingDelete.name}" will be permanently removed. This can't be undone.`
+            : ""
+        }
+        confirmLabel="Delete"
+        isDangerous
+        isConfirming={isDeleting}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={handleConfirmDelete}
+      />
+
+      <EditShopModal
+        open={!!editingShop}
+        shop={editingShop}
+        isUpdating={isUpdatingShop}
+        updateError={updateShopError}
+        onClose={() => setEditingShop(null)}
+        onSave={(id, data) => updateShop(id, data)}
+      />
     </div>
   );
 }

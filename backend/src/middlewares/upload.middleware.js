@@ -31,7 +31,7 @@ function makeUploader(subfolder) {
   return multer({
     storage,
     fileFilter: imageFileFilter,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+    limits: { fileSize: 10 * 1024 * 1024 }, // 5MB
   });
 }
 

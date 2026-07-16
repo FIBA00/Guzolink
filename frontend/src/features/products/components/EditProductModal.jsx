@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useCategories } from "../../categories/category.context.js";
-import uploadProductImage from "../utils/uploadProductImage.js";
+import uploadProductImage from "../utils/UploadProductImage.js";
 
 export default function EditProductModal({
   open,

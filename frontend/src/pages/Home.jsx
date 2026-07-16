@@ -1,12 +1,15 @@
 import Hero from "../components/Hero.jsx";
-import ShopsStrip from "../features/shop/components/ShopStrip.jsx";
+import ShopsStrip from "../features/shop/components/HomePageShopCard.jsx";
 import CategoryStrip from "../features/categories/components/CategoryStrip.jsx";
 import HowItWorksSection from "../components/HowItWorksSection.jsx";
 import MerchantCTA from "../components/MerchantCTA.jsx";
 import HomePageProductCard from "../features/products/components/HomePageProductCard.jsx";
 import useProducts from "../features/products/hooks/useProducts.js";
 import LoadingSpinnerModal from "../components/LoadingSpinnerModal.jsx";
-import {useRef} from "react";
+import { useRef } from "react";
+
+
+
 function Home() {
   const { products, loading, isLoadingMore, hasMore, loadMore, error } =
     useProducts();
@@ -107,12 +110,17 @@ function Home() {
             </p>
           ) : (
             <>
-              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {/* Full catalog */}
+              <div
+                className="grid gap-3"
+                style={{
+                  gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+                }}
+              >
                 {products.map((product) => (
                   <HomePageProductCard key={product.id} product={product} />
                 ))}
               </div>
-
               {hasMore && (
                 <div className="mt-10 flex justify-center">
                   <button

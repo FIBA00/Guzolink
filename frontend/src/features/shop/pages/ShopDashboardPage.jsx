@@ -1,9 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useShops } from "../shop.context.js";
-import { useAuth } from "../../../features/auth/auth.context.js";
+import { useAuth } from "../../auth/auth.context.js";
 import useShopProducts from "../../products/hooks/useShopProducts.js";
-import ShopProductCard from "../../../features/products/components/ShopProductCard.jsx";
+import ShopProductCard from "../../products/components/ShopProductCard.jsx";
 
 function RefreshIcon({ spinning }) {
   return (
@@ -29,6 +29,11 @@ function ShopDashboard() {
   const { user } = useAuth();
   const { fetchSingleShopDetails, shopError } = useShops();
   const [shop, setShop] = useState(null);
+
+  const isOwner =
+    user &&
+    shop &&
+    (user.id || user._id)?.toString() === shop.owner?.toString();
 
   useEffect(() => {
     const loadShop = async () => {
@@ -105,7 +110,7 @@ function ShopDashboard() {
             products it's given, it shouldn't own the fetch action. */}
         <div className="flex items-center gap-3">
           <Link
-            to={`/shops/${shopId}/product/create`}
+            to={`products/create`}
             className="inline-flex items-center rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-slate-900 hover:bg-amber-400 transition"
           >
             + Add Product
@@ -127,7 +132,8 @@ function ShopDashboard() {
         productsLoading={productsLoading}
         productsError={productsError}
         products={products}
-        deleteProduct={deleteProduct}
+        deleteProduct={deleteProduct} 
+        isOwner={isOwner}
       />
     </div>
   );

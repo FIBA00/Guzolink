@@ -1,15 +1,23 @@
 import { Link } from "react-router-dom";
-import ShopCard from "../components/ShopCard.jsx";
 import { useShops } from "../shop.context.js";
+import { useAuth } from "../../auth/auth.context.js";
+import ShopCard from "../components/ShopCard.jsx";
 
 function MyShops() {
-  const { shops, shopError, isLoading, isRefreshing, fetchUserShops, deleteShop } =
-    useShops();
-
+  const {
+    shops,
+    shopError,
+    isLoading,
+    isRefreshing,
+    fetchUserShops,
+    deleteShop,
+  } = useShops();
+  const { user } = useAuth();
   // Full-page loading state — only true on a genuinely empty first load
   // (see ShopContext: cache-first means this almost never fires on a
   // return visit, only the very first time a merchant ever lands here).
   console.log("Fetched shops", shops);
+  
   if (isLoading) {
     return (
       <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
@@ -18,13 +26,15 @@ function MyShops() {
     );
   }
 
+  const isOwner = Boolean(user);
+
   return (
     <div className="mx-auto p-6 sm:px-6 lg:px-8 rounded 3xl border border-white/10 bg-slate-800 shadow-sm transform transition-all duration-300 hover:scale-[1.01]">
       <div className="p-3 space-x-12 sm:space-x-3 sm:flex sm:flex-wrap "></div>
       <div>
         <div className="flex items-center justify-between mb-4 mt-6">
           <Link
-            to="/shop/create"
+            to="/shops/create"
             className="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-amber-400 transition"
           >
             + Add New Shop
@@ -58,19 +68,23 @@ function MyShops() {
             {isRefreshing ? "Refreshing..." : "Refresh"}
           </button>
         </div>
-
       </div>
-       <div className="flex flex-row gap-2 md:grid-cols-2 lg:grid-cols-3 border border-white/10 rounded-2xl p-4">
-          {!shops || shops.length === 0 ? (
-            <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
-              You have no shops yet . {shopError && `Error: ${shopError}`}
-            </p>
-          ) : (
-            shops.map((shop) => (
-              <ShopCard key={shop._id} shop={shop} onDelete={deleteShop} />
-            ))
-          )}
-        </div>
+      <div className="flex flex-row gap-2 md:grid-cols-2 lg:grid-cols-3 border border-white/10 rounded-2xl p-4">
+        {!shops || shops.length === 0 ? (
+          <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
+            You have no shops yet . {shopError && `Error: ${shopError}`}
+          </p>
+        ) : (
+          shops.map((shop) => (
+            <ShopCard
+              key={shop._id}
+              shop={shop}
+              onDelete={deleteShop}
+              isOwner={isOwner}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }

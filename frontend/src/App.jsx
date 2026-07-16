@@ -11,7 +11,6 @@ import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
-import Marketplace from "./pages/MarketPlace.jsx";
 
 // auth
 import Login from "./features/auth/pages/Login.jsx";
@@ -46,12 +45,11 @@ function App() {
           <Route path="/support" element={<ContactUs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/marketplace" element={<Marketplace />}/>
           <Route path="/cart" 
           element={
-          <ProtectedRoute>
+          <protectedRoute>
             <Cart/>
-            </ProtectedRoute>}/>
+            </protectedRoute>}/>
           <Route
             path="/profile/:userId"
             element={

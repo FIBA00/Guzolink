@@ -11,6 +11,7 @@ import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
+import Marketplace from "./pages/MarketPlace.jsx";
 
 // auth
 import Login from "./features/auth/pages/Login.jsx";
@@ -29,8 +30,9 @@ import CreateProductCard from "./features/products/pages/CreateProductPage.jsx";
 // import ProductDetails from "./features/products/pages/ProductDetails";
 
 // shoping and marketing
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import Cart from "./pages/Cart.jsx";
+import Checkout from "./pages/Checkout.jsx";
+
 
 function App() {
   return (
@@ -44,6 +46,12 @@ function App() {
           <Route path="/support" element={<ContactUs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/marketplace" element={<Marketplace />}/>
+          <Route path="/cart" 
+          element={
+          <ProtectedRoute>
+            <Cart/>
+            </ProtectedRoute>}/>
           <Route
             path="/profile/:userId"
             element={

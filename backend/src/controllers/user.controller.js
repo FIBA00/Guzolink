@@ -183,7 +183,7 @@ export async function UpdateUser(req, res) {
 		const { id } = req.params;
 		// TODO: implement password reset
 		const { username, phone, email, address } = req.body; // read from body, not params
-		const profileImage = req.file ? publicPathFor(req.file.path) : undefined;
+		const profileimage = req.file ? publicPathFor(req.file.path) : undefined;
 
 	
 		const user = await UserModel.findById(id);
@@ -200,7 +200,7 @@ export async function UpdateUser(req, res) {
 		if (email !== undefined) update.email = email;
 		if (phone !== undefined) update.phone = phone;
 		if (address !== undefined) update.address = address;
-		if (profileImage !== undefined) update.profileImage = profileImage;
+		if (profileimage !== undefined) update.profileImage = profileimage;
 
 		const updated_user = await UserModel.findByIdAndUpdate(
 			id,

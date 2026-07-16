@@ -6,7 +6,7 @@ export async function CreateMerchantShop(req, res) {
   try {
     const owner = req.user.id;
     const { name, contact } = req.body;
-    const { category } = req.body;
+    const { category, description, location } = req.body;
     const posterImage = req.file ? publicPathFor(req.file.path) : undefined;
 
     if (!name || !contact || !category) {
@@ -36,6 +36,8 @@ export async function CreateMerchantShop(req, res) {
       owner,
       category,
       ...(posterImage ? { posterImage } : {}),
+      ...(description ? { description } : {}),
+      ...(location ? { location } : {}),
     });
 
     return res

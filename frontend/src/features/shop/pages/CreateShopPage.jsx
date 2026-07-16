@@ -9,6 +9,7 @@ function CreateShop() {
   const user = useAuth()?.user;
   const { createShop } = useShops();
   const { shopCategories = [] } = useCategories();
+  const [posterImageFile, setPosterImageFile] = useState(null);
   const navigate = useNavigate();
 
   const [shopDetails, setShopDetails] = useState({
@@ -17,7 +18,7 @@ function CreateShop() {
     contact: "",
     category: "", // Leave blank initially
     location: "",
-    posterimage: "",
+    posterImage: "",
   });
 
   const [message, setMessage] = useState("");
@@ -29,11 +30,12 @@ function CreateShop() {
     setShopDetails((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleShopCreateSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setMessage("");
-    if (fileInputRef.current) fileInputRef.current.value = "";
+
+    // if (fileInputRef.current) fileInputRef.current.value = "";
 
     if (!shopDetails.name || !shopDetails.contact) {
       setError("Name and contact are required.");
@@ -45,6 +47,7 @@ function CreateShop() {
     const payload = {
       ...shopDetails,
       category: finalCategory,
+      posterImage: posterImageFile, // This will be the file object if a file was selected
     };
     try {
       const shopCreationData = await createShop(payload);
@@ -66,9 +69,11 @@ function CreateShop() {
       setError(
         err.message || "An unexpected error occurred while creating the shop.",
       );
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      setPosterImageFile(null);
     }
   };
-
 
   const { createShopCategory, creatingCategory } = useCategories();
 
@@ -151,7 +156,7 @@ function CreateShop() {
           Back to dashboard
         </Link>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleShopCreateSubmit}
           className="flex-1 rounded-3xl bg-slate-900 p-6 text-white shadow-xl space-y-4"
         >
           {/* Shop Name */}
@@ -262,28 +267,30 @@ function CreateShop() {
             />
           </label>
 
-          {/* Poster Image (Changed to type="text" to accept the URL cleanly) */}
+          {/* Poster Image */}
           <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <label className="block text-sm text-slate-300">
               <span className="mb-2 block">Poster Image URL</span>
               <input
                 type="text"
-                name="posterimage"
-                value={shopDetails.posterimage}
+                name="posterImage"
+                value={shopDetails.posterImage}
                 onChange={handleChange}
                 className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
                 placeholder="https://example.com/image.jpg"
+                disabled={!!posterImageFile}
               />
             </label>
 
-            {/* upload your own poster */}
             <label className="block text-sm text-slate-300">
               <span className="mb-2 block">Upload Poster Image</span>
               <input
                 type="file"
-                name="posterimage"
                 ref={fileInputRef}
-                onChange={handleChange}
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                onChange={(e) =>
+                  setPosterImageFile(e.target.files?.[0] ?? null)
+                }
                 className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
               />
             </label>
@@ -299,9 +306,9 @@ function CreateShop() {
               Create Shop
             </button>
 
-            {shopDetails.posterimage && (
+            {shopDetails.posterImage && (
               <img
-                src={shopDetails.posterimage}
+                src={shopDetails.posterImage}
                 alt="preview"
                 className="h-12 w-12 rounded-md object-cover shrink-0"
               />

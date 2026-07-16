@@ -40,8 +40,7 @@ function App() {
       <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-700 text-slate-100">
         <Navbar />
         <Routes>
-
-        {/* auth related */}
+          {/* auth related */}
           <Route path="/" element={<Home />} />
           <Route path="/aboutus" element={<AboutUs/>}/>
            <Route path="/support" element={<ContactUs/>}/> 
@@ -61,7 +60,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/update/:userId"
             element={
@@ -70,9 +68,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           {/* shop related */}
-
           <Route
             path="/shops"
             element={
@@ -104,8 +100,8 @@ function App() {
                 <ShopProducts />
               </ProtectedRoute>
             }
-          />b
-          {/* product related */}
+          />
+          b{/* product related */}
           <Route
             path="/shops/:shopId/products/create"
             element={

@@ -1,13 +1,15 @@
 import Shop from "../models/shop.model.js";
 import ShopCategory from "../models/shopCategory.model.js";
+import { publicPathFor } from "../middlewares/upload.middleware.js";
 
 export async function CreateMerchantShop(req, res) {
   try {
     const owner = req.user.id;
-    const { name,  contact } = req.body;
-    const { category } = req.body; // category should be an existing category ObjectId
+    const { name, contact } = req.body;
+    const { category } = req.body;
+    const posterImage = req.file ? publicPathFor(req.file.path) : undefined;
 
-    if (!name  || !contact || !category) {
+    if (!name || !contact || !category) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
@@ -33,6 +35,7 @@ export async function CreateMerchantShop(req, res) {
       contact,
       owner,
       category,
+      ...(posterImage ? { posterImage } : {}),
     });
 
     return res
@@ -166,7 +169,7 @@ export async function GetMerchantShopDetails(req, res) {
 export async function DeleteMerchantShop(req, res) {
   try {
     const { id, role } = req.user;
-    const { shopId } = req.params;
+    const { id: shopId } = req.params;
 
     // find the shop first
     const shop = await Shop.findById(shopId);
@@ -205,46 +208,52 @@ export async function DeleteMerchantShop(req, res) {
 export async function UpdateMerchantShop(req, res) {
   try {
     const { id, role } = req.user;
-    const { shopId } = req.params;
+    const { id: shopId } = req.params; // route is "/:id", not "/:shopId"
     const { name, description, contact, category } = req.body;
+    const posterimage = req.file ? publicPathFor("shops", req.file) : undefined;
 
-    // find the shop first
     const shop = await Shop.findById(shopId);
-
     if (!shop) {
-      return res.status(404).json({
-        success: false,
-        message: "No shop found with this id ! for this user",
-        shop: [],
-      });
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: "No shop found with this id",
+          shop: [],
+        });
     }
 
-    // check ownership
-    const isShopOwner = shop.createdBy.toString() === id;
+    const isShopOwner = shop.createdBy?.toString() === id;
     if (!isShopOwner && role !== "admin") {
-      return res.status(403).json({
-        success: false,
-        message: "You are not authorized to update this shop.",
-      });
+      return res
+        .status(403)
+        .json({
+          success: false,
+          message: "You are not authorized to update this shop.",
+        });
     }
 
-    // Update the shop details
-    const updatedShop = await Shop.findOneAndUpdate(
-      { _id: shopId },
-      { name, description, contact, category },
-      { returnDocument: "after" }, // Return the updated document
-    );
+    const update = { name, description, contact, category };
+    if (posterimage !== undefined) update.posterimage = posterimage;
 
-    return res.status(200).json({
-      success: true,
-      message: "Shop updated successfully",
-      shop: updatedShop,
+    const updatedShop = await Shop.findOneAndUpdate({ _id: shopId }, update, {
+      returnDocument: "after",
     });
+
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Shop updated successfully",
+        shop: updatedShop,
+      });
   } catch (error) {
     console.log("error occurred while updating merchant shop", error);
-    return res.status(500).json({
-      success: false,
-      message: "error occurred while updating merchant shop",
-    });
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: "error occurred while updating merchant shop",
+      });
   }
 }

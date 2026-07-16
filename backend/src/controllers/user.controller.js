@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import UserModel from "../models/user.model.js";
 import ValidateUserRegisration from "../validators/user.validator.js";
 import {GenerateToken} from "../middlewares/auth.middleware.js";
+import {publicPathFor} from "../middlewares/upload.middleware.js";
 
 export async function GetAllUsers(req, res) {
 	try {
@@ -61,7 +62,7 @@ export async function GetUserProfile(req, res) {
 export async function RegisterUser(req, res) {
 	console.log("Registering user: ");
 	try {
-		const { username, email, password, phone, address } = req.body;
+		const { username, email, password, phone, address, profileImage } = req.body;
 		const validation = ValidateUserRegisration(req.body);
 		if (!validation.valid) {
 			return res.status(400).json({
@@ -90,6 +91,7 @@ export async function RegisterUser(req, res) {
 			password: HashedPassword,
 			...(phone ? { phone } : {}),
 			...(address ? { address } : {}),
+			...(profileImage ? { profileImage } : {}),
 		});
 		console.log(User);
 		const Token = GenerateToken(User);
@@ -181,8 +183,9 @@ export async function UpdateUser(req, res) {
 		const { id } = req.params;
 		// TODO: implement password reset
 		const { username, phone, email, address } = req.body; // read from body, not params
-		const profileimage = req.file ? req.file.path : undefined;
+		const profileImage = req.file ? publicPathFor(req.file.path) : undefined;
 
+	
 		const user = await UserModel.findById(id);
 		if (!user) {
 			return res.status(404).json({
@@ -190,14 +193,14 @@ export async function UpdateUser(req, res) {
 				message: "User Not found",
 			});
 		}
-
+		// define update object
 		const update = {};
 
 		if (username !== undefined) update.username = username;
 		if (email !== undefined) update.email = email;
 		if (phone !== undefined) update.phone = phone;
 		if (address !== undefined) update.address = address;
-		if (profileimage !== undefined) update.profileImage = profileimage;
+		if (profileImage !== undefined) update.profileImage = profileImage;
 
 		const updated_user = await UserModel.findByIdAndUpdate(
 			id,

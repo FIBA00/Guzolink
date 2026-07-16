@@ -24,8 +24,8 @@ App.use(express.json());
 App.use(express.urlencoded({ extended: true }));
 App.use(morgan("common"));
 
-// // static files
-// App.use("/uploads", express.static("uploads"));
+// static files
+App.use("/uploads", express.static("uploads"));
 
 // // frontend
 // if (process.env.NODE_ENV === "production") {

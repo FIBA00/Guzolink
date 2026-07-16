@@ -12,25 +12,25 @@ export default function ShopsStrip() {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-  let cancelled = false;
+    let cancelled = false;
 
-  const fetchShops = async () => {
-    setLoading(true);
-    try {
-      const result = await fetchAllShops(1, 10);
-      if (!cancelled && result.success) setShops(result.shops ?? []);
-    } catch (error) {
-      console.error("Error fetching shops:", error);
-    } finally {
-      if (!cancelled) setLoading(false);
-    }
-  };
+    const fetchShops = async () => {
+      setLoading(true);
+      try {
+        const result = await fetchAllShops(1, 10);
+        if (!cancelled && result.success) setShops(result.shops ?? []);
+      } catch (error) {
+        console.error("Error fetching shops:", error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
 
-  fetchShops();
-  return () => {
-    cancelled = true;
-  };
-}, [fetchAllShops, retryKey]);
+    fetchShops();
+    return () => {
+      cancelled = true;
+    };
+  }, [fetchAllShops, retryKey]);
 
   const handleRetry = useCallback(() => setRetryKey((k) => k + 1), []);
   const scrollBy = (dir) =>
@@ -43,7 +43,9 @@ export default function ShopsStrip() {
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-400">
             Featured Shops
           </p>
-          <h2 className="mt-2 text-2xl font-bold text-white">Discover merchants</h2>
+          <h2 className="mt-2 text-2xl font-bold text-white">
+            Discover merchants
+          </h2>
         </div>
 
         {!loading && !allShopsError && shops.length > 0 && (
@@ -54,8 +56,18 @@ export default function ShopsStrip() {
             >
               View all
             </Link>
-            <button onClick={() => scrollBy(-1)} className="rounded-full bg-slate-700 px-3 py-1.5 text-white">←</button>
-            <button onClick={() => scrollBy(1)} className="rounded-full bg-slate-700 px-3 py-1.5 text-white">→</button>
+            <button
+              onClick={() => scrollBy(-1)}
+              className="rounded-full bg-slate-700 px-3 py-1.5 text-white"
+            >
+              ←
+            </button>
+            <button
+              onClick={() => scrollBy(1)}
+              className="rounded-full bg-slate-700 px-3 py-1.5 text-white"
+            >
+              →
+            </button>
           </div>
         )}
       </div>
@@ -77,7 +89,7 @@ export default function ShopsStrip() {
           {shops.map((shop) => (
             <Link
               key={shop._id}
-              to={`/shops/${shop._id}/products`}
+              to={`/shops/${shop._id}`}
               className="group w-44 shrink-0 snap-start overflow-hidden rounded-xl border border-white/10 bg-slate-900 transition hover:-translate-y-1 hover:border-amber-400/50"
             >
               <div className="relative h-20 bg-linear-to-br from-amber-400 via-orange-500 to-red-500">
@@ -86,8 +98,12 @@ export default function ShopsStrip() {
                 </div>
               </div>
               <div className="p-3">
-                <h3 className="truncate text-sm font-semibold text-white">{shop.name}</h3>
-                <p className="mt-1 line-clamp-2 text-xs text-slate-400">{shop.description}</p>
+                <h3 className="truncate text-sm font-semibold text-white">
+                  {shop.name}
+                </h3>
+                <p className="mt-1 line-clamp-2 text-xs text-slate-400">
+                  {shop.description}
+                </p>
               </div>
             </Link>
           ))}

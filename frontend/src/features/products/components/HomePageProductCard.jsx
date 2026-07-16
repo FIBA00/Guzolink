@@ -35,7 +35,7 @@ export default function HomePageProductCard({ product }) {
         <ProductImage src={product.image} alt={product.name} />
         <div
           style={{ display: "none" }}
-          className="absolute inset-0 hidden items-center justify-center rounded-lg bg-slate-900/60 text-slate-600"
+          className="absolute inset-0  items-center justify-center rounded-lg bg-slate-900/60 text-slate-600"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}

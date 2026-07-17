@@ -36,7 +36,7 @@ Guzolink pairs a **Node.js + Express** REST API with a **Vite-powered** frontend
 | Layer           | Stack                                  |
 | --------------- | -------------------------------------- |
 | **Backend**     | Node.js · Express · Mongoose (MongoDB) |
-| **Frontend**    | Vite · Vanilla JS · Tailwind CSS       |
+| **Frontend**    | Vite · React JS · Tailwind CSS       |
 | **Payments**    | Stripe (pluggable provider)            |
 | **Dev tooling** | nodemon · Jest · Supertest             |
 | **CI/CD**       | GitHub Actions                         |

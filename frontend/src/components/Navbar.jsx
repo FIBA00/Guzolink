@@ -84,6 +84,12 @@ function Navbar() {
             About us
           </NavLink>
           <NavLink
+            to="/marketplace"
+            className={({ isActive }) => (isActive ? "text-amber-600" : "")}
+          >
+            Marketplace
+          </NavLink>
+          <NavLink
             to="/support"
             className={({ isActive }) => (isActive ? "text-amber-600" : "")}
           >

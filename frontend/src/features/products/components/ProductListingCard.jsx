@@ -1,5 +1,5 @@
 import { useCart } from "../../cart/cart.context.js";
-
+import { Link } from "react-router-dom";
 function ProductImage({ src, alt }) {
   if (!src) {
     return (
@@ -43,7 +43,10 @@ function RatingStars({ rating }) {
 
   const rounded = Math.round(rating);
   return (
-    <div className="flex items-center gap-1 text-amber-400" title={`${rating} out of 5`}>
+    <div
+      className="flex items-center gap-1 text-amber-400"
+      title={`${rating} out of 5`}
+    >
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}
@@ -124,7 +127,11 @@ export default function ProductListingCard({ product, shopName }) {
             : "text-red-400"
         }`}
       >
-        {inStock ? (lowStock ? `Only ${stock} left` : "In stock") : "Out of stock"}
+        {inStock
+          ? lowStock
+            ? `Only ${stock} left`
+            : "In stock"
+          : "Out of stock"}
       </p>
 
       <div className="mt-4 flex items-center justify-between">
@@ -132,12 +139,12 @@ export default function ProductListingCard({ product, shopName }) {
           ${product.price}
         </span>
         <div className="flex gap-2">
-          {/* <Link
+          <Link
             to={`/products/${product.id}`}
             className="rounded-full border border-slate-600 px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-slate-700"
           >
             View details
-          </Link> */}
+          </Link>
           <button
             onClick={() => addToCart(product)}
             disabled={!inStock}

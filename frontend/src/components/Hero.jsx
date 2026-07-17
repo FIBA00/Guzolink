@@ -1,11 +1,20 @@
 import { useAuth } from "../features/auth/auth.context.js";
 import { Link } from "react-router-dom";
+import GuzoMark from "./GuzoMark.jsx"; // adjust path to match where it actually lives
 
 function Hero() {
   const { user } = useAuth();
   return (
-    <section className="px-4 py-20 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+    <section className="relative overflow-hidden px-4 py-20 text-white sm:px-6 lg:px-8">
+      {/* Background watermark — plain footprint, slate-toned to sit quietly
+          behind the content instead of competing with the amber accents. */}
+      <GuzoMark
+        plain
+        footClassName="fill-slate-700/20"
+        className="pointer-events-none absolute -right-24 -top-24 hidden w-lg rotate-12 sm:block lg:w-lg"
+      />
+
+      <div className="relative mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-6">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-400">
             New season essentials
@@ -18,13 +27,12 @@ function Hero() {
             to simplify your routine.
           </p>
           <div className="flex flex-wrap gap-3">
-        
-            <Link
-              to="#products"
+            <a
+              href="#products"
               className="rounded-full bg-amber-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
             >
               Shop now
-            </Link>
+            </a>
             {user ? (
               <Link
                 to={`/profile/${user.id || user._id}`}

@@ -69,7 +69,7 @@ function MyShops() {
           </button>
         </div>
       </div>
-      <div className=" flex-col grid justify-items-center gap-2 mb-4 grid-cols-2 sm:grid-cols-1  border border-white/10 rounded-2xl p-4">
+      <div className=" lg:flex sm:grid justify-items-center gap-2 mb-4 grid-cols-2 sm:grid-cols-1  border border-white/10 rounded-2xl p-4">
         {!shops || shops.length === 0 ? (
           <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
             You have no shops yet . {shopError && `Error: ${shopError}`}

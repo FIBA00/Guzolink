@@ -21,7 +21,16 @@ function Marketplace() {
   } = useCategories();
 
   const { shops, isLoading: shopsLoading, shopError } = useShops();
-  console.log("Marketplace shops:", shops, "Loading:", shopsLoading, "Error:", shopError, "shopsCategories:", shopCategories);
+  console.log(
+    "Marketplace shops:",
+    shops,
+    "Loading:",
+    shopsLoading,
+    "Error:",
+    shopError,
+    "shopsCategories:",
+    shopCategories,
+  );
   // Full catalog — used whenever no specific shop is selected.
   const {
     products: allProducts,
@@ -98,7 +107,10 @@ function Marketplace() {
   ]);
 
   const hasActiveFilters =
-    !!selectedCategoryId || !!selectedShopCategoryId || !!selectedShop || !!trimmedSearch;
+    !!selectedCategoryId ||
+    !!selectedShopCategoryId ||
+    !!selectedShop ||
+    !!trimmedSearch;
 
   const clearFilters = () => {
     setSelectedCategoryId(null);
@@ -140,7 +152,12 @@ function Marketplace() {
                   stroke="currentColor"
                   className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0a7 7 0 10-9.9-9.9 7 7 0 009.9 9.9z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-4.35-4.35m0 0a7 7 0 10-9.9-9.9 7 7 0 009.9 9.9z"
+                  />
                 </svg>
                 <input
                   type="text"
@@ -171,16 +188,22 @@ function Marketplace() {
             {loading ? (
               <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="h-80 animate-pulse rounded-3xl border border-white/10 bg-white/5" />
+                  <div
+                    key={i}
+                    className="h-80 animate-pulse rounded-3xl border border-white/10 bg-white/5"
+                  />
                 ))}
               </div>
             ) : error ? (
               <p className="text-red-400">{error}</p>
             ) : filteredProducts.length === 0 ? (
               <div className="rounded-3xl border border-dashed border-white/15 p-12 text-center">
-                <p className="text-lg font-semibold text-white">No products found</p>
+                <p className="text-lg font-semibold text-white">
+                  No products found
+                </p>
                 <p className="mt-1 text-slate-400">
-                  Try a different search term or filter, or clear filters to see everything.
+                  Try a different search term or filter, or clear filters to see
+                  everything.
                 </p>
               </div>
             ) : (

@@ -184,8 +184,13 @@ function Navbar() {
             <NavLink to="/cart" className={linkClass}>
               Cart ({cart.length})
             </NavLink>
+
             <NavLink to="/aboutus" className={linkClass}>
               About us
+            </NavLink>
+
+            <NavLink to="/marketplace" className={linkClass}>
+              Marketplace
             </NavLink>
             <NavLink to="/support" className={linkClass}>
               Contact us

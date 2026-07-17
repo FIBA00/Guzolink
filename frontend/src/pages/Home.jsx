@@ -12,7 +12,7 @@ import { useEffect, useRef } from "react";
 function Home() {
   const { products, loading, isLoadingMore, hasMore, loadMore, error } =
     useProducts();
-  const featured = (products?? []).slice(0, -1)
+  const featured = (products?? []).slice(0, 4)
   const scrollRef = useRef(null);
 
   const scrollLeft = () => {

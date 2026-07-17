@@ -21,7 +21,7 @@ function Marketplace() {
   } = useCategories();
 
   const { shops, isLoading: shopsLoading, shopError } = useShops();
-
+  console.log("Marketplace shops:", shops, "Loading:", shopsLoading, "Error:", shopError, "shopsCategories:", shopCategories);
   // Full catalog — used whenever no specific shop is selected.
   const {
     products: allProducts,

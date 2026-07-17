@@ -121,6 +121,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/marketplace" element={<Marketplace />} />
           
         </Routes>
         <Footer />

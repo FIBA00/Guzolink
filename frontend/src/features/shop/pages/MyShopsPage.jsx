@@ -4,33 +4,33 @@ import { useAuth } from "../../auth/auth.context.js";
 import ShopCard from "../components/ShopCard.jsx";
 
 function MyShops() {
-  const {
-    shops,
-    shopError,
-    isLoading,
-    isRefreshing,
-    fetchUserShops,
-    deleteShop,
-  } = useShops();
+  const { shops, shopError, isLoading, isRefreshing, fetchUserShops } =
+    useShops();
+
+  // auth
   const { user } = useAuth();
   // Full-page loading state — only true on a genuinely empty first load
   // (see ShopContext: cache-first means this almost never fires on a
   // return visit, only the very first time a merchant ever lands here).
   console.log("Fetched shops", shops);
-  
+
   if (isLoading) {
     return (
-      <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
+      <p className="text-red-600 rounded-2xl text-center font-bold mb-2 border border-red-500 p-5">
         Loading your shops...
       </p>
     );
   }
 
-  const isOwner = Boolean(user);
+  // const isOwner =
+  //   user &&
+  //   shops &&
+  //   (user.id || user._id)?.toString() === shops.owner?.toString();
+  const isOwner = Boolean(user)
+  console.log("is owner: ", isOwner)
 
   return (
-    <div className="mx-auto p-6 sm:px-6 lg:px-8 rounded 3xl border border-white/10 bg-slate-800 shadow-sm transform transition-all duration-300 hover:scale-[1.01]">
-      <div className="p-3 space-x-12 sm:space-x-3 sm:flex sm:flex-wrap "></div>
+    <div className="mx-auto p-6 sm:px-6 lg:px-8 rounded 3xl border border-white/10 bg-slate-800 shadow-sm ">
       <div>
         <div className="flex items-center justify-between mb-4 mt-6">
           <Link
@@ -76,12 +76,7 @@ function MyShops() {
           </p>
         ) : (
           shops.map((shop) => (
-            <ShopCard
-              key={shop._id}
-              shop={shop}
-              onDelete={deleteShop}
-              isOwner={isOwner}
-            />
+            <ShopCard key={shop._id} shop={shop} isOwner={isOwner} />
           ))
         )}
       </div>

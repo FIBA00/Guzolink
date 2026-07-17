@@ -4,17 +4,19 @@ export async function request(path, options = {}) {
   const token = storage.token.get();
   const { headers: extraHeaders, ...restOptions } = options;
 
+  const isFormData = restOptions.body instanceof FormData;
+
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method: "GET",
     credentials: "include",
     ...restOptions,
     headers: {
-      "Content-Type": "application/json",
+      ...(!isFormData ? { "Content-Type": "application/json" } : {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(extraHeaders || {}),
     },
   });
-  // eslint-disable-next-line 
+  // eslint-disable-next-line
   let data = null;
   try {
     data = await response.json();

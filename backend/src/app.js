@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-// import path from "path";
+import path from "path";
 // import { fileURLToPath } from "url";
 
 import RegisterRoutes from "./routes/main.js";
@@ -20,12 +20,12 @@ App.use(
   })
 );
 // ---------- Body parser ----------
-App.use(express.json());
-App.use(express.urlencoded({ extended: true }));
+App.use(express.json({limit: "50mb"}));
+App.use(express.urlencoded({limit: "50mb", extended: true }));
 App.use(morgan("common"));
 
-// // static files
-// App.use("/uploads", express.static("uploads"));
+// static files
+App.use("/uploads", express.static(path.join(process.cwd(), "uploads")))
 
 // // frontend
 // if (process.env.NODE_ENV === "production") {

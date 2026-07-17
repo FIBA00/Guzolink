@@ -1,4 +1,3 @@
-// features/products/hooks/useShopProducts.js
 import { gql } from "@apollo/client";
 import { useQuery, useMutation } from "@apollo/client/react";
 import { useState } from "react";
@@ -17,6 +16,9 @@ const GET_SHOP_PRODUCTS = gql`
       image
       createdAt
       updatedAt
+      createdBy {
+        id
+      }
     }
   }
 `;
@@ -49,6 +51,9 @@ const CREATE_PRODUCT = gql`
       shop
       image
       createdAt
+      createdBy {
+        id
+      }
     }
   }
 `;
@@ -81,6 +86,9 @@ const UPDATE_PRODUCT = gql`
       shop
       image
       updatedAt
+      createdBy {
+        id
+      }
     }
   }
 `;

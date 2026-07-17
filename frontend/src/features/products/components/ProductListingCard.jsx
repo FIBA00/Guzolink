@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useCart } from "../../cart/cart.context.js";
 
 function ProductImage({ src, alt }) {

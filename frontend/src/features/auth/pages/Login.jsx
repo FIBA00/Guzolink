@@ -29,6 +29,10 @@ function Login() {
     setLoading(false);
 
     if (result.success) {
+      if (result.user.role === "admin") {
+        navigate("/profile/admin/dashboard");
+        return;
+      }
       navigate("/profile/" + result.user.id);
       return;
     }

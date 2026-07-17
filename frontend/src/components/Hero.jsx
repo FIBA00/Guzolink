@@ -11,11 +11,17 @@ function Hero() {
       <GuzoMark
         plain
         footClassName="fill-slate-700/20"
-        className="pointer-events-none absolute -right-24 -top-24 hidden w-lg rotate-12 sm:block lg:w-lg"
+        className="pointer-events-none absolute -right-24 -top-24 hidden w-[32rem] rotate-12 sm:block lg:w-[40rem]"
       />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-6">
+          <GuzoMark
+            size={70}
+            circleClassName="fill-amber-500"
+            footClassName="fill-slate-950"
+          />
+
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-400">
             New season essentials
           </p>
@@ -27,12 +33,13 @@ function Hero() {
             to simplify your routine.
           </p>
           <div className="flex flex-wrap gap-3">
-            <a
-              href="#products"
+        
+            <Link
+              to="#products"
               className="rounded-full bg-amber-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
             >
               Shop now
-            </a>
+            </Link>
             {user ? (
               <Link
                 to={`/profile/${user.id || user._id}`}

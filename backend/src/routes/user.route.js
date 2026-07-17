@@ -15,7 +15,7 @@ import { userUpload } from "../middlewares/upload.middleware.js";
 
 // admin only
 UserRoute.get("/all", IsLoggedIn, IsAdmin, GetAllUsers);
-UserRoute.delete("/:userId", IsLoggedIn, IsAdmin, DeleteUser);
+UserRoute.delete("/:userId", IsLoggedIn,  DeleteUser);
 
 // public only
 UserRoute.get("/profile/:userId", IsLoggedIn, GetUserProfile);

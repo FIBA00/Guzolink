@@ -52,11 +52,11 @@ export default function ComingSoonPage() {
           </h2>
 
           <ul className="mt-4 space-y-3 text-slate-300">
-            <li>• Powerful management tools</li>
+            <li>• Product details </li>
 
-            <li>• Beautiful analytics dashboard</li>
+            <li>• Batch ordering </li>
 
-            <li>• Faster workflows</li>
+            <li>• Advanced search </li>
 
             <li>• Better user experience</li>
           </ul>
@@ -93,7 +93,7 @@ export default function ComingSoonPage() {
             Go Back
           </button>
 
-          <p className="text-sm text-slate-500">© 2026 Your Company</p>
+          <p className="text-sm text-slate-500">© 2026 guzo link</p>
         </div>
       </div>
     </div>

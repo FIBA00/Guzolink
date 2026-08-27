@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../../config/api";
+import { API_BASE_URL } from "../config/api.js";
 import { storage } from "./storage.js";
 export async function request(path, options = {}) {
   const token = storage.token.get();

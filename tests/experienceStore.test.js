@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { useExperienceStore } from "./experienceStore";
+import { useExperienceStore } from "../res/store/experienceStore";
 
 describe("experience preview store", () => {
   beforeEach(() => { useExperienceStore.setState({ profile: { name: "Mekdes Bekele" }, supportTickets: [], growth: { analytics: false }, merchantOperations: { fulfilment: [{ id: "GL-2048", status: "Ready to pack" }] } }); });

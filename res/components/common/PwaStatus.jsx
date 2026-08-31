@@ -1,4 +1,39 @@
 import { RefreshCw, Wifi, WifiOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-export default function PwaStatus() { const [online, setOnline] = useState(() => navigator.onLine); useEffect(() => { const sync = () => setOnline(navigator.onLine); window.addEventListener("online", sync); window.addEventListener("offline", sync); return () => { window.removeEventListener("online", sync); window.removeEventListener("offline", sync); }; }, []); return <div className={`flex items-center justify-between gap-3 border p-4 text-sm ${online ? "border-[#b8cfb6] bg-[#eff6ed]" : "border-[#d8b5a9] bg-[#fff0eb]"}`}><span className="flex items-center gap-2 font-bold">{online ? <Wifi size={16} /> : <WifiOff size={16} />}{online ? "Connected — cached marketplace data is available." : "Offline — showing cached content where available."}</span><button type="button" className="text-xs font-extrabold underline" onClick={() => { navigator.serviceWorker?.getRegistration().then((registration) => registration?.update()); toast.success("Checked for app updates."); }}><RefreshCw className="mr-1 inline" size={13} /> Check update</button></div>; }
+export default function PwaStatus() {
+  const [online, setOnline] = useState(() => navigator.onLine);
+  useEffect(() => {
+    const sync = () => setOnline(navigator.onLine);
+    window.addEventListener("online", sync);
+    window.addEventListener("offline", sync);
+    return () => {
+      window.removeEventListener("online", sync);
+      window.removeEventListener("offline", sync);
+    };
+  }, []);
+  return (
+    <div
+      className={`flex items-center justify-between gap-3 border p-4 text-sm ${online ? "border-[#b8cfb6] bg-[#eff6ed]" : "border-[#d8b5a9] bg-[#fff0eb]"}`}
+    >
+      <span className="flex items-center gap-2 font-bold">
+        {online ? <Wifi size={16} /> : <WifiOff size={16} />}
+        {online
+          ? "Connected — cached marketplace data is available."
+          : "Offline — showing cached content where available."}
+      </span>
+      <button
+        type="button"
+        className="text-xs font-extrabold underline"
+        onClick={() => {
+          navigator.serviceWorker
+            ?.getRegistration()
+            .then(registration => registration?.update());
+          toast.success("Checked for app updates.");
+        }}
+      >
+        <RefreshCw className="mr-1 inline" size={13} /> Check update
+      </button>
+    </div>
+  );
+}

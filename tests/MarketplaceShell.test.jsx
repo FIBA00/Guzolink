@@ -3,9 +3,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import MarketplaceShell from "./MarketplaceShell";
-import { useLocaleStore } from "../../store/localeStore";
-import { useNotificationStore } from "../../store/notificationStore";
+import MarketplaceShell from "../res/components/layout/MarketplaceShell";
+import { useLocaleStore } from "../res/store/localeStore";
+import { useNotificationStore } from "../res/store/notificationStore";
 
 vi.mock("../../services/api", () => ({ isPreviewMode: () => true }));
 

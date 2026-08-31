@@ -1,7 +1,7 @@
 /** @vitest-environment jsdom */
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import MockPaymentDialog from "./MockPaymentDialog";
+import MockPaymentDialog from "../res/components/common/MockPaymentDialog";
 
 describe("MockPaymentDialog", () => {
   afterEach(() => { vi.useRealTimers(); cleanup(); });

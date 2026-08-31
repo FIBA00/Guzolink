@@ -11,15 +11,20 @@ function toDataUrl(file) {
 }
 
 export async function uploadMerchantImage(file, context = "product") {
-  if (!file?.type?.startsWith("image/")) throw new Error("Choose an image file in PNG, JPG, WEBP, or GIF format.");
-  if (file.size > 5 * 1024 * 1024) throw new Error("Choose an image smaller than 5 MB.");
-  const uploadPath = import.meta.env.VITE_API_MEDIA_UPLOAD_PATH || "/api/media/upload";
+  if (!file?.type?.startsWith("image/"))
+    throw new Error("Choose an image file in PNG, JPG, WEBP, or GIF format.");
+  if (file.size > 5 * 1024 * 1024)
+    throw new Error("Choose an image smaller than 5 MB.");
+  const uploadPath =
+    import.meta.env.VITE_API_MEDIA_UPLOAD_PATH || "/api/media/upload";
 
   if (!isPreviewMode() && uploadPath) {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("context", context);
-    const response = await api.post(uploadPath, formData, { headers: { "Content-Type": "multipart/form-data" } });
+    const response = await api.post(uploadPath, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     const result = unwrap(response);
     const url = result?.url || result?.file?.url || result?.data?.url;
     if (!url) throw new Error("The media service did not return an image URL.");

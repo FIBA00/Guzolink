@@ -2,10 +2,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import DashboardShop from "./DashboardShop";
-import { previewShops } from "../../data/previewData";
-import { useMerchantStore } from "../../store/merchantStore";
-import { useNotificationStore } from "../../store/notificationStore";
+import DashboardShop from "../res/pages/dashboard/DashboardShop";
+import { previewShops } from "../res/data/previewData";
+import { useMerchantStore } from "../res/store/merchantStore";
+import { useNotificationStore } from "../res/store/notificationStore";
 
 vi.mock("../../services/api", () => ({ isPreviewMode: () => true }));
 

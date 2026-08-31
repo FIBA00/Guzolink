@@ -3,10 +3,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import AdminPage from "./AdminPage";
-import { previewShops } from "../data/previewData";
-import { useAdminStore } from "../store/adminStore";
-import { useNotificationStore } from "../store/notificationStore";
+import AdminPage from "../res/pages/AdminPage";
+import { previewShops } from "../res/data/previewData";
+import { useAdminStore } from "../res/store/adminStore";
+import { useNotificationStore } from "../res/store/notificationStore";
 
 vi.mock("../services/api", () => ({ isPreviewMode: () => true }));
 const reviewQueue = previewShops.map((shop) => ({ ...shop, merchantName: "Demo merchant", merchantEmail: "merchant@guzolink.local", approvalStatus: "pending", submittedAt: "2026-08-25" }));

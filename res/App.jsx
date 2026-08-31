@@ -3,34 +3,36 @@ import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster, toast } from "sonner";
-import { queryClient } from "./lib/queryClient";
-import { useSession } from "./features/auth/authQueries";
-import { useAuthStore } from "./store/authStore";
-import LoadingScreen from "./components/common/LoadingScreen";
-import ProtectedRoute from "./routes/ProtectedRoute";
 
-const HomePage = lazy(() => import("./pages/HomePage"));
-const ProductsPage = lazy(() => import("./pages/ProductsPage"));
-const ProductPage = lazy(() => import("./pages/ProductPage"));
-const ShopsPage = lazy(() => import("./pages/ShopsPage"));
-const ShopPage = lazy(() => import("./pages/ShopPage"));
-const CartPage = lazy(() => import("./pages/CartPage"));
-const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
-const AuthPage = lazy(() => import("./pages/AuthPage"));
-const CustomerCenterPage = lazy(() => import("./pages/CustomerCenterPage"));
-const HelpPage = lazy(() => import("./pages/HelpPage"));
-const PolicyPage = lazy(() => import("./pages/PolicyPage"));
-const GrowthPage = lazy(() => import("./pages/GrowthPage"));
+// ! internal imports
+import { queryClient } from "./lib/queryClient.js";
+import { useSession } from "./features/auth/authQueries.js";
+import { useAuthStore } from "./store/authStore.js";
+import LoadingScreen from "./components/common/LoadingScreen.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+
+const HomePage = lazy(() => import("./pages/HomePage.jsx"));
+const ProductsPage = lazy(() => import("./pages/ProductsPage.jsx"));
+const ProductPage = lazy(() => import("./pages/ProductPage.jsx"));
+const ShopsPage = lazy(() => import("./pages/ShopsPage.jsx"));
+const ShopPage = lazy(() => import("./pages/ShopPage.jsx"));
+const CartPage = lazy(() => import("./pages/CartPage.jsx"));
+const CheckoutPage = lazy(() => import("./pages/CheckoutPage.jsx"));
+const AuthPage = lazy(() => import("./pages/AuthPage.jsx"));
+const CustomerCenterPage = lazy(() => import("./pages/CustomerCenterPage.jsx"));
+const HelpPage = lazy(() => import("./pages/HelpPage.jsx"));
+const PolicyPage = lazy(() => import("./pages/PolicyPage.jsx"));
+const GrowthPage = lazy(() => import("./pages/GrowthPage.jsx"));
 const MerchantOnboardingPage = lazy(
-  () => import("./pages/MerchantOnboardingPage")
+  () => import("./pages/MerchantOnboardingPage.jsx")
 );
-const AdminGovernancePage = lazy(() => import("./pages/AdminGovernancePage"));
-const NotificationsPage = lazy(() => import("./pages/NotificationsPage"));
-const OrdersPage = lazy(() => import("./pages/OrdersPage"));
-const OrderDetailsPage = lazy(() => import("./pages/OrderDetailsPage"));
-const DashboardPage = lazy(() => import("./pages/DashboardPage"));
-const AdminPage = lazy(() => import("./pages/AdminPage"));
-const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
+const AdminGovernancePage = lazy(() => import("./pages/AdminGovernancePage.jsx"));
+const NotificationsPage = lazy(() => import("./pages/NotificationsPage.jsx"));
+const OrdersPage = lazy(() => import("./pages/OrdersPage.jsx"));
+const OrderDetailsPage = lazy(() => import("./pages/OrderDetailsPage.jsx"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage.jsx"));
+const AdminPage = lazy(() => import("./pages/AdminPage.jsx"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage.jsx"));
 
 function SessionBootstrap({ children }) {
   const setUser = useAuthStore(state => state.setUser);

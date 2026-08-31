@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { translate } from "./useTranslation";
+import { translate } from "../res/i18n/useTranslation";
 
 describe("translate", () => {
   it("returns the Amharic navigation label and falls back to English for unknown locales", () => {

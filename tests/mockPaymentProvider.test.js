@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MockPaymentError, processMockPayment } from "./mockPaymentProvider";
+import { MockPaymentError, processMockPayment } from "../res/services/mockPaymentProvider";
 
 describe("processMockPayment", () => {
   it("returns a provider-neutral successful handoff result", async () => {

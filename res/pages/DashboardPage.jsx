@@ -9,4 +9,20 @@ import DashboardCustomers from "./dashboard/DashboardCustomers";
 import DashboardAnalytics from "./dashboard/DashboardAnalytics";
 import DashboardSettings from "./dashboard/DashboardSettings";
 import DashboardOperations from "./dashboard/DashboardOperations";
-export default function DashboardPage() { return <Routes><Route element={<DashboardShell />}><Route index element={<DashboardOverview />} /><Route path="products" element={<DashboardProducts />} /><Route path="orders" element={<DashboardOrders />} /><Route path="orders/:id" element={<DashboardOrders detail />} /><Route path="shop" element={<DashboardShop />} /><Route path="customers" element={<DashboardCustomers />} /><Route path="analytics" element={<DashboardAnalytics />} /><Route path="operations" element={<DashboardOperations />} /><Route path="settings" element={<DashboardSettings />} /></Route></Routes>; }
+export default function DashboardPage() {
+  return (
+    <Routes>
+      <Route element={<DashboardShell />}>
+        <Route index element={<DashboardOverview />} />
+        <Route path="products" element={<DashboardProducts />} />
+        <Route path="orders" element={<DashboardOrders />} />
+        <Route path="orders/:id" element={<DashboardOrders detail />} />
+        <Route path="shop" element={<DashboardShop />} />
+        <Route path="customers" element={<DashboardCustomers />} />
+        <Route path="analytics" element={<DashboardAnalytics />} />
+        <Route path="operations" element={<DashboardOperations />} />
+        <Route path="settings" element={<DashboardSettings />} />
+      </Route>
+    </Routes>
+  );
+}

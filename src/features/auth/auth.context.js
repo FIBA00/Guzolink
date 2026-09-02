@@ -44,7 +44,7 @@ function AuthProvider({ children }) {
   // --- userprofile: declared ABOVE the bootstrap effect on purpose -----
   // (fixes the "accessed before declared" lint error — the effect below
   // references this, so source order should read top-to-bottom)
-  const userProfile = async (userId) => {
+  const userProfile = async userId => {
     try {
       const data = await request(`/api/user/profile/${userId}`, {
         method: "GET",
@@ -114,7 +114,7 @@ function AuthProvider({ children }) {
       // initialized. Nothing further to do.
       if (user) {
         if (!cancelled) setIsAuthLoading(false);
-        userProfile(user.id || user._id).then((result) => {
+        userProfile(user.id || user._id).then(result => {
           if (cancelled) return;
           if (result.success) {
             const refreshed = { ...result.user, token: storedToken };
@@ -340,10 +340,10 @@ function AuthProvider({ children }) {
         message: error.message || "Unable to fetch users",
       };
     }
-  }
+  };
 
-  const deleteUser = async (userId) => { 
-    try{
+  const deleteUser = async userId => {
+    try {
       console.log("Deleting user with ID:", userId);
       const data = await request(`/api/user/${userId}`, {
         method: "DELETE",
@@ -359,14 +359,14 @@ function AuthProvider({ children }) {
       return {
         success: true,
         message: data.message || "User deleted successfully",
-      };  
+      };
     } catch (error) {
       return {
         success: false,
         message: error.message || "Unable to delete user",
       };
     }
-  }
+  };
 
   const value = useMemo(
     () => ({
@@ -381,7 +381,7 @@ function AuthProvider({ children }) {
       getAllUsers,
       deleteUser,
     }),
-    [user, isAuthLoading],
+    [user, isAuthLoading]
   );
 
   return createElement(AuthContext.Provider, { value }, children);

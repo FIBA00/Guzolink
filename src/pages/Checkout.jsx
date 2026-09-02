@@ -4,7 +4,7 @@ import { useCart } from "../features/cart/cart.context.js";
 import { useAuth } from "../features/auth/auth.context.js";
 
 function Checkout() {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const { cart, clearCart, total } = useCart();
   const [submitted, setSubmitted] = useState(false);
   // fill the info prior using user info
@@ -15,12 +15,12 @@ function Checkout() {
     card: "",
   });
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     setSubmitted(true);
     clearCart();
@@ -117,7 +117,7 @@ function Checkout() {
             {cart.length === 0 ? (
               <p className="text-slate-400">Your cart is empty.</p>
             ) : (
-              cart.map((item) => (
+              cart.map(item => (
                 <div
                   key={item.id}
                   className="flex items-center justify-between rounded-xl bg-slate-800 px-4 py-3"

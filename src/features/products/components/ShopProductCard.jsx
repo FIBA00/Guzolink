@@ -3,7 +3,7 @@ import ConfirmModal from "../../../components/ConfirmModal.jsx";
 import EditProductModal from "./EditProductModal.jsx";
 
 function ProductImage({ src, alt }) {
-  const getImageUrl = (imagePath) => {
+  const getImageUrl = imagePath => {
     if (!imagePath) return null;
     const backendUrl = import.meta.env.VITE_API_URL || "";
     return `${backendUrl}${imagePath}`;
@@ -37,7 +37,7 @@ function ProductImage({ src, alt }) {
       src={resolvedSrc}
       alt={alt}
       className="h-40  w-40 rounded-xl object-cover"
-      onError={(e) => {
+      onError={e => {
         // If the URL 404s or is otherwise broken, swap to the same
         // placeholder rather than showing the browser's broken-image icon.
         e.currentTarget.style.display = "none";
@@ -90,7 +90,7 @@ export default function ShopProductCard({
         // never wraps or shrinks on small screens, cards just overflow
         // horizontally at a fixed width. A responsive grid does.
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {products.map((product) => {
+          {products.map(product => {
             const inStock = (product.stock ?? 0) > 0;
             return (
               <div

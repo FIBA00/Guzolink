@@ -60,7 +60,7 @@ export default function useProducts() {
         variables: { page: nextPage, limit: PAGE_SIZE },
       });
       const batch = data?.products ?? [];
-      setProducts((prev) => [...prev, ...batch]);
+      setProducts(prev => [...prev, ...batch]);
       setHasMore(batch.length === PAGE_SIZE);
       setPage(nextPage);
     } finally {

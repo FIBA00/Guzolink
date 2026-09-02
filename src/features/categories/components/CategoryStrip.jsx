@@ -12,7 +12,7 @@ export default function CategoryStrip() {
         Shop by category
       </p>
       <div className="flex gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-none] [&::-webkit-scrollbar]:hidden">
-        {categories.map((category) => (
+        {categories.map(category => (
           <Link
             key={category.id || category._id}
             to={`/products?category=${category.id || category._id}`}

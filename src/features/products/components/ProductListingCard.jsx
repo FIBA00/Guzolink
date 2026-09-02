@@ -1,7 +1,7 @@
 import { useCart } from "../../cart/cart.context.js";
 import { Link } from "react-router-dom";
 function ProductImage({ src, alt }) {
-  const getImageUrl = (imagePath) => {
+  const getImageUrl = imagePath => {
     if (!imagePath) return null;
     const backendUrl = import.meta.env.VITE_API_URL || "";
     return `${backendUrl}${imagePath}`;
@@ -35,7 +35,7 @@ function ProductImage({ src, alt }) {
       src={resolvedSrc}
       alt={alt}
       className="h-40 w-full rounded-2xl object-cover"
-      onError={(e) => {
+      onError={e => {
         e.currentTarget.style.display = "none";
         e.currentTarget.nextSibling.style.display = "flex";
       }}

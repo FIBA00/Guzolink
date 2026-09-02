@@ -36,7 +36,9 @@ function ShopCategoryGroup({
         type="button"
         onClick={onToggle}
         className={`flex w-full items-center justify-between px-2 py-3 text-left text-sm font-medium transition ${
-          isActiveCategory ? "text-amber-300" : "text-slate-200 hover:text-amber-300"
+          isActiveCategory
+            ? "text-amber-300"
+            : "text-slate-200 hover:text-amber-300"
         }`}
       >
         <span>{category.name}</span>
@@ -55,7 +57,7 @@ function ShopCategoryGroup({
                 No shops in this category yet.
               </p>
             ) : (
-              shops.map((shop) => {
+              shops.map(shop => {
                 const active = selectedShopId === shop._id;
                 return (
                   <button
@@ -98,7 +100,7 @@ function MarketplaceShopSidebar({
 
   const sortedCategories = useMemo(
     () => [...shopCategories].sort((a, b) => a.name.localeCompare(b.name)),
-    [shopCategories],
+    [shopCategories]
   );
 
   const shopsByCategory = useMemo(() => {
@@ -107,7 +109,7 @@ function MarketplaceShopSidebar({
       const id = category._id || category.id;
       map.set(
         id,
-        shops.filter((shop) => shop.category === id),
+        shops.filter(shop => shop.category === id)
       );
     }
     return map;
@@ -121,9 +123,9 @@ function MarketplaceShopSidebar({
     for (const [categoryId, categoryShops] of shopsByCategory) {
       map.set(
         categoryId,
-        categoryShops.filter((shop) =>
-          shop.name.toLowerCase().includes(trimmedSearch),
-        ),
+        categoryShops.filter(shop =>
+          shop.name.toLowerCase().includes(trimmedSearch)
+        )
       );
     }
     return map;
@@ -133,25 +135,25 @@ function MarketplaceShopSidebar({
     () =>
       Array.from(visibleShopsByCategory.values()).reduce(
         (sum, list) => sum + list.length,
-        0,
+        0
       ),
-    [visibleShopsByCategory],
+    [visibleShopsByCategory]
   );
 
   // Auto-expand every category that has a search match. Derived directly
   // at render time (no effect, no setState-in-effect) — search-driven
   // expansion is just a function of current props/state, not something
   // that needs to be synchronized into its own piece of state.
-  const isExpanded = (categoryId) => {
+  const isExpanded = categoryId => {
     if (expandedIds.has(categoryId)) return true;
     if (!trimmedSearch) return false;
     return (visibleShopsByCategory.get(categoryId) || []).length > 0;
   };
 
-  const toggleCategory = (categoryId) => {
+  const toggleCategory = categoryId => {
     const willExpand = !isExpanded(categoryId);
 
-    setExpandedIds((prev) => {
+    setExpandedIds(prev => {
       const next = new Set(prev);
       if (next.has(categoryId)) {
         next.delete(categoryId);
@@ -178,7 +180,7 @@ function MarketplaceShopSidebar({
       <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
         <button
           type="button"
-          onClick={() => setPanelOpen((prev) => !prev)}
+          onClick={() => setPanelOpen(prev => !prev)}
           className="flex w-full items-center justify-between px-2 py-1 text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 lg:pointer-events-none"
         >
           <span>Shop categories</span>
@@ -191,7 +193,7 @@ function MarketplaceShopSidebar({
           <input
             type="text"
             value={shopSearch}
-            onChange={(e) => setShopSearch(e.target.value)}
+            onChange={e => setShopSearch(e.target.value)}
             placeholder="Search shops..."
             className="mb-3 w-full rounded-xl border border-white/10 bg-slate-900 px-3 py-2 text-sm text-white placeholder:text-slate-500 outline-none focus:border-amber-500/50"
           />
@@ -199,7 +201,10 @@ function MarketplaceShopSidebar({
           {loading ? (
             <div className="space-y-2 px-2 py-2">
               {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-8 animate-pulse rounded-xl bg-white/5" />
+                <div
+                  key={i}
+                  className="h-8 animate-pulse rounded-xl bg-white/5"
+                />
               ))}
             </div>
           ) : error ? (
@@ -211,7 +216,7 @@ function MarketplaceShopSidebar({
           ) : trimmedSearch && totalMatches === 0 ? (
             <p className="px-2 py-2 text-sm text-slate-400">No shops found.</p>
           ) : (
-            sortedCategories.map((category) => {
+            sortedCategories.map(category => {
               const id = category._id || category.id;
               return (
                 <ShopCategoryGroup

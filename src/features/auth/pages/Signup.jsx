@@ -18,16 +18,16 @@ function Signup() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // After a successful registration the backend returns:
   // { success:true, bearerToken:<jwt>, user:{id,username,email,role} }
   // We store token & user via the auth context (which writes to localStorage).
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     setError("");
     setLoading(true);
@@ -37,7 +37,7 @@ function Signup() {
       formData.email,
       formData.password,
       formData.countryCode + formData.phone,
-      formData.address,
+      formData.address
     );
 
     setLoading(false);

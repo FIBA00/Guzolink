@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth.context.js";
 import Modal from "../../../components/Modal.jsx";
 
-
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -11,15 +10,15 @@ function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
   // After a successful login the backend returns:
   // { success:true, bearerToken:<jwt>, user:{id,username,email,role} }
   // The auth context stores the token & user, keeping the session alive.
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     setError("");
     setLoading(true);
@@ -60,9 +59,14 @@ function Login() {
         >
           <h2 className="mb-6 text-2xl font-semibold">Login</h2>
           {/* TODO: implement small notification model card that displays over the window */}
-         
+
           {error ? (
-            <Modal isOpen={true} onClose={() => setError("")} title="Login Error" message={error} />
+            <Modal
+              isOpen={true}
+              onClose={() => setError("")}
+              title="Login Error"
+              message={error}
+            />
           ) : null}
 
           <label className="mb-4 block">

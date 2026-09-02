@@ -17,17 +17,17 @@ function ToastProvider({ children }) {
   const showToast = useCallback(
     (message, { type = "success", duration = 3000 } = {}) => {
       const id = ++idRef.current;
-      setToasts((prev) => [...prev, { id, message, type }]);
+      setToasts(prev => [...prev, { id, message, type }]);
 
       setTimeout(() => {
-        setToasts((prev) => prev.filter((t) => t.id !== id));
+        setToasts(prev => prev.filter(t => t.id !== id));
       }, duration);
     },
-    [],
+    []
   );
 
-  const dismissToast = useCallback((id) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
+  const dismissToast = useCallback(id => {
+    setToasts(prev => prev.filter(t => t.id !== id));
   }, []);
 
   return (
@@ -35,7 +35,7 @@ function ToastProvider({ children }) {
       {children}
       {createPortal(
         <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 sm:bottom-6 sm:right-6">
-          {toasts.map((toast) => (
+          {toasts.map(toast => (
             <div
               key={toast.id}
               role="status"
@@ -81,7 +81,7 @@ function ToastProvider({ children }) {
             </div>
           ))}
         </div>,
-        document.body,
+        document.body
       )}
     </ToastContext.Provider>
   );

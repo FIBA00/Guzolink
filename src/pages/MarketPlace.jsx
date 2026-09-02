@@ -29,7 +29,7 @@ function Marketplace() {
     "Error:",
     shopError,
     "shopsCategories:",
-    shopCategories,
+    shopCategories
   );
   // Full catalog — used whenever no specific shop is selected.
   const {
@@ -56,7 +56,7 @@ function Marketplace() {
 
   const sortedProductCategories = useMemo(
     () => [...productCategories].sort((a, b) => a.name.localeCompare(b.name)),
-    [productCategories],
+    [productCategories]
   );
 
   // Real shop-id -> shop-name lookup for cards, built from the actual
@@ -73,15 +73,15 @@ function Marketplace() {
     if (!selectedShopCategoryId) return null;
     return new Set(
       shops
-        .filter((shop) => shop.category === selectedShopCategoryId)
-        .map((shop) => shop._id),
+        .filter(shop => shop.category === selectedShopCategoryId)
+        .map(shop => shop._id)
     );
   }, [shops, selectedShopCategoryId]);
 
   const trimmedSearch = searchTerm.trim().toLowerCase();
 
   const filteredProducts = useMemo(() => {
-    return baseProducts.filter((product) => {
+    return baseProducts.filter(product => {
       const productCategoryId = product.category?.id || product.category;
       const matchesCategory =
         !selectedCategoryId || productCategoryId === selectedCategoryId;
@@ -162,7 +162,7 @@ function Marketplace() {
                 <input
                   type="text"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={e => setSearchTerm(e.target.value)}
                   placeholder="Search products..."
                   className="w-full rounded-full border border-white/10 bg-slate-900 py-2.5 pl-9 pr-4 text-sm text-white placeholder:text-slate-500 outline-none focus:border-amber-500/50"
                 />
@@ -209,7 +209,7 @@ function Marketplace() {
             ) : (
               <>
                 <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                  {filteredProducts.map((product) => (
+                  {filteredProducts.map(product => (
                     <ProductListingCard
                       key={product.id}
                       product={product}
@@ -251,8 +251,8 @@ function Marketplace() {
             selectedShopCategoryId={selectedShopCategoryId}
             onSelectShopCategory={setSelectedShopCategoryId}
             selectedShopId={selectedShop?._id}
-            onSelectShop={(shop) =>
-              setSelectedShop((prev) => (prev?._id === shop._id ? null : shop))
+            onSelectShop={shop =>
+              setSelectedShop(prev => (prev?._id === shop._id ? null : shop))
             }
           />
         </div>

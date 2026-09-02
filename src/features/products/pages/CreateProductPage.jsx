@@ -35,7 +35,7 @@ export default function CreateProductCard() {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   // category add handle
-  const handleCategorySelectChange = (e) => {
+  const handleCategorySelectChange = e => {
     if (e.target.value === ADD_NEW_VALUE) {
       setIsAddingCategory(true);
       setCategoryError("");
@@ -71,16 +71,16 @@ export default function CreateProductCard() {
     image: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
   };
 
   // product add handle
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setFormError("");
     setSuccessMessage("");
@@ -121,7 +121,7 @@ export default function CreateProductCard() {
     } catch (err) {
       setIsUploadingImage(false);
       setFormError(
-        err.message || "An unexpected error occurred during creation.",
+        err.message || "An unexpected error occurred during creation."
       );
     }
   };
@@ -261,7 +261,7 @@ export default function CreateProductCard() {
                 <option value="" disabled>
                   Select a category
                 </option>
-                {productCategories.map((category) => (
+                {productCategories.map(category => (
                   <option key={category._id} value={category._id}>
                     {category.name}
                   </option>
@@ -276,7 +276,7 @@ export default function CreateProductCard() {
                   type="text"
                   autoFocus
                   value={newCategoryName}
-                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  onChange={e => setNewCategoryName(e.target.value)}
                   placeholder="New category name"
                   className="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none"
                   disabled={creatingProductCategory}
@@ -330,7 +330,7 @@ export default function CreateProductCard() {
               type="file"
               ref={fileInputRef}
               accept="image/jpeg,image/png,image/webp,image/gif"
-              onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
+              onChange={e => setImageFile(e.target.files?.[0] ?? null)}
               className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
             />
           </label>

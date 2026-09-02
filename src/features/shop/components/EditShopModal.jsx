@@ -53,7 +53,7 @@ export default function EditShopModal({
 
   useEffect(() => {
     if (!open) return;
-    const handleKeyDown = (e) => {
+    const handleKeyDown = e => {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", handleKeyDown);
@@ -63,12 +63,12 @@ export default function EditShopModal({
 
   if (!open || !shop) return null;
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleCategorySelectChange = (e) => {
+  const handleCategorySelectChange = e => {
     if (e.target.value === ADD_NEW_VALUE) {
       setIsAddingCategory(true);
       setCategoryError("");
@@ -81,7 +81,7 @@ export default function EditShopModal({
     setCategoryError("");
     try {
       const created = await createShopCategory(newCategoryName);
-      setFormData((prev) => ({ ...prev, category: created._id }));
+      setFormData(prev => ({ ...prev, category: created._id }));
       setNewCategoryName("");
       setIsAddingCategory(false);
     } catch (err) {
@@ -95,7 +95,7 @@ export default function EditShopModal({
     setCategoryError("");
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setFormError("");
     if (!formData.name || !formData.contact) {
@@ -121,7 +121,7 @@ export default function EditShopModal({
         aria-modal="true"
         aria-labelledby="edit-shop-modal-title"
         className="w-full max-w-lg rounded-2xl border border-white/10 bg-slate-800 p-6 shadow-xl max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         <h3
           id="edit-shop-modal-title"
@@ -186,7 +186,7 @@ export default function EditShopModal({
                 <option value="" disabled>
                   Select a category
                 </option>
-                {shopCategories.map((category) => (
+                {shopCategories.map(category => (
                   <option key={category._id} value={category._id}>
                     {category.name}
                   </option>
@@ -201,7 +201,7 @@ export default function EditShopModal({
                   type="text"
                   autoFocus
                   value={newCategoryName}
-                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  onChange={e => setNewCategoryName(e.target.value)}
                   placeholder="New category name"
                   className="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none"
                   disabled={creatingCategory}
@@ -261,9 +261,7 @@ export default function EditShopModal({
                 type="file"
                 ref={fileInputRef}
                 accept="image/jpeg,image/png,image/webp,image/gif"
-                onChange={(e) =>
-                  setPosterImageFile(e.target.files?.[0] ?? null)
-                }
+                onChange={e => setPosterImageFile(e.target.files?.[0] ?? null)}
                 className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
               />
             </label>
@@ -289,6 +287,6 @@ export default function EditShopModal({
         </form>
       </div>
     </div>,
-    document.body,
+    document.body
   );
 }

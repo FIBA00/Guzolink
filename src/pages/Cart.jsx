@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../features/auth/auth.context.js";
 import { useCart } from "../features/cart/cart.context.js";
 
-
 function CartImage({ src, alt }) {
   if (!src) {
     return (
@@ -30,7 +29,7 @@ function CartImage({ src, alt }) {
       src={src}
       alt={alt}
       className="h-20 w-20 shrink-0 rounded-xl object-cover"
-      onError={(e) => {
+      onError={e => {
         e.currentTarget.style.display = "none";
         e.currentTarget.nextSibling.style.display = "flex";
       }}
@@ -131,8 +130,7 @@ function CartLine({ item, onIncrease, onDecrease, onRemove }) {
 }
 
 function Cart() {
-  const { cart, total, updateQuantity, removeFromCart, clearCart } =
-    useCart();
+  const { cart, total, updateQuantity, removeFromCart, clearCart } = useCart();
   const { user } = useAuth();
 
   if (cart.length === 0) {
@@ -144,8 +142,8 @@ function Cart() {
           </p>
           <h1 className="text-3xl font-bold">Your cart is empty</h1>
           <p className="text-slate-300">
-            Browse the marketplace and add something you like — it'll show
-            up here.
+            Browse the marketplace and add something you like — it'll show up
+            here.
           </p>
           <Link
             to="/"
@@ -182,7 +180,7 @@ function Cart() {
         <div className="mt-8 grid gap-8 lg:grid-cols-[1.6fr_1fr]">
           {/* Line items */}
           <div className="space-y-4">
-            {cart.map((item) => (
+            {cart.map(item => (
               <CartLine
                 key={item.id}
                 item={item}
@@ -200,7 +198,9 @@ function Cart() {
             <div className="space-y-2 text-sm text-slate-300">
               <div className="flex justify-between">
                 <span>Items</span>
-                <span>{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>
+                <span>
+                  {cart.reduce((sum, item) => sum + item.quantity, 0)}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Delivery</span>

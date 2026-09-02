@@ -12,7 +12,7 @@ import { useEffect, useRef } from "react";
 function Home() {
   const { products, loading, isLoadingMore, hasMore, loadMore, error } =
     useProducts();
-  const featured = (products?? []).slice(0, 4)
+  const featured = (products ?? []).slice(0, 4);
   const scrollRef = useRef(null);
 
   const scrollLeft = () => {
@@ -81,11 +81,10 @@ function Home() {
               ref={scrollRef}
               className="flex gap-4 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory"
             >
-              { featured.map((product) => (
+              {featured.map(product => (
                 <div key={product.id} className="w-52 shrink-0 snap-start">
                   <HomePageProductCard product={product} />
                 </div>
-                
               ))}
             </div>
           </section>
@@ -93,8 +92,11 @@ function Home() {
 
         <ShopsStrip />
 
-        <section id="products" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div  className="mb-10 space-y-3">
+        <section
+          id="products"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        >
+          <div className="mb-10 space-y-3">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-500">
               Shop all
             </p>
@@ -123,7 +125,7 @@ function Home() {
                   gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
                 }}
               >
-                {products.map((product) => (
+                {products.map(product => (
                   <HomePageProductCard key={product.id} product={product} />
                 ))}
               </div>

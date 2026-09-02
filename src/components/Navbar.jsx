@@ -32,13 +32,13 @@ function Navbar() {
 
     // Add event listener to all NavLink elements
     const navLinks = document.querySelectorAll("a");
-    navLinks.forEach((link) => {
+    navLinks.forEach(link => {
       link.addEventListener("click", handleNavLinkClick);
     });
 
     // Cleanup event listeners on unmount
     return () => {
-      navLinks.forEach((link) => {
+      navLinks.forEach(link => {
         link.removeEventListener("click", handleNavLinkClick);
       });
     };
@@ -131,7 +131,7 @@ function Navbar() {
 
           {/* Hamburger — mobile only */}
           <button
-            onClick={() => setIsMenuOpen((prev) => !prev)}
+            onClick={() => setIsMenuOpen(prev => !prev)}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMenuOpen}
             className="rounded-lg p-2 text-slate-200 hover:bg-white/10 md:hidden"

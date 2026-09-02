@@ -1,4 +1,4 @@
-// loading spinner modal for tasks takes time 
+// loading spinner modal for tasks takes time
 // blur window background and show modal in the center of the screen
 //  spinner animation is a simple css animation that rotates a div with border
 

@@ -71,7 +71,7 @@ function ShopDashboard() {
   if (shopError) return <p className="p-6 text-red-600">{shopError}</p>;
   if (!shop) return <p className="p-6 text-white">Loading…</p>;
 
-  const getImageUrl = (imagePath) => {
+  const getImageUrl = imagePath => {
     if (!imagePath) return "https://picsum.photos/200/300";
     const productionBackendUrl = import.meta.env.VITE_API_URL || "";
     return `${productionBackendUrl}${imagePath}`;
@@ -84,7 +84,7 @@ function ShopDashboard() {
           src={getImageUrl(shop.posterImage)}
           alt={shop.name}
           className="w-full h-48 object-cover"
-          onError={(e) => {
+          onError={e => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = "https://picsum.photos/200/300";
           }}

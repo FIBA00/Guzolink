@@ -52,12 +52,12 @@ function UpdateUserInfo() {
     setFormError("");
   }, [user]);
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     setFormError("");
     setIsUpdating(true);
@@ -69,7 +69,7 @@ function UpdateUserInfo() {
         formData.username,
         fullPhoneNumber,
         formData.address,
-        imageFile,
+        imageFile
       );
       if (result.success) {
         logout();
@@ -207,7 +207,7 @@ function UpdateUserInfo() {
                 type="file"
                 ref={fileInputRef}
                 accept="image/jpeg,image/png,image/webp,image/gif"
-                onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
+                onChange={e => setImageFile(e.target.files?.[0] ?? null)}
                 className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
               />
             </label>

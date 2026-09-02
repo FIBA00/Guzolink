@@ -117,7 +117,7 @@ export default function useShopProducts(shopId) {
 
   const products = data?.shopProducts ?? [];
 
-  const createProduct = async (productFields) => {
+  const createProduct = async productFields => {
     const result = await executeCreateProduct({
       variables: {
         ...productFields,
@@ -155,7 +155,7 @@ export default function useShopProducts(shopId) {
     return result;
   };
 
-  const deleteProduct = async (productId) => {
+  const deleteProduct = async productId => {
     try {
       await deleteProductMutation({ variables: { id: productId } });
       refetch();

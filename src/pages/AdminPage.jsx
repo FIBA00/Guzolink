@@ -97,7 +97,7 @@ export default function AdminPage() {
         </div>
 
         <nav className="mt-6">
-          {menu.map((item) => (
+          {menu.map(item => (
             <button
               key={item.id}
               onClick={() => setActivePage(item.id)}
@@ -165,7 +165,7 @@ export default function AdminPage() {
           {/* Stats */}
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {stats.map((card) => (
+            {stats.map(card => (
               <div key={card.title} className="bg-white rounded-xl shadow p-6">
                 <div className="flex justify-between">
                   <div>

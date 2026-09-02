@@ -13,21 +13,21 @@ console.log("The api request is is being sent to : ", API_BASE_URL);
 const REQUEST_TIMEOUT_MS = 15000;
 
 const timeoutLink = new ApolloLink((operation, forward) => {
-  return new Observable((observer) => {
+  return new Observable(observer => {
     const timer = setTimeout(() => {
       observer.error(
         new Error(
-          `Request timed out after ${REQUEST_TIMEOUT_MS / 1000}s. The server may be slow or unreachable.`,
-        ),
+          `Request timed out after ${REQUEST_TIMEOUT_MS / 1000}s. The server may be slow or unreachable.`
+        )
       );
     }, REQUEST_TIMEOUT_MS);
 
     const subscription = forward(operation).subscribe({
-      next: (result) => {
+      next: result => {
         clearTimeout(timer);
         observer.next(result);
       },
-      error: (err) => {
+      error: err => {
         clearTimeout(timer);
         observer.error(err);
       },

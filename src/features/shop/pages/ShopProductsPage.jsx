@@ -36,7 +36,7 @@ function ShopProducts() {
           src={shop.posterImage || "https://picsum.photos/200/300?random=1"}
           alt={shop.name}
           className="w-full h-48 object-cover "
-          onError={(e) => {
+          onError={e => {
             // Prevents infinite loops if the fallback fails
             e.currentTarget.onerror = null;
             e.currentTarget.src =

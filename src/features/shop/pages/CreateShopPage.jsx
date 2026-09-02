@@ -4,8 +4,7 @@ import { useAuth } from "../../auth/auth.context.js";
 import { useShops } from "../shop.context.js";
 import { useCategories } from "../../categories/category.context.js";
 import { Link } from "react-router-dom";
-import LoadingSpinnerModal from "../../../components/LoadingSpinnerModal.jsx"
-
+import LoadingSpinnerModal from "../../../components/LoadingSpinnerModal.jsx";
 
 function CreateShop() {
   const user = useAuth()?.user;
@@ -27,12 +26,12 @@ function CreateShop() {
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setShopDetails((prev) => ({ ...prev, [name]: value }));
+    setShopDetails(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleShopCreateSubmit = async (e) => {
+  const handleShopCreateSubmit = async e => {
     e.preventDefault();
     setError("");
     setMessage("");
@@ -60,8 +59,7 @@ function CreateShop() {
         navigate(`/profile/${user?.id || user?._id}`);
       } else {
         setError(
-          shopCreationData.message ||
-            "Unable to create shop. Please try again.",
+          shopCreationData.message || "Unable to create shop. Please try again."
         );
       }
     } catch (err) {
@@ -70,7 +68,7 @@ function CreateShop() {
 
       // Read the exact message thrown from your apiClient / backend
       setError(
-        err.message || "An unexpected error occurred while creating the shop.",
+        err.message || "An unexpected error occurred while creating the shop."
       );
     } finally {
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -86,7 +84,7 @@ function CreateShop() {
 
   const ADD_NEW_VALUE = "__add_new__";
 
-  const handleCategorySelectChange = (e) => {
+  const handleCategorySelectChange = e => {
     if (e.target.value === ADD_NEW_VALUE) {
       setIsAddingCategory(true);
       setCategoryError("");
@@ -213,7 +211,7 @@ function CreateShop() {
                 <option value="" disabled>
                   Select a category
                 </option>
-                {shopCategories.map((category) => (
+                {shopCategories.map(category => (
                   <option key={category._id} value={category._id}>
                     {category.name}
                   </option>
@@ -228,7 +226,7 @@ function CreateShop() {
                   type="text"
                   autoFocus
                   value={newCategoryName}
-                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  onChange={e => setNewCategoryName(e.target.value)}
                   placeholder="New category name"
                   className="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none"
                   disabled={creatingCategory}
@@ -291,9 +289,7 @@ function CreateShop() {
                 type="file"
                 ref={fileInputRef}
                 accept="image/jpeg,image/png,image/webp,image/gif"
-                onChange={(e) =>
-                  setPosterImageFile(e.target.files?.[0] ?? null)
-                }
+                onChange={e => setPosterImageFile(e.target.files?.[0] ?? null)}
                 className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white outline-none"
               />
             </label>
@@ -306,14 +302,14 @@ function CreateShop() {
               disabled={loading}
               className="w-full rounded-xl bg-amber-500 px-4 py-3 font-semibold text-slate-950 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:bg-amber-300"
             >
-               {loading ? (
-                            <LoadingSpinnerModal
-                              isOpen={loading}
-                              message="creating shop please wait..."
-                            />
-                          ) : (
-                            "Create Shop"
-                          )}
+              {loading ? (
+                <LoadingSpinnerModal
+                  isOpen={loading}
+                  message="creating shop please wait..."
+                />
+              ) : (
+                "Create Shop"
+              )}
             </button>
 
             {shopDetails.posterImage && (

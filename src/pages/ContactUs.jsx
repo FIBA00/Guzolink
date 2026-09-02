@@ -30,12 +30,12 @@ function ContactUs() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     setError("");
 
@@ -63,23 +63,21 @@ function ContactUs() {
           </h1>
           <p className="text-lg text-slate-300">
             Whether you're a shopper with an order question or a merchant
-            looking to get started, our team usually replies within one
-            business day.
+            looking to get started, our team usually replies within one business
+            day.
           </p>
         </div>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           {/* Contact channels */}
           <div className="space-y-4">
-            {CHANNELS.map((channel) => (
+            {CHANNELS.map(channel => (
               <a
                 key={channel.label}
                 href={channel.href}
                 target={channel.label === "Office" ? "_blank" : undefined}
                 rel={
-                  channel.label === "Office"
-                    ? "noreferrer noopener"
-                    : undefined
+                  channel.label === "Office" ? "noreferrer noopener" : undefined
                 }
                 className="block rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:border-amber-500/40 hover:bg-white/10"
               >

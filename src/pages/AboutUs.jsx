@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const VALUES = [
   {
@@ -34,9 +34,9 @@ function AboutUs() {
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-slate-300">
             Guzolink started as a simple question: why should opening a shop
-            online mean disappearing into a sea of anonymous listings? We
-            built a marketplace where merchants keep their identity and
-            shoppers know exactly who they're supporting.
+            online mean disappearing into a sea of anonymous listings? We built
+            a marketplace where merchants keep their identity and shoppers know
+            exactly who they're supporting.
           </p>
         </div>
       </section>
@@ -45,7 +45,7 @@ function AboutUs() {
         {/* Stats */}
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-6 sm:grid-cols-3">
-            {STATS.map((stat) => (
+            {STATS.map(stat => (
               <div
                 key={stat.label}
                 className="rounded-3xl border border-white/10 bg-white/5 p-8 text-center"
@@ -72,17 +72,17 @@ function AboutUs() {
             </div>
             <div className="space-y-4 text-slate-300">
               <p>
-                Guzolink began with merchants who were tired of choosing
-                between a generic storefront and building their own site from
-                scratch. We wanted something in between: a shared platform
-                that still felt like their own shop.
+                Guzolink began with merchants who were tired of choosing between
+                a generic storefront and building their own site from scratch.
+                We wanted something in between: a shared platform that still
+                felt like their own shop.
               </p>
               <p>
                 Today, merchants across Addis Ababa list products, manage
-                orders, and reach customers who are shopping locally on
-                purpose — not settling for whatever shows up in a global
-                search. As more shops join, the whole marketplace gets more
-                useful for everyone browsing it.
+                orders, and reach customers who are shopping locally on purpose
+                — not settling for whatever shows up in a global search. As more
+                shops join, the whole marketplace gets more useful for everyone
+                browsing it.
               </p>
             </div>
           </div>
@@ -98,7 +98,7 @@ function AboutUs() {
           </h2>
 
           <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {VALUES.map((value) => (
+            {VALUES.map(value => (
               <div
                 key={value.title}
                 className="rounded-3xl border border-white/10 bg-white/5 p-6"
@@ -120,8 +120,7 @@ function AboutUs() {
                 Join us
               </p>
               <h2 className="mt-2 max-w-md text-3xl font-bold text-white">
-                Whether you're shopping or selling, there's a place for you
-                here
+                Whether you're shopping or selling, there's a place for you here
               </h2>
             </div>
             <div className="flex shrink-0 flex-wrap gap-3">

@@ -3,7 +3,7 @@ import { useCart } from "../../cart/cart.context.js";
 import { useAuth } from "../../auth/auth.context.js";
 
 function ProductImage({ src, alt }) {
-  const getImageUrl = (imagePath) => {
+  const getImageUrl = imagePath => {
     if (!imagePath) return null;
     const backendUrl = import.meta.env.VITE_API_URL || "";
     return `${backendUrl}${imagePath}`;
@@ -36,7 +36,7 @@ function ProductImage({ src, alt }) {
       src={resolvedSrc}
       alt={alt}
       className="aspect-square w-full rounded-lg object-cover"
-      onError={(e) => {
+      onError={e => {
         e.currentTarget.style.display = "none";
         e.currentTarget.nextSibling.style.display = "flex";
       }}

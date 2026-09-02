@@ -1,10 +1,4 @@
-function CategorySidebar({
-  categories,
-  selectedId,
-  onSelect,
-  loading,
-  error,
-}) {
+function CategorySidebar({ categories, selectedId, onSelect, loading, error }) {
   return (
     <aside className="lg:sticky lg:top-24 lg:self-start">
       <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
@@ -42,7 +36,7 @@ function CategorySidebar({
                 No categories yet.
               </p>
             ) : (
-              categories.map((category) => {
+              categories.map(category => {
                 const id = category.id || category._id;
                 const active = selectedId === id;
                 return (

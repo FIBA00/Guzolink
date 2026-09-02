@@ -27,7 +27,7 @@ function ProfileCard() {
   // Guard clause against initial null auth state
   if (!user) return null;
 
-  const getImageUrl = (imagePath) => {
+  const getImageUrl = imagePath => {
     if (!imagePath) return "https://picsum.photos/200/300";
     const productionBackendUrl = import.meta.env.VITE_API_URL || "";
     return `${productionBackendUrl}${imagePath}`;
@@ -42,7 +42,7 @@ function ProfileCard() {
             src={getImageUrl(user.profileImage)}
             alt={user.username}
             className="w-full h-full object-cover rounded-full"
-            onError={(e) => {
+            onError={e => {
               e.currentTarget.onerror = null;
               e.currentTarget.src = "https://picsum.photos/200/300";
             }}

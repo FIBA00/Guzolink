@@ -75,7 +75,7 @@ function MyShops() {
             You have no shops yet . {shopError && `Error: ${shopError}`}
           </p>
         ) : (
-          shops.map((shop) => (
+          shops.map(shop => (
             <ShopCard key={shop._id} shop={shop} isOwner={isOwner} />
           ))
         )}

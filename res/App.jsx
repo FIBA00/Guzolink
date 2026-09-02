@@ -26,7 +26,9 @@ const GrowthPage = lazy(() => import("./pages/GrowthPage.jsx"));
 const MerchantOnboardingPage = lazy(
   () => import("./pages/MerchantOnboardingPage.jsx")
 );
-const AdminGovernancePage = lazy(() => import("./pages/AdminGovernancePage.jsx"));
+const AdminGovernancePage = lazy(
+  () => import("./pages/AdminGovernancePage.jsx")
+);
 const NotificationsPage = lazy(() => import("./pages/NotificationsPage.jsx"));
 const OrdersPage = lazy(() => import("./pages/OrdersPage.jsx"));
 const OrderDetailsPage = lazy(() => import("./pages/OrderDetailsPage.jsx"));

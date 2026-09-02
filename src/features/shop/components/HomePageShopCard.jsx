@@ -34,8 +34,8 @@ export default function ShopsStrip() {
     };
   }, [fetchAllShops, retryKey]);
 
-  const handleRetry = useCallback(() => setRetryKey((k) => k + 1), []);
-  const scrollBy = (dir) =>
+  const handleRetry = useCallback(() => setRetryKey(k => k + 1), []);
+  const scrollBy = dir =>
     scrollRef.current?.scrollBy({ left: dir * 220, behavior: "smooth" });
 
   return (
@@ -88,12 +88,14 @@ export default function ShopsStrip() {
           ref={scrollRef}
           className="flex gap-3 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory"
         >
-          {shops.map((shop) => {
+          {shops.map(shop => {
             const isOwner =
               user &&
               shop &&
               (user.id || user._id)?.toString() === shop.owner?.toString();
-            {/* console.log("shop owner and shop", isOwner, shop); */}
+            {
+              /* console.log("shop owner and shop", isOwner, shop); */
+            }
             return (
               <Link
                 key={shop._id}

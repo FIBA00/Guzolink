@@ -23,7 +23,7 @@ export default function ConfirmModal({
   useEffect(() => {
     if (!open) return;
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = e => {
       if (e.key === "Escape") onCancel();
     };
     document.addEventListener("keydown", handleKeyDown);
@@ -48,7 +48,7 @@ export default function ConfirmModal({
         aria-modal="true"
         aria-labelledby="confirm-modal-title"
         className="w-full max-w-sm rounded-2xl border border-white/10 bg-slate-800 p-6 shadow-xl"
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         <h3
           id="confirm-modal-title"
@@ -82,6 +82,6 @@ export default function ConfirmModal({
         </div>
       </div>
     </div>,
-    document.body,
+    document.body
   );
 }

@@ -1,4 +1,11 @@
-import { createContext, createElement, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  createElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { request } from "../../shared/lib/apiClient.js";
 import { useAuth } from "../auth/auth.context.js";
 
@@ -30,7 +37,10 @@ function CategoryProvider({ children }) {
       if (productData.success) {
         setProductCategories(productData.categories || []);
       } else {
-        console.error("Failed to fetch product categories:", productData.message);
+        console.error(
+          "Failed to fetch product categories:",
+          productData.message
+        );
       }
     } catch (err) {
       setError(err.message || "Failed to fetch categories");
@@ -42,9 +52,9 @@ function CategoryProvider({ children }) {
   // Creates a new shop category and appends it to state so the UI
   // updates immediately without a full refetch. Returns the created
   // category so the caller (the shop form) can auto-select it.
-  
+
   // 1.shop also needs its own category
-  const createShopCategory = async (name) => {
+  const createShopCategory = async name => {
     const trimmed = name.trim();
     if (!trimmed) {
       throw new Error("Category name can't be empty");
@@ -52,7 +62,7 @@ function CategoryProvider({ children }) {
 
     // Avoid duplicate POSTs for a name that already exists
     const existing = shopCategories.find(
-      (c) => c.name.toLowerCase() === trimmed.toLowerCase()
+      c => c.name.toLowerCase() === trimmed.toLowerCase()
     );
     if (existing) return existing;
 
@@ -67,16 +77,15 @@ function CategoryProvider({ children }) {
         throw new Error(data.message || "Failed to create category");
       }
 
-      setShopCategories((prev) => [...prev, data.category]);
+      setShopCategories(prev => [...prev, data.category]);
       return data.category;
     } finally {
       setCreatingShopCategory(false);
     }
   };
 
-
   // 2. product needs its own category
-  const createProductCategory = async (name) => {
+  const createProductCategory = async name => {
     const trimmed = name.trim();
     if (!trimmed) {
       throw new Error("Category name can't be empty");
@@ -84,7 +93,7 @@ function CategoryProvider({ children }) {
 
     // Avoid duplicate POSTs for a name that already exists
     const existing = productCategories.find(
-      (c) => c.name.toLowerCase() === trimmed.toLowerCase()
+      c => c.name.toLowerCase() === trimmed.toLowerCase()
     );
     if (existing) return existing;
 
@@ -99,7 +108,7 @@ function CategoryProvider({ children }) {
         throw new Error(data.message || "Failed to create product category");
       }
 
-      setProductCategories((prev) => [...prev, data.category]);
+      setProductCategories(prev => [...prev, data.category]);
       return data.category;
     } finally {
       setCreatingProductCategory(false);
@@ -123,7 +132,14 @@ function CategoryProvider({ children }) {
       createShopCategory,
       createProductCategory,
     }),
-    [shopCategories, productCategories, loading, error, creatingShopCategory, creatingProductCategory]
+    [
+      shopCategories,
+      productCategories,
+      loading,
+      error,
+      creatingShopCategory,
+      creatingProductCategory,
+    ]
   );
 
   return createElement(CategoryContext.Provider, { value }, children);

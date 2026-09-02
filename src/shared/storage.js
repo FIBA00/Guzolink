@@ -27,20 +27,20 @@ export const storage = {
   // ----- TOKEN ------------------------------------------------
   token: {
     get: () => localStorage.getItem("token"),
-    set: (value) => localStorage.setItem("token", value),
+    set: value => localStorage.setItem("token", value),
     remove: () => localStorage.removeItem("token"),
   },
 
   // ----------user-------------
   user: {
-   get: () => {
+    get: () => {
       try {
         return JSON.parse(localStorage.getItem("user"));
       } catch {
         return null;
       }
     },
-    set: (value) => {
+    set: value => {
       localStorage.setItem("user", JSON.stringify(value));
     },
     remove: () => {
@@ -49,12 +49,12 @@ export const storage = {
   },
   cart: {
     get: () => readJson(CART_KEY, []),
-    set: (value) => writeJson(CART_KEY, value),
+    set: value => writeJson(CART_KEY, value),
     remove: () => window.localStorage.removeItem(CART_KEY),
   },
   shops: {
     get: () => readJson("shops", []),
-    set: (value) => writeJson("shops", value),
+    set: value => writeJson("shops", value),
     remove: () => window.localStorage.removeItem("shops"),
-  }
+  },
 };

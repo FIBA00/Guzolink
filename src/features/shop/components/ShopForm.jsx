@@ -22,7 +22,7 @@ function ShopFormUi({
 
   const ADD_NEW_VALUE = "__add_new__";
 
-  const handleCategorySelectChange = (e) => {
+  const handleCategorySelectChange = e => {
     if (e.target.value === ADD_NEW_VALUE) {
       setIsAddingCategory(true);
       setCategoryError("");
@@ -149,7 +149,7 @@ function ShopFormUi({
                 <option value="" disabled>
                   Select a category
                 </option>
-                {shopCategories.map((category) => (
+                {shopCategories.map(category => (
                   <option key={category._id} value={category._id}>
                     {category.name}
                   </option>
@@ -164,7 +164,7 @@ function ShopFormUi({
                   type="text"
                   autoFocus
                   value={newCategoryName}
-                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  onChange={e => setNewCategoryName(e.target.value)}
                   placeholder="New category name"
                   className="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none"
                   disabled={creatingCategory}

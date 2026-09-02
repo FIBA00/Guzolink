@@ -12,7 +12,8 @@ const products = [
     name: "Luma Smart Watch",
     price: 199,
     category: "Wearables",
-    description: "Track fitness, sleep, and notifications from a sleek premium display.",
+    description:
+      "Track fitness, sleep, and notifications from a sleek premium display.",
     badge: "New",
   },
   {
@@ -20,7 +21,8 @@ const products = [
     name: "Nova Laptop Stand",
     price: 59,
     category: "Accessories",
-    description: "Elevate your workstation with ergonomic cooling and a compact footprint.",
+    description:
+      "Elevate your workstation with ergonomic cooling and a compact footprint.",
     badge: "Top Rated",
   },
   {
@@ -28,7 +30,8 @@ const products = [
     name: "Pulse Bluetooth Speaker",
     price: 89,
     category: "Audio",
-    description: "Portable, punchy sound for weekends, travel, and house parties.",
+    description:
+      "Portable, punchy sound for weekends, travel, and house parties.",
     badge: "Trending",
   },
   {
@@ -36,7 +39,8 @@ const products = [
     name: "Glide Backpack",
     price: 79,
     category: "Lifestyle",
-    description: "Water-resistant everyday carry with smart compartments and comfort straps.",
+    description:
+      "Water-resistant everyday carry with smart compartments and comfort straps.",
     badge: "Popular",
   },
   {
@@ -44,7 +48,8 @@ const products = [
     name: "Orbit Camera Lens",
     price: 149,
     category: "Photography",
-    description: "Capture crisp, creative shots with a lightweight professional lens.",
+    description:
+      "Capture crisp, creative shots with a lightweight professional lens.",
     badge: "Editor Pick",
   },
 ];

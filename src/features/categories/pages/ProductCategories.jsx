@@ -11,7 +11,7 @@ function MyShops() {
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
       <div className="grid gap-4 md:grid-cols-2">
-        {shops.map((shop) => (
+        {shops.map(shop => (
           <ShopCard key={shop._id} shop={shop} onDelete={handleDelete} />
         ))}
       </div>

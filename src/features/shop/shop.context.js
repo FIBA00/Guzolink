@@ -33,7 +33,7 @@ function ShopProvider({ children }) {
 
   // Only show the full-page loading state if we have NOTHING cached yet.
   const [isLoading, setIsLoading] = useState(
-    () => storage.shops.get() === null,
+    () => storage.shops.get() === null
   );
 
   // Separate from isLoading on purpose: this drives a small spinner on
@@ -121,7 +121,7 @@ function ShopProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally checking shops.length only on mount, not re-running when shops changes
   }, [isAuthLoading, token]); //shops.length used inside, not listed as dependency on purpose: we only want to run this effect once per auth resolution, not every time the shop list changes
 
-  const buildShopBody = (shopInfo) => {
+  const buildShopBody = shopInfo => {
     const { posterImageFile, ...rest } = shopInfo;
     if (posterImageFile) {
       const formData = new FormData();
@@ -134,14 +134,14 @@ function ShopProvider({ children }) {
     return JSON.stringify(rest);
   };
 
-  const createShop = async (shopInfo) => {
+  const createShop = async shopInfo => {
     try {
       const data = await request("/api/shops", {
         method: "POST",
         body: buildShopBody(shopInfo),
       });
       if (data.success) {
-        setShops((prev) => {
+        setShops(prev => {
           const next = [...prev, data.shop];
           storage.shops.set(next);
           return next;
@@ -165,12 +165,12 @@ function ShopProvider({ children }) {
     }
   };
 
-  const deleteShop = async (id) => {
+  const deleteShop = async id => {
     try {
       const data = await request(`/api/shops/${id}`, { method: "DELETE" });
       if (data.success) {
-        setShops((prev) => {
-          const next = prev.filter((s) => s._id !== id);
+        setShops(prev => {
+          const next = prev.filter(s => s._id !== id);
           storage.shops.set(next); // keep cache in sync with state
           return next;
         });
@@ -181,7 +181,7 @@ function ShopProvider({ children }) {
       console.error("Error deleting shop:", err);
     }
   };
-  
+
   const updateShop = async (id, shopInfo) => {
     setIsUpdatingShop(true);
     setUpdateShopError(null);
@@ -191,8 +191,8 @@ function ShopProvider({ children }) {
         body: buildShopBody(shopInfo),
       });
       if (data.success) {
-        setShops((prev) => {
-          const next = prev.map((s) => (s._id === id ? data.shop : s));
+        setShops(prev => {
+          const next = prev.map(s => (s._id === id ? data.shop : s));
           storage.shops.set(next);
           return next;
         });
@@ -219,8 +219,7 @@ function ShopProvider({ children }) {
     }
   };
 
-
-  const fetchSingleShopDetails = async (id) => {
+  const fetchSingleShopDetails = async id => {
     setShopError(null);
     try {
       const data = await request(`/api/shops/${id}`);
@@ -288,7 +287,7 @@ function ShopProvider({ children }) {
       isUpdatingShop,
       updateShopError,
     }),
-    [shops, isLoading, isRefreshing, shopError, allShopsError],
+    [shops, isLoading, isRefreshing, shopError, allShopsError]
   );
   // eslint-disable-next-line react-hooks/refs
   return createElement(ShopContext.Provider, { value }, children);

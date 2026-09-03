@@ -7,7 +7,7 @@ import MarketplaceShell from "../layout/MarketplaceShell";
 import {
   useCreateSupportTicket,
   useHelpContent,
-} from "../api/experienceQueries";
+} from "../api/useMerchantQueries";
 export default function HelpPage() {
   const helpQ = useHelpContent();
   const createTicket = useCreateSupportTicket();

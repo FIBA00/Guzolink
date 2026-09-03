@@ -9,7 +9,7 @@ import {
 import {
   useAccountPreferences,
   useUpdatePreferences,
-} from "../api/experienceQueries";
+} from "../api/useMerchantQueries";
 export default function NotificationsPage() {
   const activities = useActivities();
   const preferences = useAccountPreferences();

@@ -18,6 +18,8 @@ export function formatDate ( value )
     : "—";
 }
 
-export function classNames(...classes) {
+// Fix-me: use tailwind mergeing function instead of boolean filter.
+export function classNames ( ...classes )
+{
   return classes.filter(Boolean).join(" ");
 }

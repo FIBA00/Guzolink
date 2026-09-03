@@ -1,34 +1,34 @@
 /** Style: Market Ledger — authentication is a focused paper form that returns users quickly to their task. */
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, KeyRound } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { z } from "zod";
-import BrandMark from "../components/BrandMark";
+import { toast } from "sonner";
+
+// ! internal imports
+import BrandMark from "../components/BrandMark.jsx";
+import { queryClient } from "../lib/queryClient";
+import { signInSchema, registerSchema } from "../schemas/auth.schema.js";
+
+// ? missing internal imports
 import { useAuthAction } from "../features/auth/authQueries";
 import { useAuthStore } from "../store/authStore";
-import { queryClient } from "../lib/queryClient";
-import { toast } from "sonner";
-const signInSchema = z.object({
-  email: z.string().email("Enter a valid email."),
-  password: z.string().min(6, "Password must contain at least 6 characters."),
-});
-const registerSchema = signInSchema.extend({
-  name: z.string().min(2, "Enter your name."),
-});
+
 export default function AuthPage({ mode }) {
   const isRegister = mode === "register";
   const navigate = useNavigate();
   const location = useLocation();
   const setUser = useAuthStore(state => state.setUser);
-  const action = useAuthAction(isRegister ? "register" : "login");
+  const action = useAuthAction( isRegister ? "register" : "login" );
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(isRegister ? registerSchema : signInSchema),
-  });
+  } );
+  
   async function submit(values) {
     try {
       const result = await action.mutateAsync(values);
@@ -36,6 +36,7 @@ export default function AuthPage({ mode }) {
       setUser(user);
       queryClient.setQueryData(["session"], { user });
       toast.success(isRegister ? "Your account is ready." : "Welcome back.");
+      
       navigate(
         location.state?.from?.pathname ||
           (user.role === "merchant" ? "/dashboard" : "/account"),
@@ -45,6 +46,7 @@ export default function AuthPage({ mode }) {
       toast.error(error.message || "We could not sign you in.");
     }
   }
+
   return (
     <main className="paper-noise grid min-h-screen bg-[#e7dfcf] p-4 sm:p-8">
       <div className="mx-auto flex w-full max-w-[1050px] flex-col justify-between gap-8">
@@ -63,6 +65,7 @@ export default function AuthPage({ mode }) {
                 : "Sign in to see your orders, manage your account, and access your merchant workspace."}
             </p>
           </aside>
+          
           <section className="p-8 sm:p-12">
             <span className="grid h-11 w-11 place-items-center rounded-full bg-[#f3e4c7] text-ochre-dark">
               <KeyRound size={20} />
@@ -137,6 +140,7 @@ export default function AuthPage({ mode }) {
                 <ArrowRight size={16} />
               </button>
             </form>
+
             <p className="mt-6 text-sm text-[#656b64]">
               {isRegister ? "Already registered?" : "New to Guzolink?"}{" "}
               <Link
@@ -147,6 +151,8 @@ export default function AuthPage({ mode }) {
               </Link>
             </p>
           </section>
+
+
         </div>
         <Link
           className="text-sm font-extrabold text-[#555c55]"

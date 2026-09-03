@@ -1,25 +1,32 @@
 /** Style: Market Ledger — order management turns dense operational data into clear desktop ledgers and mobile-ready cards. */
 import { ArrowLeft, ChevronRight, Package, Truck } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import StatusBadge from "../../components/StatusBadge";
-import {
-  EmptyState,
-  ErrorState,
-  LoadingBlock,
-} from "../../components/InlineLoading";
+import { toast } from "sonner";
+
+// ! internal imports
+import StatusBadge from "../../../components/StatusBadge.jsx";
+import EmptyState from "../../../components/EmptyState.jsx";
+import ErrorState from "../../../components/ErrorState.jsx";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+
+// ? missing internal import
 import {
   useOrder,
   useOrders,
   useUpdateOrder,
 } from "../../features/orders/orderQueries";
-import { formatCurrency, formatDate } from "../../lib/utils";
-import { isPreviewMode } from "../../services/api";
-import { toast } from "sonner";
+
+import { formatCurrency, formatDate } from "../../../lib/utils.js";
+import { isPreviewMode } from "../../../services/apiResources.js";
+
+
 export default function DashboardOrders({ detail }) {
   const { id } = useParams();
   const listQuery = useOrders({ scope: "merchant" });
   const orderQuery = useOrder(id);
   const updateOrder = useUpdateOrder();
+
+
   async function changeStatus(orderId, orderStatus) {
     try {
       if (!isPreviewMode())
@@ -29,6 +36,7 @@ export default function DashboardOrders({ detail }) {
       toast.error(error.message || "We could not update this order.");
     }
   }
+
   if (detail) {
     if (orderQuery.isLoading) return <LoadingBlock rows={3} />;
     if (orderQuery.isError)
@@ -36,6 +44,7 @@ export default function DashboardOrders({ detail }) {
         <ErrorState error={orderQuery.error} onRetry={orderQuery.refetch} />
       );
     const order = orderQuery.data;
+
     if (!order)
       return (
         <EmptyState
@@ -44,6 +53,7 @@ export default function DashboardOrders({ detail }) {
           actionTo="/dashboard/orders"
         />
       );
+    
     return (
       <>
         <Link
@@ -130,6 +140,7 @@ export default function DashboardOrders({ detail }) {
       </>
     );
   }
+  
   return (
     <>
       <div className="border-b border-line pb-6">

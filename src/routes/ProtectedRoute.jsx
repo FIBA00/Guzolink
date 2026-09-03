@@ -1,8 +1,14 @@
 /** Style: Market Ledger — private routes explain access rather than silently leaving a visitor stranded. */
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+
+// ! internal imports
+
+// ? missing import
+import LoadingScreen from "../components/common/LoadingScreen";
 import { useAuthStore } from "../store/authStore";
 import { useSession } from "../features/auth/authQueries";
-import LoadingScreen from "../components/common/LoadingScreen";
+
+
 export default function ProtectedRoute({
   merchantOnly = false,
   adminOnly = false,

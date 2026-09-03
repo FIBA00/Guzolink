@@ -1,14 +1,16 @@
 /** Style: Market Ledger — merchant records are fetched and mutated through cached resource hooks; preview entries exist only where a local API has not been connected. */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { previewCustomers, previewOrders } from "../data/data.customers";
+import { previewCustomers, previewOrders } from "../../../data/data.customers";
 import { isPreviewMode } from "../../services/api";
-import { merchantApi } from "../services/apiResources";
+import { merchantApi } from "../../../services/apiResources";
 import { useMerchantStore } from "../store/merchantStore";
 
 const listItems = (result, property) =>
   Array.isArray(result)
     ? result
     : result?.items || result?.[property] || result?.results || [];
+
+
 const merchantKeys = {
   root: ["merchant"],
   products: ["merchant", "products"],
@@ -18,6 +20,8 @@ const merchantKeys = {
   analytics: ["merchant", "analytics"],
   settings: ["merchant", "settings"],
 };
+
+
 const previewOverview = () => {
   const products = useMerchantStore.getState().products;
   const totalSales = previewOrders.reduce(
@@ -54,6 +58,8 @@ export function useMerchantProducts(params = {}) {
     staleTime: 60_000,
   });
 }
+
+
 export function useMerchantShop() {
   return useQuery({
     queryKey: merchantKeys.shop,
@@ -62,6 +68,7 @@ export function useMerchantShop() {
     staleTime: 60_000,
   });
 }
+
 export function useMerchantOverview() {
   return useQuery({
     queryKey: merchantKeys.overview,
@@ -70,6 +77,7 @@ export function useMerchantOverview() {
     staleTime: 60_000,
   });
 }
+
 export function useMerchantCustomers(params = {}) {
   return useQuery({
     queryKey: [...merchantKeys.customers, params],

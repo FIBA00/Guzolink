@@ -7,7 +7,7 @@ import MarketplaceShell from "../layout/MarketplaceShell";
 import {
   useGrowthPreferences,
   useUpdateGrowthPreferences,
-} from "../api/experienceQueries";
+} from "../api/useMerchantQueries";
 export default function GrowthPage() {
   const growthQ = useGrowthPreferences();
   const updateGrowth = useUpdateGrowthPreferences();

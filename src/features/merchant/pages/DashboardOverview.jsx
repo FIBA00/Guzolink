@@ -7,15 +7,21 @@ import {
   WalletCards,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
-import StatusBadge from "../../components/StatusBadge";
-import { useMerchantOverview } from "../../api/merchantQueries";
-import { formatCurrency, formatDate } from "../../lib/utils";
+
+// ! internal imports
+import ErrorState from "../../../components/ErrorState.jsx";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+import StatusBadge from "../../../components/StatusBadge.jsx";
+// # hooks
+import { useMerchantOverview } from "../hooks/useMerchantQueries.js";
+import { formatCurrency, formatDate } from "../../../lib/utils.js";
 
 export default function DashboardOverview() {
   const overviewQuery = useMerchantOverview();
+
   if (overviewQuery.isLoading)
     return <LoadingBlock label="Loading shop overview…" />;
+
   if (overviewQuery.isError)
     return (
       <ErrorState
@@ -24,6 +30,7 @@ export default function DashboardOverview() {
         onRetry={overviewQuery.refetch}
       />
     );
+  
   const overview = overviewQuery.data || {};
   const metrics = [
     {
@@ -53,6 +60,7 @@ export default function DashboardOverview() {
       icon: UsersRound,
     },
   ];
+  
   return (
     <>
       <section className="registration-mark bg-ink p-6 text-[#fbf7ee] sm:p-8">

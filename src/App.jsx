@@ -10,6 +10,7 @@ import { useSession } from "./features/auth/authQueries.js";
 import { useAuthStore } from "./store/authStore.js";
 
 // ! loaders
+// ? missing import file 
 import LoadingScreen from "./components/common/LoadingScreen.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
@@ -19,7 +20,6 @@ const HomePage = lazy( () => import( "./pages/HomePage.jsx" ) );
 const AuthPage = lazy(() => import("./pages/AuthPage.jsx"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage.jsx"));
 const AdminPage = lazy( () => import( "./pages/AdminPage.jsx" ) );
-
 
 const ProductsPage = lazy(() => import("./pages/ProductsPage.jsx"));
 const ProductPage = lazy(() => import("./pages/ProductPage.jsx"));
@@ -77,7 +77,11 @@ function App() {
           <Suspense fallback={<LoadingScreen />}>
             <Routes>
               <Route path="/" element={ <HomePage /> } />
+              {/* # Auth related  */}
+              <Route path="/login" element={<AuthPage mode="login" />} />
+              <Route path="/register" element={<AuthPage mode="register" />} />
 
+              
               <Route path="/marketplace" element={<ProductsPage />} />
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/products/:id" element={<ProductPage />} />
@@ -86,9 +90,6 @@ function App() {
               <Route path="/shop/:slug" element={<ShopPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
-
-              <Route path="/login" element={<AuthPage mode="login" />} />
-              <Route path="/register" element={<AuthPage mode="register" />} />
 
               <Route element={<ProtectedRoute />}>
                 <Route path="/account" element={<CustomerCenterPage />} />

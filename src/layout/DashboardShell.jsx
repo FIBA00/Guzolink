@@ -12,13 +12,16 @@ import {
   Truck,
   Users,
 } from "lucide-react";
-import ActivityCenter from "../components/ActivityCenter";
-import BrandMark from "../components/BrandMark";
-import LanguageSelector from "../components/LanguageSelector";
-import { useTranslation } from "../i18n/useTranslation";
+
+// ! internal imports
+import ActivityCenter from "../components/ActivityCenter.jsx";
+import BrandMark from "../components/BrandMark.jsx";
+import LanguageSelector from "../components/LanguageSelector.jsx";
+import { useTranslation } from "../i18n/useTranslation.js";
 
 export default function DashboardShell() {
   const { t } = useTranslation();
+  
   const sections = [
     {
       to: "/dashboard",
@@ -34,6 +37,7 @@ export default function DashboardShell() {
     { to: "/dashboard/analytics", label: t("nav.analytics"), icon: BarChart3 },
     { to: "/dashboard/settings", label: t("nav.settings"), icon: Settings },
   ];
+
   return (
     <div className="min-h-screen bg-[#f4f0e7] text-ink md:grid md:grid-cols-[16.5rem_1fr]">
       <aside className="hidden min-h-screen bg-ink px-5 py-7 text-[#f8f2e5] md:flex md:flex-col">

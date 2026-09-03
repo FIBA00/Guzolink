@@ -13,7 +13,7 @@ import {
   useSavedProducts,
   useUpdatePreferences,
   useUpdateProfile,
-} from "../api/experienceQueries";
+} from "../api/useMerchantQueries";
 export default function CustomerCenterPage() {
   const profileQ = useAccountProfile();
   const addressQ = useAddresses();

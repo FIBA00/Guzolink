@@ -2,6 +2,8 @@
 import { ImagePlus, LoaderCircle, Star, Trash2, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
+
+// ! internal imports
 import { uploadMerchantImage } from "../services/mediaUpload";
 
 export default function MediaManager({
@@ -14,6 +16,8 @@ export default function MediaManager({
 }) {
   const inputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
+
+
   async function handleFiles(event) {
     const files = Array.from(event.target.files || []);
     if (!files.length) return;
@@ -45,6 +49,7 @@ export default function MediaManager({
       event.target.value = "";
     }
   }
+
   function removeImage(index) {
     const next = images.filter((_, itemIndex) => itemIndex !== index);
     onChange(next);
@@ -55,6 +60,7 @@ export default function MediaManager({
     });
     toast.success("Image removed.");
   }
+
   function makePrimary(index) {
     if (!index) return;
     onChange([
@@ -63,6 +69,7 @@ export default function MediaManager({
     ]);
     toast.success("Primary image updated.");
   }
+  
   return (
     <section>
       <div className="flex flex-wrap items-end justify-between gap-3">

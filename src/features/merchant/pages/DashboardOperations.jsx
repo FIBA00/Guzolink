@@ -7,15 +7,21 @@ import {
   WalletCards,
 } from "lucide-react";
 import { toast } from "sonner";
-import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
+
+// ! internal imports
+import ErrorState from "../../../components/ErrorState.jsx";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+// # hooks
 import {
   useMerchantOperations,
   useUpdateFulfilment,
-} from "../../api/experienceQueries";
-import { formatCurrency } from "../../lib/utils";
+} from "../hooks/useMerchantQueries.js";
+import { formatCurrency } from "../../../lib/utils.js";
+
 export default function DashboardOperations() {
   const opsQ = useMerchantOperations();
   const update = useUpdateFulfilment();
+
   if (opsQ.isLoading) return <LoadingBlock label="Loading operations desk…" />;
   if (opsQ.isError)
     return (
@@ -26,10 +32,12 @@ export default function DashboardOperations() {
       />
     );
   const ops = opsQ.data;
+
   async function fulfil(id) {
     await update.mutateAsync({ id, status: "Packed" });
     toast.success("Order marked ready for delivery.");
   }
+
   return (
     <>
       <div className="border-b border-line pb-6">

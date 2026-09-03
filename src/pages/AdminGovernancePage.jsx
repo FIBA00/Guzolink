@@ -11,7 +11,7 @@ import BrandMark from "../components/BrandMark";
 import {
   useGovernanceDesk,
   useGovernanceResubmission,
-} from "../api/experienceQueries";
+} from "../api/useMerchantQueries";
 export default function AdminGovernancePage() {
   const desk = useGovernanceDesk();
   const resubmit = useGovernanceResubmission();

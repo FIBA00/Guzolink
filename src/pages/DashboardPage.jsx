@@ -1,14 +1,17 @@
 /** Style: Market Ledger — DashboardPage remains only the merchant workspace route map; product management is modal-only within its desk. */
 import { Route, Routes } from "react-router-dom";
-import DashboardShell from "../layout/DashboardShell";
-import DashboardOverview from "./dashboard/DashboardOverview";
-import DashboardProducts from "./dashboard/DashboardProducts";
-import DashboardOrders from "./dashboard/DashboardOrders";
-import DashboardShop from "./dashboard/DashboardShop";
-import DashboardCustomers from "./dashboard/DashboardCustomers";
-import DashboardAnalytics from "./dashboard/DashboardAnalytics";
-import DashboardSettings from "./dashboard/DashboardSettings";
-import DashboardOperations from "./dashboard/DashboardOperations";
+
+// ! internal imports
+import DashboardShell from "../layout/DashboardShell.jsx";
+import DashboardOverview from "../features/merchant/pages/DashboardOverview.jsx";
+import DashboardProducts from "../features/merchant/pages/DashboardProducts.jsx";
+import DashboardOrders from "../features/merchant/pages/DashboardOrders.jsx";
+import DashboardShop from "../features/merchant/pages/DashboardShop.jsx";
+import DashboardCustomers from "../features/merchant/pages/DashboardCustomers.jsx";
+import DashboardAnalytics from "../features/merchant/pages/DashboardAnalytics.jsx";
+import DashboardSettings from "../features/merchant/pages/DashboardSettings.jsx";
+import DashboardOperations from "../features/merchant/pages/DashboardOperations.jsx";
+
 export default function DashboardPage() {
   return (
     <Routes>

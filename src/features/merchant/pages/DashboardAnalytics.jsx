@@ -1,13 +1,20 @@
 /** Style: Market Ledger — analytics renders cached merchant signals from the API, retaining a useful preview story until production data is available. */
 import { ArrowUpRight, TrendingUp } from "lucide-react";
-import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
-import { useMerchantAnalytics } from "../../api/merchantQueries";
-import { formatCurrency } from "../../lib/utils";
+
+// ! internal imports
+import ErrorState from "../../../components/ErrorState.jsx";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+// # hooks
+import { useMerchantAnalytics } from "../hooks/useMerchantQueries.js";
+import { formatCurrency } from "../../../lib/utils.js";
+
 export default function DashboardAnalytics() {
   const analyticsQuery = useMerchantAnalytics();
+
   if (analyticsQuery.isLoading)
     return <LoadingBlock label="Loading shop signals…" />;
-  if (analyticsQuery.isError)
+  
+  if ( analyticsQuery.isError )
     return (
       <ErrorState
         title="Analytics is unavailable"
@@ -15,7 +22,9 @@ export default function DashboardAnalytics() {
         onRetry={analyticsQuery.refetch}
       />
     );
+  
   const data = analyticsQuery.data || {};
+
   return (
     <>
       <div className="border-b border-line pb-6">

@@ -9,7 +9,7 @@ import { z } from "zod";
 import { EmptyState, LoadingBlock } from "../components/InlineLoading";
 import MarketplaceShell from "../layout/MarketplaceShell";
 import MockPaymentDialog from "../components/MockPaymentDialog";
-import { useDeliveryOptions } from "../api/experienceQueries";
+import { useDeliveryOptions } from "../api/useMerchantQueries";
 import { formatCurrency } from "../lib/utils";
 import { isPreviewMode } from "../services/api";
 import { ordersApi } from "../services/apiResources";

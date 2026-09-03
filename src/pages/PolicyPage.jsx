@@ -3,7 +3,7 @@ import { ShieldCheck } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { ErrorState, LoadingBlock } from "../components/InlineLoading";
 import MarketplaceShell from "../layout/MarketplaceShell";
-import { usePolicy } from "../api/experienceQueries";
+import { usePolicy } from "../api/useMerchantQueries";
 export default function PolicyPage() {
   const { slug = "terms" } = useParams();
   const policyQ = usePolicy(slug);

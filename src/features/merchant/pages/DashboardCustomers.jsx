@@ -1,9 +1,15 @@
 /** Style: Market Ledger — customer information is an API-backed, privacy-aware ledger with useful purchase signals. */
 import { Mail, Search, UsersRound } from "lucide-react";
 import { useState } from "react";
-import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
-import { useMerchantCustomers } from "../../api/merchantQueries";
-import { formatCurrency } from "../../lib/utils";
+
+// ! internal imports
+import ErrorState from "../../../components/ErrorState.jsx";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+
+// # hooks
+import { useMerchantCustomers } from "../hooks/useMerchantQueries.js";
+import { formatCurrency } from "../../../lib/utils.js";
+
 export default function DashboardCustomers() {
   const [search, setSearch] = useState("");
   const customersQuery = useMerchantCustomers({ search });

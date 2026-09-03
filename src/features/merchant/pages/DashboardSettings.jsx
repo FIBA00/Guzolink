@@ -1,11 +1,16 @@
 /** Style: Market Ledger — merchant preferences are a cached API-backed record, with only non-sensitive toggles exposed in the client. */
 import { Bell, CreditCard, Globe2, Save, ShieldCheck } from "lucide-react";
-import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
+import { toast } from "sonner";
+
+// ! internal imports
+import ErrorState from "../../../components/ErrorState.jsx";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+// # hooks
 import {
   useMerchantSettings,
   useUpdateMerchantSettings,
-} from "../../api/merchantQueries";
-import { toast } from "sonner";
+} from "../hooks/useMerchantQueries.js";
+
 const settingGroups = [
   {
     key: "visibleInMarketplace",
@@ -31,10 +36,12 @@ const settingGroups = [
     control: "Payment setup required",
   },
 ];
+
 export default function DashboardSettings() {
   const settingsQuery = useMerchantSettings();
   const updateSettings = useUpdateMerchantSettings();
   const settings = settingsQuery.data || {};
+
   async function toggle(key) {
     try {
       await updateSettings.mutateAsync({ ...settings, [key]: !settings[key] });
@@ -42,6 +49,7 @@ export default function DashboardSettings() {
       toast.error(error.message || "The setting could not be updated.");
     }
   }
+  
   async function save() {
     try {
       await updateSettings.mutateAsync(settings);

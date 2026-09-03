@@ -1,6 +1,6 @@
 /** Style: Market Ledger — merchant records are fetched and mutated through cached resource hooks; preview entries exist only where a local API has not been connected. */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { previewCustomers, previewOrders } from "../data/previewData";
+import { previewCustomers, previewOrders } from "../data/data.customers";
 import { isPreviewMode } from "../../services/api";
 import { merchantApi } from "../services/apiResources";
 import { useMerchantStore } from "../store/merchantStore";

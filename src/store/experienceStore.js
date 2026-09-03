@@ -1,7 +1,7 @@
 /** Style: Market Ledger — preview-only operational state mirrors API entities so every new surface can use the same cached query boundary. */
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { previewProducts, previewUser } from "../data/previewData";
+import { previewProducts, previewUser } from "../data/data.customers";
 
 
 const initial = {

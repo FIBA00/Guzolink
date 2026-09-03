@@ -9,7 +9,7 @@ import MediaManager from "../../components/MediaManager";
 import StatusBadge from "../../components/StatusBadge";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import Modal from "../../components/Modal";
-import { categories } from "../../data/previewData";
+import { categories } from "../../data/data.customers";
 import { useCreateActivity } from "../../api/activityQueries";
 import {
   useCreateMerchantProduct,

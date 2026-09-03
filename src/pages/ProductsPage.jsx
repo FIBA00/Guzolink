@@ -9,7 +9,7 @@ import {
   ErrorState,
   LoadingBlock,
 } from "../components/InlineLoading";
-import { categories } from "../data/previewData";
+import { categories } from "../data/data.customers";
 import { useProducts } from "../features/catalogue/catalogueQueries";
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -19,7 +19,7 @@ import ShopCard from "../components/ShopCard";
 import LoadingBlock from "../components/LoadingBlock.jsx";
 
 // # utils
-import { categories } from "../data/previewData";
+import { categories } from "../data/data.customers.js";
 
 import { useProducts, useShops } from "../features/catalogue/catalogueQueries";
 
@@ -35,8 +35,9 @@ export default function HomePage() {
   
   return (
     <MarketplaceShell>
-
       <div className="page-enter">
+
+
         <section className="mx-auto grid max-w-[1440px] gap-0 px-0 md:grid-cols-[.82fr_1.18fr] md:px-8">
           <div className="order-2 flex flex-col justify-between bg-[#e7dfcf] px-5 py-10 sm:px-10 md:order-1 md:min-h-[580px] md:px-12">
             <div>
@@ -90,6 +91,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+
         <section className="mx-auto max-w-[1440px] px-4 py-14 md:px-8">
           <div className="flex items-end justify-between gap-5">
             <div>
@@ -125,6 +128,8 @@ export default function HomePage() {
             })}
           </div>
         </section>
+
+
         <section className="mx-auto max-w-[1440px] px-4 md:px-8">
           <div className="grid gap-8 border-y border-line py-12 lg:grid-cols-[.66fr_1.34fr]">
             <div>
@@ -151,6 +156,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
         <section className="mx-auto max-w-[1440px] px-4 py-14 md:px-8">
           <div className="flex items-end justify-between gap-5">
             <div>
@@ -185,6 +191,7 @@ export default function HomePage() {
             </div>
           )}
         </section>
+
         <section className="bg-moss px-4 py-14 text-[#fffaf2] md:px-8">
           <div className="mx-auto grid max-w-[1440px] gap-8 md:grid-cols-[1fr_.9fr] md:items-end">
             <div>
@@ -210,6 +217,7 @@ export default function HomePage() {
           </div>
         </section>
       </div>
+
     </MarketplaceShell>
   );
 }

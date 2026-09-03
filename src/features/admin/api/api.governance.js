@@ -1,4 +1,4 @@
-import request from "./client.js";
+import request from "../../../api/client.js";
 export const governanceApi = {
   desk: () => request("get", "ADMIN_GOVERNANCE"),
   resubmit: (id, data) =>

@@ -3,8 +3,14 @@ import { Download, Heart, MapPin, Save, Trash2, UserRound } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { ErrorState, LoadingBlock } from "../components/InlineLoading";
-import MarketplaceShell from "../layout/MarketplaceShell";
+
+// ! internal imports
+
+import ErrorState from "../../../components/ErrorState.jsx";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+import MarketplaceShell from "../../../layout/MarketplaceShell.jsx";
+
+
 import {
   useAccountPreferences,
   useAccountProfile,
@@ -13,7 +19,9 @@ import {
   useSavedProducts,
   useUpdatePreferences,
   useUpdateProfile,
-} from "../api/useMerchantQueries";
+} from "../hooks/useAccount.js";
+
+
 export default function CustomerCenterPage() {
   const profileQ = useAccountProfile();
   const addressQ = useAddresses();

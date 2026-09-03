@@ -10,38 +10,41 @@ import { useSession } from "./features/auth/authQueries.js";
 import { useAuthStore } from "./store/authStore.js";
 
 // ! loaders
-// ? missing import file 
+// ? missing import file
 import LoadingScreen from "./components/common/LoadingScreen.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
-const HomePage = lazy( () => import( "./pages/HomePage.jsx" ) );
+const HomePage = lazy(() => import("./pages/HomePage.jsx"));
 
 // ! Auth related
 const AuthPage = lazy(() => import("./pages/AuthPage.jsx"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage.jsx"));
-const AdminPage = lazy( () => import( "./pages/AdminPage.jsx" ) );
 
-const ProductsPage = lazy(() => import("./pages/ProductsPage.jsx"));
-const ProductPage = lazy(() => import("./pages/ProductPage.jsx"));
-const ShopsPage = lazy(() => import("./pages/ShopsPage.jsx"));
-const ShopPage = lazy(() => import("./pages/ShopPage.jsx"));
-const CartPage = lazy(() => import("./pages/CartPage.jsx"));
-const CheckoutPage = lazy( () => import( "./pages/CheckoutPage.jsx" ) );
-
-const CustomerCenterPage = lazy( () => import( "./pages/CustomerCenterPage.jsx" ) );
-const HelpPage = lazy(() => import("./pages/HelpPage.jsx"));
-const PolicyPage = lazy(() => import("./pages/PolicyPage.jsx"));
-const GrowthPage = lazy(() => import("./pages/GrowthPage.jsx"));
+const CustomerCenterPage = lazy(() => import("./features/user/pages/CustomerCenterPage.jsx"));
 const MerchantOnboardingPage = lazy(
   () => import("./pages/MerchantOnboardingPage.jsx")
 );
+const AdminPage = lazy(() => import("./features/admin/pages/AdminPage.jsx"));
 const AdminGovernancePage = lazy(
-  () => import("./pages/AdminGovernancePage.jsx")
+  () => import("./features/admin/pages/AdminGovernancePage.jsx")
 );
+
+// ! market place related
+const ProductsPage = lazy(() => import("./pages/ProductsPage.jsx"));
+const ProductPage = lazy(() => import("./pages/ProductPage.jsx"));
+
+const ShopsPage = lazy(() => import("./pages/ShopsPage.jsx"));
+const ShopPage = lazy(() => import("./pages/ShopPage.jsx"));
+const CartPage = lazy(() => import("./pages/CartPage.jsx"));
+const CheckoutPage = lazy(() => import("./pages/CheckoutPage.jsx"));
+
+const HelpPage = lazy(() => import("./pages/HelpPage.jsx"));
+const PolicyPage = lazy(() => import("./pages/PolicyPage.jsx"));
+const GrowthPage = lazy(() => import("./pages/GrowthPage.jsx"));
+
 const NotificationsPage = lazy(() => import("./pages/NotificationsPage.jsx"));
 const OrdersPage = lazy(() => import("./pages/OrdersPage.jsx"));
 const OrderDetailsPage = lazy(() => import("./pages/OrderDetailsPage.jsx"));
-
 
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage.jsx"));
 
@@ -76,12 +79,37 @@ function App() {
           <Toaster position="bottom-right" richColors closeButton />
           <Suspense fallback={<LoadingScreen />}>
             <Routes>
-              <Route path="/" element={ <HomePage /> } />
+              <Route path="/" element={<HomePage />} />
               {/* # Auth related  */}
               <Route path="/login" element={<AuthPage mode="login" />} />
               <Route path="/register" element={<AuthPage mode="register" />} />
 
-              
+              <Route element={<ProtectedRoute />}>
+                <Route path="/account" element={<CustomerCenterPage />} />
+              </Route>
+
+              <Route element={<ProtectedRoute merchantOnly />}>
+                <Route path="/dashboard/*" element={<DashboardPage />} />
+                <Route
+                  path="/merchant/onboarding"
+                  element={<MerchantOnboardingPage />}
+                />
+              </Route>
+
+              {/* # admin related */}
+              <Route element={<ProtectedRoute adminOnly />}>
+                <Route path="/admin" element={<AdminPage />} />
+                <Route
+                  path="/admin/governance"
+                  element={<AdminGovernancePage />}
+                />
+              </Route>
+
+              {/* # market place related */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/orders" element={<OrdersPage />} />
+                <Route path="/orders/:id" element={<OrderDetailsPage />} />
+              </Route>
               <Route path="/marketplace" element={<ProductsPage />} />
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/products/:id" element={<ProductPage />} />
@@ -90,33 +118,6 @@ function App() {
               <Route path="/shop/:slug" element={<ShopPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
-
-              <Route element={<ProtectedRoute />}>
-                <Route path="/account" element={<CustomerCenterPage />} />
-                <Route path="/orders" element={<OrdersPage />} />
-                <Route path="/orders/:id" element={<OrderDetailsPage />} />
-              </Route>
-
-              <Route element={<ProtectedRoute merchantOnly />}>
-                <Route path="/dashboard/*" element={<DashboardPage />} />
-              </Route>
-
-              <Route element={<ProtectedRoute merchantOnly />}>
-                <Route
-                  path="/merchant/onboarding"
-                  element={<MerchantOnboardingPage />}
-                />
-              </Route>
-
-              <Route element={<ProtectedRoute adminOnly />}>
-                <Route path="/admin" element={<AdminPage />} />
-              </Route>
-              <Route element={<ProtectedRoute adminOnly />}>
-                <Route
-                  path="/admin/governance"
-                  element={<AdminGovernancePage />}
-                />
-              </Route>
 
               <Route path="/help" element={<HelpPage />} />
               <Route path="/policies/:slug" element={<PolicyPage />} />

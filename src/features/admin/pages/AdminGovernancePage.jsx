@@ -6,17 +6,26 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { ErrorState, LoadingBlock } from "../components/InlineLoading";
-import BrandMark from "../components/BrandMark";
+
+// ! internal imports 
+import ErrorState from "../../../components/ErrorState.jsx";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+import BrandMark from "../../../components/BrandMark.jsx";
+// ? missing internal import
+
 import {
   useGovernanceDesk,
   useGovernanceResubmission,
-} from "../api/useMerchantQueries";
+} from "../hooks/useAdminQueries.js";
+
+
 export default function AdminGovernancePage() {
   const desk = useGovernanceDesk();
   const resubmit = useGovernanceResubmission();
+
   if (desk.isLoading)
     return <LoadingBlock label="Loading governance records…" />;
+
   if (desk.isError)
     return (
       <ErrorState
@@ -26,10 +35,12 @@ export default function AdminGovernancePage() {
       />
     );
   const data = desk.data;
+
   async function sendReminder(id) {
     await resubmit.mutateAsync({ id });
     toast.success("Merchant resubmission reminder recorded.");
   }
+  
   return (
     <div className="min-h-screen bg-[#f4f0e7] text-ink">
       <header className="border-b border-line bg-[#fffdf7]">

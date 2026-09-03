@@ -1,4 +1,4 @@
-import request from "./client.js";
+import request from "../../../api/client.js";
 export const adminApi = {
   storefronts: params => request("get", "ADMIN_STOREFRONTS", { params }),
   approveStorefront: (id, data) =>

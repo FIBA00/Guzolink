@@ -1,4 +1,4 @@
-import request from "./client.js";
+import request from "../../../api/client.js";
 export const accountApi = {
   profile: () => request("get", "ACCOUNT_PROFILE"),
   updateProfile: data => request("patch", "ACCOUNT_PROFILE", { data }),

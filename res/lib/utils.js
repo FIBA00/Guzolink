@@ -6,7 +6,9 @@ export function formatCurrency(value, currency = "ETB") {
     maximumFractionDigits: 0,
   }).format(Number(value || 0));
 }
-export function formatDate(value) {
+
+export function formatDate ( value )
+{
   return value
     ? new Intl.DateTimeFormat("en", {
         day: "numeric",
@@ -15,6 +17,7 @@ export function formatDate(value) {
       }).format(new Date(value))
     : "—";
 }
+
 export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }

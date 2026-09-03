@@ -10,11 +10,11 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { ErrorState, LoadingBlock } from "../components/common/AsyncState";
-import BrandMark from "../components/common/BrandMark";
-import LanguageSelector from "../components/common/LanguageSelector";
-import Modal from "../components/ui/Modal";
-import { useCreateActivity } from "../features/activities/activityQueries";
+import { ErrorState, LoadingBlock } from "../components/InlineLoading";
+import BrandMark from "../components/BrandMark";
+import LanguageSelector from "../components/LanguageSelector";
+import Modal from "../components/Modal";
+import { useCreateActivity } from "../api/activityQueries";
 import {
   useStorefrontDecision,
   useStorefrontReviews,

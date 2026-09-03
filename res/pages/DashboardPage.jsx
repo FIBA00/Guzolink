@@ -1,6 +1,6 @@
 /** Style: Market Ledger — DashboardPage remains only the merchant workspace route map; product management is modal-only within its desk. */
 import { Route, Routes } from "react-router-dom";
-import DashboardShell from "../components/layout/DashboardShell";
+import DashboardShell from "../layout/DashboardShell";
 import DashboardOverview from "./dashboard/DashboardOverview";
 import DashboardProducts from "./dashboard/DashboardProducts";
 import DashboardOrders from "./dashboard/DashboardOrders";

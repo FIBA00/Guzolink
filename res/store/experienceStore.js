@@ -2,6 +2,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { previewProducts, previewUser } from "../data/previewData";
+
+
 const initial = {
   profile: {
     ...previewUser,

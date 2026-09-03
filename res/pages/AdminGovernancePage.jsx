@@ -6,12 +6,12 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { ErrorState, LoadingBlock } from "../components/common/AsyncState";
-import BrandMark from "../components/common/BrandMark";
+import { ErrorState, LoadingBlock } from "../components/InlineLoading";
+import BrandMark from "../components/BrandMark";
 import {
   useGovernanceDesk,
   useGovernanceResubmission,
-} from "../features/experience/experienceQueries";
+} from "../api/experienceQueries";
 export default function AdminGovernancePage() {
   const desk = useGovernanceDesk();
   const resubmit = useGovernanceResubmission();

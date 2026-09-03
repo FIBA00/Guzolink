@@ -1,7 +1,7 @@
 /** Style: Market Ledger — analytics renders cached merchant signals from the API, retaining a useful preview story until production data is available. */
 import { ArrowUpRight, TrendingUp } from "lucide-react";
-import { ErrorState, LoadingBlock } from "../../components/common/AsyncState";
-import { useMerchantAnalytics } from "../../features/merchant/merchantQueries";
+import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
+import { useMerchantAnalytics } from "../../api/merchantQueries";
 import { formatCurrency } from "../../lib/utils";
 export default function DashboardAnalytics() {
   const analyticsQuery = useMerchantAnalytics();

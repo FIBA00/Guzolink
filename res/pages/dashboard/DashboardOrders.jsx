@@ -1,12 +1,12 @@
 /** Style: Market Ledger — order management turns dense operational data into clear desktop ledgers and mobile-ready cards. */
 import { ArrowLeft, ChevronRight, Package, Truck } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import StatusBadge from "../../components/common/StatusBadge";
+import StatusBadge from "../../components/StatusBadge";
 import {
   EmptyState,
   ErrorState,
   LoadingBlock,
-} from "../../components/common/AsyncState";
+} from "../../components/InlineLoading";
 import {
   useOrder,
   useOrders,

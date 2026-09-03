@@ -2,13 +2,13 @@
 import { Search } from "lucide-react";
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import ShopCard from "../components/common/ShopCard";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import ShopCard from "../components/ShopCard";
 import {
   EmptyState,
   ErrorState,
   LoadingBlock,
-} from "../components/common/AsyncState";
+} from "../components/InlineLoading";
 import { useShops } from "../features/catalogue/catalogueQueries";
 export default function ShopsPage() {
   const [params, setParams] = useSearchParams();

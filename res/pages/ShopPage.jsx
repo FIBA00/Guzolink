@@ -1,13 +1,13 @@
 /** Style: Market Ledger — each merchant storefront has a distinct banner field, trust metadata, and catalogue body. */
 import { ArrowLeft, MapPin, Package, Phone } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import ProductCard from "../components/common/ProductCard";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import ProductCard from "../components/ProductCard";
 import {
   EmptyState,
   ErrorState,
   LoadingBlock,
-} from "../components/common/AsyncState";
+} from "../components/InlineLoading";
 import { useShop } from "../features/catalogue/catalogueQueries";
 export default function ShopPage() {
   const { slug } = useParams();

@@ -1,9 +1,9 @@
 /** Style: Market Ledger — merchant onboarding is a calm operating guide connected to the configurable content API. */
 import { BookOpenCheck, CheckCircle2, CircleDashed, Store } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ErrorState, LoadingBlock } from "../components/common/AsyncState";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import { useMerchantOnboarding } from "../features/experience/experienceQueries";
+import { ErrorState, LoadingBlock } from "../components/InlineLoading";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import { useMerchantOnboarding } from "../api/experienceQueries";
 export default function MerchantOnboardingPage() {
   const onboarding = useMerchantOnboarding();
   if (onboarding.isLoading)

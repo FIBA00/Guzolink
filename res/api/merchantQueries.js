@@ -1,0 +1,228 @@
+/** Style: Market Ledger — merchant records are fetched and mutated through cached resource hooks; preview entries exist only where a local API has not been connected. */
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { previewCustomers, previewOrders } from "../data/previewData";
+import { isPreviewMode } from "../../services/api";
+import { merchantApi } from "../services/apiResources";
+import { useMerchantStore } from "../store/merchantStore";
+
+const listItems = (result, property) =>
+  Array.isArray(result)
+    ? result
+    : result?.items || result?.[property] || result?.results || [];
+const merchantKeys = {
+  root: ["merchant"],
+  products: ["merchant", "products"],
+  shop: ["merchant", "shop"],
+  overview: ["merchant", "overview"],
+  customers: ["merchant", "customers"],
+  analytics: ["merchant", "analytics"],
+  settings: ["merchant", "settings"],
+};
+const previewOverview = () => {
+  const products = useMerchantStore.getState().products;
+  const totalSales = previewOrders.reduce(
+    (total, order) => total + order.total,
+    0
+  );
+  return {
+    totalSales,
+    orders: previewOrders.length,
+    products: products.length,
+    customers: previewCustomers.length,
+    recentOrders: previewOrders,
+    lowStock: products.filter(product => product.stock < 5),
+  };
+};
+
+export function useMerchantProducts(params = {}) {
+  return useQuery({
+    queryKey: [...merchantKeys.products, params],
+    queryFn: async () => {
+      if (isPreviewMode()) {
+        const items = useMerchantStore.getState().products;
+        return { items, total: items.length };
+      }
+      const result = await merchantApi.products(params);
+      return {
+        items: listItems(result, "products"),
+        total:
+          result?.total ||
+          result?.meta?.total ||
+          listItems(result, "products").length,
+      };
+    },
+    staleTime: 60_000,
+  });
+}
+export function useMerchantShop() {
+  return useQuery({
+    queryKey: merchantKeys.shop,
+    queryFn: () =>
+      isPreviewMode() ? useMerchantStore.getState().shop : merchantApi.shop(),
+    staleTime: 60_000,
+  });
+}
+export function useMerchantOverview() {
+  return useQuery({
+    queryKey: merchantKeys.overview,
+    queryFn: () =>
+      isPreviewMode() ? previewOverview() : merchantApi.overview(),
+    staleTime: 60_000,
+  });
+}
+export function useMerchantCustomers(params = {}) {
+  return useQuery({
+    queryKey: [...merchantKeys.customers, params],
+    queryFn: async () => {
+      if (isPreviewMode()) {
+        const items = previewCustomers.filter(
+          customer =>
+            !params.search ||
+            `${customer.name} ${customer.email}`
+              .toLowerCase()
+              .includes(params.search.toLowerCase())
+        );
+        return { items, total: items.length };
+      }
+      const result = await merchantApi.customers(params);
+      return {
+        items: listItems(result, "customers"),
+        total:
+          result?.total ||
+          result?.meta?.total ||
+          listItems(result, "customers").length,
+      };
+    },
+    staleTime: 60_000,
+  });
+}
+export function useMerchantAnalytics(params = {}) {
+  return useQuery({
+    queryKey: [...merchantKeys.analytics, params],
+    queryFn: () =>
+      isPreviewMode()
+        ? {
+            totalSales: 18420,
+            growth: 12,
+            period: "Aug 21–27",
+            sales: [
+              { label: "Mon", value: 36 },
+              { label: "Tue", value: 58 },
+              { label: "Wed", value: 44 },
+              { label: "Thu", value: 72 },
+              { label: "Fri", value: 61 },
+              { label: "Sat", value: 92 },
+              { label: "Sun", value: 76 },
+            ],
+            metrics: [
+              { label: "Product visits", value: "1,284", change: "+18%" },
+              {
+                label: "Repeat customers",
+                value: "6",
+                change: "+2 this month",
+              },
+              { label: "Average order", value: "ETB 512", change: "+7%" },
+            ],
+            topProduct: "Amber coffee cups",
+            topProductShare: "31%",
+            conversion: "3.8%",
+          }
+        : merchantApi.analytics(params),
+    staleTime: 60_000,
+  });
+}
+export function useMerchantSettings() {
+  return useQuery({
+    queryKey: merchantKeys.settings,
+    queryFn: () =>
+      isPreviewMode()
+        ? useMerchantStore.getState().settings
+        : merchantApi.settings(),
+    staleTime: 60_000,
+  });
+}
+
+function useMerchantMutation(mutationFn, invalidateKeys) {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn,
+    onSuccess: () =>
+      invalidateKeys.forEach(key =>
+        client.invalidateQueries({ queryKey: key })
+      ),
+  });
+}
+export function useCreateMerchantProduct() {
+  return useMerchantMutation(
+    async data =>
+      isPreviewMode()
+        ? useMerchantStore.getState().addProduct(data)
+        : merchantApi.createProduct(data),
+    [merchantKeys.products, merchantKeys.overview]
+  );
+}
+export function useUpdateMerchantProduct() {
+  return useMerchantMutation(
+    async ({ id, data }) =>
+      isPreviewMode()
+        ? useMerchantStore.getState().updateProduct(id, data)
+        : merchantApi.updateProduct(id, data),
+    [merchantKeys.products, merchantKeys.overview]
+  );
+}
+export function useDeleteMerchantProduct() {
+  return useMerchantMutation(
+    async id =>
+      isPreviewMode()
+        ? useMerchantStore.getState().removeProduct(id)
+        : merchantApi.removeProduct(id),
+    [merchantKeys.products, merchantKeys.overview]
+  );
+}
+export function useCreateMerchantShop() {
+  return useMerchantMutation(
+    async data =>
+      isPreviewMode()
+        ? useMerchantStore.getState().createShop(data)
+        : merchantApi.createShop(data),
+    [merchantKeys.shop]
+  );
+}
+export function useUpdateMerchantShop() {
+  return useMerchantMutation(
+    async data =>
+      isPreviewMode()
+        ? useMerchantStore.getState().updateShop(data)
+        : merchantApi.updateShop(data),
+    [merchantKeys.shop]
+  );
+}
+export function useDeleteMerchantShop() {
+  return useMerchantMutation(
+    async () =>
+      isPreviewMode()
+        ? useMerchantStore.getState().removeShop()
+        : merchantApi.removeShop(),
+    [merchantKeys.shop, merchantKeys.products]
+  );
+}
+export function usePublishMerchantShop() {
+  return useMerchantMutation(
+    async data =>
+      isPreviewMode()
+        ? useMerchantStore
+            .getState()
+            .updateShop({ approvalStatus: data.approvalStatus || "pending" })
+        : merchantApi.publishShop(data),
+    [merchantKeys.shop]
+  );
+}
+export function useUpdateMerchantSettings() {
+  return useMerchantMutation(
+    async data =>
+      isPreviewMode()
+        ? useMerchantStore.getState().updateSettings(data)
+        : merchantApi.updateSettings(data),
+    [merchantKeys.settings]
+  );
+}

@@ -1,15 +1,15 @@
 import { BellRing, CheckCheck } from "lucide-react";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import { ErrorState, LoadingBlock } from "../components/common/AsyncState";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import { ErrorState, LoadingBlock } from "../components/InlineLoading";
 import {
   useActivities,
   useClearReadActivities,
   useReadActivity,
-} from "../features/activities/activityQueries";
+} from "../api/activityQueries";
 import {
   useAccountPreferences,
   useUpdatePreferences,
-} from "../features/experience/experienceQueries";
+} from "../api/experienceQueries";
 export default function NotificationsPage() {
   const activities = useActivities();
   const preferences = useAccountPreferences();

@@ -1,7 +1,7 @@
 /** Style: Market Ledger — a missing route is treated as a navigational dead-end with a straightforward return to discovery. */
 import { ArrowRight, Map } from "lucide-react";
 import { Link } from "react-router-dom";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
+import MarketplaceShell from "../layout/MarketplaceShell";
 export default function NotFoundPage() {
   return (
     <MarketplaceShell>

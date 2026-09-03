@@ -15,18 +15,18 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ErrorState, LoadingBlock } from "../../components/common/AsyncState";
-import MediaManager from "../../components/common/MediaManager";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import Modal from "../../components/ui/Modal";
-import { useCreateActivity } from "../../features/activities/activityQueries";
+import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
+import MediaManager from "../../components/MediaManager";
+import ConfirmDialog from "../../components/ConfirmDialog";
+import Modal from "../../components/Modal";
+import { useCreateActivity } from "../../api/activityQueries";
 import {
   useCreateMerchantShop,
   useDeleteMerchantShop,
   useMerchantShop,
   usePublishMerchantShop,
   useUpdateMerchantShop,
-} from "../../features/merchant/merchantQueries";
+} from "../../api/merchantQueries";
 import { toast } from "sonner";
 
 const shopSchema = z.object({

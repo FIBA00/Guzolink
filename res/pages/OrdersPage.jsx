@@ -1,13 +1,13 @@
 /** Style: Market Ledger — customer order history reads like an organised receipt ledger instead of an opaque tracking wall. */
 import { ArrowRight, Package } from "lucide-react";
 import { Link } from "react-router-dom";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import StatusBadge from "../components/common/StatusBadge";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import StatusBadge from "../components/StatusBadge";
 import {
   EmptyState,
   ErrorState,
   LoadingBlock,
-} from "../components/common/AsyncState";
+} from "../components/InlineLoading";
 import { useOrders } from "../features/orders/orderQueries";
 import { formatCurrency, formatDate } from "../lib/utils";
 export default function OrdersPage() {

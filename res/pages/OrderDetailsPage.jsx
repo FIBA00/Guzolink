@@ -1,13 +1,13 @@
 /** Style: Market Ledger — an order detail gives status, order number, and the next action the clearest visual weight. */
 import { ArrowLeft, CircleCheckBig, MapPin, ReceiptText } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import StatusBadge from "../components/common/StatusBadge";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import StatusBadge from "../components/StatusBadge";
 import {
   EmptyState,
   ErrorState,
   LoadingBlock,
-} from "../components/common/AsyncState";
+} from "../components/InlineLoading";
 import { useOrder } from "../features/orders/orderQueries";
 import { formatCurrency, formatDate } from "../lib/utils";
 export default function OrderDetailsPage() {

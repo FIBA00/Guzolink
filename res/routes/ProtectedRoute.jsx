@@ -10,12 +10,17 @@ export default function ProtectedRoute({
   const user = useAuthStore(state => state.user);
   const location = useLocation();
   const session = useSession();
+
   if (session.isPending || (session.data?.user && !user))
     return <LoadingScreen />;
-  if (!user) return <Navigate to="/login" replace state={{ from: location }} />;
+
+  if ( !user ) return <Navigate to="/login" replace state={ { from: location } } />;
+  
   if (merchantOnly && !["merchant", "admin"].includes(user.role))
     return <Navigate to="/account" replace />;
+
   if (adminOnly && user.role !== "admin")
     return <Navigate to="/account" replace />;
+  
   return <Outlet />;
 }

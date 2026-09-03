@@ -4,19 +4,19 @@ import { ImagePlus, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ErrorState, LoadingBlock } from "../../components/common/AsyncState";
-import MediaManager from "../../components/common/MediaManager";
-import StatusBadge from "../../components/common/StatusBadge";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import Modal from "../../components/ui/Modal";
+import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
+import MediaManager from "../../components/MediaManager";
+import StatusBadge from "../../components/StatusBadge";
+import ConfirmDialog from "../../components/ConfirmDialog";
+import Modal from "../../components/Modal";
 import { categories } from "../../data/previewData";
-import { useCreateActivity } from "../../features/activities/activityQueries";
+import { useCreateActivity } from "../../api/activityQueries";
 import {
   useCreateMerchantProduct,
   useDeleteMerchantProduct,
   useMerchantProducts,
   useUpdateMerchantProduct,
-} from "../../features/merchant/merchantQueries";
+} from "../../api/merchantQueries";
 import { formatCurrency } from "../../lib/utils";
 import { toast } from "sonner";
 

@@ -9,22 +9,33 @@ import {
   Sparkles,
   Store,
 } from "lucide-react";
+
 import { Link } from "react-router-dom";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import ProductCard from "../components/common/ProductCard";
-import ShopCard from "../components/common/ShopCard";
-import { LoadingBlock } from "../components/common/AsyncState";
+
+// ! internal imports
+import MarketplaceShell from "../layout/MarketplaceShell";
+import ProductCard from "../components/ProductCard";
+import ShopCard from "../components/ShopCard";
+import LoadingBlock from "../components/LoadingBlock.jsx";
+
+// # utils
 import { categories } from "../data/previewData";
+
 import { useProducts, useShops } from "../features/catalogue/catalogueQueries";
+
+// TODO: fix this by using real image.
 const heroUrl = "/manus-storage/guzolink-market-ledger-hero_59c54f29.png";
 const categoryIcons = { LampDesk, Shirt, CookingPot, Palette, Sparkles };
+
 export default function HomePage() {
   const productsQuery = useProducts({});
   const shopsQuery = useShops({});
   const products = productsQuery.data?.items || [];
   const shops = shopsQuery.data?.items || [];
+  
   return (
     <MarketplaceShell>
+
       <div className="page-enter">
         <section className="mx-auto grid max-w-[1440px] gap-0 px-0 md:grid-cols-[.82fr_1.18fr] md:px-8">
           <div className="order-2 flex flex-col justify-between bg-[#e7dfcf] px-5 py-10 sm:px-10 md:order-1 md:min-h-[580px] md:px-12">
@@ -56,6 +67,7 @@ export default function HomePage() {
                 </button>
               </form>
             </div>
+            
             <div className="mt-12 flex items-center gap-4 border-t border-[#bcb3a2] pt-5 text-xs font-bold text-[#596058]">
               <Store size={17} className="text-ochre-dark" /> Browse what local
               merchants are making and stocking now.

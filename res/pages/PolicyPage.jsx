@@ -1,9 +1,9 @@
 /** Style: Market Ledger — policy copy is server-ready content, presented as a readable formal record rather than a detached document. */
 import { ShieldCheck } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import { ErrorState, LoadingBlock } from "../components/common/AsyncState";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import { usePolicy } from "../features/experience/experienceQueries";
+import { ErrorState, LoadingBlock } from "../components/InlineLoading";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import { usePolicy } from "../api/experienceQueries";
 export default function PolicyPage() {
   const { slug = "terms" } = useParams();
   const policyQ = usePolicy(slug);

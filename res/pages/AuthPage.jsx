@@ -4,7 +4,7 @@ import { ArrowRight, KeyRound } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import BrandMark from "../components/common/BrandMark";
+import BrandMark from "../components/BrandMark";
 import { useAuthAction } from "../features/auth/authQueries";
 import { useAuthStore } from "../store/authStore";
 import { queryClient } from "../lib/queryClient";

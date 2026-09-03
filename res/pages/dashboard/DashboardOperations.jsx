@@ -7,11 +7,11 @@ import {
   WalletCards,
 } from "lucide-react";
 import { toast } from "sonner";
-import { ErrorState, LoadingBlock } from "../../components/common/AsyncState";
+import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
 import {
   useMerchantOperations,
   useUpdateFulfilment,
-} from "../../features/experience/experienceQueries";
+} from "../../api/experienceQueries";
 import { formatCurrency } from "../../lib/utils";
 export default function DashboardOperations() {
   const opsQ = useMerchantOperations();

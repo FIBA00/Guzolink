@@ -1,13 +1,13 @@
 /** Style: Market Ledger — consent, attribution, and experiment settings are deliberately transparent and route mutations through the same preview-aware API boundary. */
 import { BarChart3, Compass, Save } from "lucide-react";
 import { toast } from "sonner";
-import PwaStatus from "../components/common/PwaStatus";
-import { ErrorState, LoadingBlock } from "../components/common/AsyncState";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
+import PwaStatus from "../components/PwaStatus";
+import { ErrorState, LoadingBlock } from "../components/InlineLoading";
+import MarketplaceShell from "../layout/MarketplaceShell";
 import {
   useGrowthPreferences,
   useUpdateGrowthPreferences,
-} from "../features/experience/experienceQueries";
+} from "../api/experienceQueries";
 export default function GrowthPage() {
   const growthQ = useGrowthPreferences();
   const updateGrowth = useUpdateGrowthPreferences();

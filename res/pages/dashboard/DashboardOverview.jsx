@@ -7,9 +7,9 @@ import {
   WalletCards,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ErrorState, LoadingBlock } from "../../components/common/AsyncState";
-import StatusBadge from "../../components/common/StatusBadge";
-import { useMerchantOverview } from "../../features/merchant/merchantQueries";
+import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
+import StatusBadge from "../../components/StatusBadge";
+import { useMerchantOverview } from "../../api/merchantQueries";
 import { formatCurrency, formatDate } from "../../lib/utils";
 
 export default function DashboardOverview() {

@@ -2,12 +2,12 @@
 import { Headphones, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ErrorState, LoadingBlock } from "../components/common/AsyncState";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
+import { ErrorState, LoadingBlock } from "../components/InlineLoading";
+import MarketplaceShell from "../layout/MarketplaceShell";
 import {
   useCreateSupportTicket,
   useHelpContent,
-} from "../features/experience/experienceQueries";
+} from "../api/experienceQueries";
 export default function HelpPage() {
   const helpQ = useHelpContent();
   const createTicket = useCreateSupportTicket();

@@ -8,14 +8,14 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import ProductCard from "../components/common/ProductCard";
-import QuantityControl from "../components/common/QuantityControl";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import ProductCard from "../components/ProductCard";
+import QuantityControl from "../components/QuantityControl";
 import {
   EmptyState,
   ErrorState,
   LoadingBlock,
-} from "../components/common/AsyncState";
+} from "../components/InlineLoading";
 import {
   useProduct,
   useProducts,

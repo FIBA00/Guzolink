@@ -1,9 +1,9 @@
 /** Style: Market Ledger — the cart is a clean order ledger with visible quantities and an always-legible total. */
 import { ArrowLeft, ArrowRight, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import QuantityControl from "../components/common/QuantityControl";
-import { EmptyState } from "../components/common/AsyncState";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import QuantityControl from "../components/QuantityControl";
+import { EmptyState } from "../components/InlineLoading";
 import { formatCurrency } from "../lib/utils";
 import { useCartStore } from "../store/cartStore";
 export default function CartPage() {

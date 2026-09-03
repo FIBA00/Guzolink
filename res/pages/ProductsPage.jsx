@@ -2,13 +2,13 @@
 import { Filter, Search, SlidersHorizontal, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import MarketplaceShell from "../components/layout/MarketplaceShell";
-import ProductCard from "../components/common/ProductCard";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import ProductCard from "../components/ProductCard";
 import {
   EmptyState,
   ErrorState,
   LoadingBlock,
-} from "../components/common/AsyncState";
+} from "../components/InlineLoading";
 import { categories } from "../data/previewData";
 import { useProducts } from "../features/catalogue/catalogueQueries";
 export default function ProductsPage() {

@@ -1,10 +1,10 @@
 /** Style: Market Ledger — merchant preferences are a cached API-backed record, with only non-sensitive toggles exposed in the client. */
 import { Bell, CreditCard, Globe2, Save, ShieldCheck } from "lucide-react";
-import { ErrorState, LoadingBlock } from "../../components/common/AsyncState";
+import { ErrorState, LoadingBlock } from "../../components/InlineLoading";
 import {
   useMerchantSettings,
   useUpdateMerchantSettings,
-} from "../../features/merchant/merchantQueries";
+} from "../../api/merchantQueries";
 import { toast } from "sonner";
 const settingGroups = [
   {

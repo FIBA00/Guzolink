@@ -37,13 +37,13 @@ import Marketplace from "./pages/MarketPlace.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import ComingSoon from "./pages/ComingSoon.jsx";
 
-function App() {
+export default function App() {
   return (
     <ApolloProvider client={client}>
       <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-700 text-slate-100">
         <Navbar />
         <Routes>
-          {/* auth related */}
+          {/* ! auth related */}
           <Route path="/" element={<Home />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/support" element={<ContactUs />} />
@@ -141,5 +141,3 @@ function App() {
     </ApolloProvider>
   );
 }
-
-export default App;

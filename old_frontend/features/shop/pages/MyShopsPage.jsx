@@ -1,0 +1,87 @@
+import { Link } from "react-router-dom";
+import { useShops } from "../shop.context.js";
+import { useAuth } from "../../auth/auth.context.js";
+import ShopCard from "../components/ShopCard.jsx";
+
+function MyShops() {
+  const { shops, shopError, isLoading, isRefreshing, fetchUserShops } =
+    useShops();
+
+  // auth
+  const { user } = useAuth();
+  // Full-page loading state — only true on a genuinely empty first load
+  // (see ShopContext: cache-first means this almost never fires on a
+  // return visit, only the very first time a merchant ever lands here).
+  console.log("Fetched shops", shops);
+
+  if (isLoading) {
+    return (
+      <p className="text-red-600 rounded-2xl text-center font-bold mb-2 border border-red-500 p-5">
+        Loading your shops...
+      </p>
+    );
+  }
+
+  // const isOwner =
+  //   user &&
+  //   shops &&
+  //   (user.id || user._id)?.toString() === shops.owner?.toString();
+  const isOwner = Boolean(user);
+  console.log("is owner: ", isOwner);
+
+  return (
+    <div className="mx-auto p-2 sm:px-2 lg:px-8 rounded 3xl border border-white/10 bg-slate-800 shadow-sm ">
+      <div>
+        <div className="flex items-center justify-between mb-4 mt-6">
+          <Link
+            to="/shops/create"
+            className="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-amber-400 transition"
+          >
+            + Add New Shop
+          </Link>
+
+          {/* Manual refresh — this is the "merchant just made a sale,
+              pull the latest numbers" button. It calls fetchUserShops with
+              silent: true, which drives isRefreshing instead of isLoading,
+              so the existing shop cards stay on screen the whole time
+              instead of being replaced by a full-page spinner. */}
+          <button
+            type="button"
+            onClick={() => fetchUserShops({ silent: true })}
+            disabled={isRefreshing}
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-600 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-slate-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            {isRefreshing ? "Refreshing..." : "Refresh"}
+          </button>
+        </div>
+      </div>
+      <div className=" lg:flex sm:grid justify-items-center gap-2 mb-4 grid-cols-2 sm:grid-cols-1  border border-white/10 rounded-2xl p-4">
+        {!shops || shops.length === 0 ? (
+          <p className="text-red-600 rounded-2xl text-center font-bold mb-4 border border-red-500 p-5">
+            You have no shops yet . {shopError && `Error: ${shopError}`}
+          </p>
+        ) : (
+          shops.map(shop => (
+            <ShopCard key={shop._id} shop={shop} isOwner={isOwner} />
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default MyShops;

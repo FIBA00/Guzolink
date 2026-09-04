@@ -1,0 +1,100 @@
+/** Style: Market Ledger — consent, attribution, and experiment settings are deliberately transparent and route mutations through the same preview-aware API boundary. */
+import { BarChart3, Compass, Save } from "lucide-react";
+import { toast } from "sonner";
+import PwaStatus from "../components/PwaStatus";
+import { ErrorState, LoadingBlock } from "../components/InlineLoading";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import {
+  useGrowthPreferences,
+  useUpdateGrowthPreferences,
+} from "../api/useMerchantQueries";
+export default function GrowthPage() {
+  const growthQ = useGrowthPreferences();
+  const updateGrowth = useUpdateGrowthPreferences();
+  if (growthQ.isLoading)
+    return (
+      <MarketplaceShell>
+        <LoadingBlock label="Loading growth preferences…" />
+      </MarketplaceShell>
+    );
+  if (growthQ.isError)
+    return (
+      <MarketplaceShell>
+        <ErrorState
+          title="Growth preferences unavailable"
+          description={growthQ.error.message}
+          onRetry={growthQ.refetch}
+        />
+      </MarketplaceShell>
+    );
+  const growth = growthQ.data;
+  async function save(data, label) {
+    await updateGrowth.mutateAsync({ ...growth, ...data });
+    toast.success(`${label} saved.`);
+  }
+  return (
+    <MarketplaceShell>
+      <div className="page-enter mx-auto max-w-[1100px] px-4 py-10 md:px-8">
+        <p className="ledger-label">Growth and support controls</p>
+        <h1 className="mt-3 font-display text-5xl">Keep the signal useful.</h1>
+        <div className="mt-6">
+          <PwaStatus />
+        </div>
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
+          <section className="border border-line bg-[#fffdf7] p-6">
+            <BarChart3 className="text-ochre-dark" />
+            <h2 className="mt-5 text-lg font-extrabold">Analytics consent</h2>
+            <p className="mt-2 text-sm leading-6 text-[#656b64]">
+              Choose whether marketplace usage should contribute to product
+              improvement measurement.
+            </p>
+            <button
+              className={`mt-5 flex h-7 w-12 items-center rounded-full ${growth.analytics ? "bg-ochre" : "bg-[#b9b6ae]"}`}
+              role="switch"
+              aria-checked={growth.analytics}
+              onClick={() =>
+                save({ analytics: !growth.analytics }, "Analytics preference")
+              }
+            >
+              <span
+                className={`h-5 w-5 rounded-full bg-white transition ${growth.analytics ? "ml-6" : "ml-1"}`}
+              />
+            </button>
+          </section>
+          <section className="border border-line bg-[#fffdf7] p-6">
+            <Compass className="text-ochre-dark" />
+            <h2 className="mt-5 text-lg font-extrabold">Acquisition record</h2>
+            <p className="mt-3 text-sm leading-6 text-[#656b64]">
+              {growth.attribution}
+            </p>
+            <p className="mt-5 text-xs font-extrabold uppercase tracking-[.1em] text-[#737870]">
+              Configured attribution resource
+            </p>
+          </section>
+          <section className="border border-line bg-[#fffdf7] p-6">
+            <Save className="text-ochre-dark" />
+            <h2 className="mt-5 text-lg font-extrabold">Experiment setting</h2>
+            <p className="mt-2 text-sm leading-6 text-[#656b64]">
+              A preview-safe assignment that becomes a configured experiment API
+              when available.
+            </p>
+            <label className="mt-4 block">
+              <span className="field-label">Active track</span>
+              <select
+                className="text-field"
+                value={growth.experiment}
+                onChange={event =>
+                  save({ experiment: event.target.value }, "Experiment setting")
+                }
+              >
+                <option>Merchant onboarding A</option>
+                <option>Merchant onboarding B</option>
+                <option>Control group</option>
+              </select>
+            </label>
+          </section>
+        </div>
+      </div>
+    </MarketplaceShell>
+  );
+}

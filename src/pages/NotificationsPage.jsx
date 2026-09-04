@@ -1,0 +1,117 @@
+import { BellRing, CheckCheck } from "lucide-react";
+import MarketplaceShell from "../layout/MarketplaceShell";
+import { ErrorState, LoadingBlock } from "../components/InlineLoading";
+import {
+  useActivities,
+  useClearReadActivities,
+  useReadActivity,
+} from "../api/activityQueries";
+import {
+  useAccountPreferences,
+  useUpdatePreferences,
+} from "../api/useMerchantQueries";
+export default function NotificationsPage() {
+  const activities = useActivities();
+  const preferences = useAccountPreferences();
+  const read = useReadActivity();
+  const clear = useClearReadActivities();
+  const update = useUpdatePreferences();
+  if (activities.isLoading || preferences.isLoading)
+    return (
+      <MarketplaceShell>
+        <LoadingBlock label="Loading notification centre…" />
+      </MarketplaceShell>
+    );
+  if (activities.isError)
+    return (
+      <MarketplaceShell>
+        <ErrorState
+          title="Notifications unavailable"
+          description={activities.error.message}
+          onRetry={activities.refetch}
+        />
+      </MarketplaceShell>
+    );
+  const items = activities.data.items || [];
+  const prefs = preferences.data || {};
+  return (
+    <MarketplaceShell>
+      <div className="page-enter mx-auto max-w-[980px] px-4 py-10 md:px-8">
+        <p className="ledger-label">Activity and notices</p>
+        <h1 className="mt-3 font-display text-5xl">Keep up, on your terms.</h1>
+        <div className="mt-7 grid gap-5 lg:grid-cols-[1.2fr_.8fr]">
+          <section className="border border-line bg-[#fffdf7]">
+            <header className="flex items-center justify-between border-b border-line p-5">
+              <div className="flex items-center gap-2">
+                <BellRing className="text-ochre-dark" size={18} />
+                <span className="font-extrabold">Activity history</span>
+              </div>
+              <button
+                className="text-xs font-extrabold text-clay"
+                onClick={() => clear.mutate()}
+              >
+                Clear read
+              </button>
+            </header>
+            {items.length ? (
+              <div className="divide-y divide-line">
+                {items.map(item => (
+                  <button
+                    key={item.id}
+                    className={`w-full p-5 text-left ${item.read ? "bg-[#fffdf7]" : "bg-[#fff7e8]"}`}
+                    onClick={() => read.mutate(item.id)}
+                  >
+                    <p className="text-sm font-extrabold">{item.title}</p>
+                    <p className="mt-1 text-sm leading-6 text-[#656b64]">
+                      {item.detail}
+                    </p>
+                    <p className="mt-2 text-xs text-[#7b8079]">
+                      {new Date(item.createdAt).toLocaleString()}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="p-10 text-center text-sm text-[#6d726b]">
+                Your activity record is clear.
+              </div>
+            )}
+          </section>
+          <aside className="border border-line bg-[#fffdf7] p-6">
+            <p className="ledger-label">Notification preferences</p>
+            <div className="mt-4 divide-y divide-line">
+              {[
+                ["orderUpdates", "Order and delivery updates"],
+                ["merchantUpdates", "Favourite shop updates"],
+                ["marketing", "Marketplace news"],
+              ].map(([key, label]) => (
+                <label
+                  key={key}
+                  className="flex items-center justify-between gap-3 py-4 text-sm font-extrabold"
+                >
+                  {label}
+                  <button
+                    role="switch"
+                    aria-checked={Boolean(prefs[key])}
+                    className={`h-6 w-11 rounded-full ${prefs[key] ? "bg-ochre" : "bg-[#b9b6ae]"}`}
+                    onClick={() =>
+                      update.mutate({ ...prefs, [key]: !prefs[key] })
+                    }
+                  >
+                    <span
+                      className={`block h-4 w-4 rounded-full bg-white ${prefs[key] ? "ml-6" : "ml-1"}`}
+                    />
+                  </button>
+                </label>
+              ))}
+            </div>
+            <p className="mt-5 text-xs leading-5 text-[#747970]">
+              <CheckCheck className="mr-1 inline" size={14} /> Preferences use
+              the configured ACCOUNT_PREFERENCES API once connected.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </MarketplaceShell>
+  );
+}

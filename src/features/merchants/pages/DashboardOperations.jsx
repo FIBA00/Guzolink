@@ -1,0 +1,143 @@
+/** Style: Market Ledger — the operations desk exposes inventory, fulfilment, team, and projected payout signals through one cached merchant resource. */
+import {
+  Download,
+  PackageSearch,
+  Truck,
+  UsersRound,
+  WalletCards,
+} from "lucide-react";
+import { toast } from "sonner";
+
+// ! internal imports
+import ErrorState from "../../../components/ErrorState.jsx";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+// # hooks
+import {
+  useMerchantOperations,
+  useUpdateFulfilment,
+} from "../hooks/useMerchantQueries.js";
+import { formatCurrency } from "../../../lib/utils.js";
+
+export default function DashboardOperations() {
+  const opsQ = useMerchantOperations();
+  const update = useUpdateFulfilment();
+
+  if (opsQ.isLoading) return <LoadingBlock label="Loading operations desk…" />;
+  if (opsQ.isError)
+    return (
+      <ErrorState
+        title="Operations unavailable"
+        description={opsQ.error.message}
+        onRetry={opsQ.refetch}
+      />
+    );
+  const ops = opsQ.data;
+
+  async function fulfil(id) {
+    await update.mutateAsync({ id, status: "Packed" });
+    toast.success("Order marked ready for delivery.");
+  }
+
+  return (
+    <>
+      <div className="border-b border-line pb-6">
+        <p className="ledger-label">Merchant operations</p>
+        <h1 className="mt-3 font-display text-5xl">Keep the shop moving.</h1>
+      </div>
+      <section className="mt-7 grid gap-5 xl:grid-cols-2">
+        <article className="border border-line bg-[#fffdf7] p-5">
+          <PackageSearch className="text-ochre-dark" />
+          <p className="ledger-label mt-5">Inventory alerts</p>
+          <div className="mt-3 divide-y divide-line">
+            {ops.inventory.map(item => (
+              <div key={item.id} className="flex justify-between py-3 text-sm">
+                <span className="font-extrabold">{item.name}</span>
+                <span className="text-clay">
+                  {item.stock} · {item.state}
+                </span>
+              </div>
+            ))}
+          </div>
+          <button
+            className="button-secondary mt-5"
+            onClick={() =>
+              toast.info(
+                "Inventory adjustments are ready for the configured MERCHANT_PRODUCTS API."
+              )
+            }
+          >
+            Adjust inventory
+          </button>
+        </article>
+        <article className="border border-line bg-[#fffdf7] p-5">
+          <Truck className="text-ochre-dark" />
+          <p className="ledger-label mt-5">Fulfilment desk</p>
+          <div className="mt-3 divide-y divide-line">
+            {ops.fulfilment.map(order => (
+              <div
+                key={order.id}
+                className="flex flex-wrap items-center justify-between gap-3 py-3 text-sm"
+              >
+                <span>
+                  <strong>{order.id}</strong> · {order.customer}
+                  <span className="ml-2 text-xs text-[#70756e]">
+                    {order.status}
+                  </span>
+                </span>
+                <button
+                  className="text-xs font-extrabold text-ochre-dark"
+                  onClick={() => fulfil(order.id)}
+                  disabled={update.isPending}
+                >
+                  Pack order
+                </button>
+              </div>
+            ))}
+          </div>
+        </article>
+        <article className="border border-line bg-[#fffdf7] p-5">
+          <UsersRound className="text-ochre-dark" />
+          <p className="ledger-label mt-5">Shop team</p>
+          {ops.team.map(member => (
+            <div key={member.id} className="mt-3 border-t border-line pt-3">
+              <p className="text-sm font-extrabold">
+                {member.name} · {member.role}
+              </p>
+              <p className="mt-1 text-xs text-[#70756e]">{member.email}</p>
+            </div>
+          ))}
+          <button
+            className="button-secondary mt-5"
+            onClick={() =>
+              toast.info(
+                "Team invitations are ready for the configured MERCHANT_TEAM API."
+              )
+            }
+          >
+            Invite teammate
+          </button>
+        </article>
+        <article className="border border-line bg-[#e7dfcf] p-5">
+          <WalletCards className="text-ochre-dark" />
+          <p className="ledger-label mt-5">Payout projection</p>
+          <p className="mt-3 text-3xl font-extrabold">
+            {formatCurrency(ops.payout.amount)}
+          </p>
+          <p className="mt-2 text-sm text-[#5f655e]">
+            {ops.payout.status} · next on {ops.payout.nextDate}
+          </p>
+          <button
+            className="button-secondary mt-5"
+            onClick={() =>
+              toast.info(
+                "Sales export is ready for the configured MERCHANT_SALES_EXPORT API."
+              )
+            }
+          >
+            <Download size={16} /> Export sales
+          </button>
+        </article>
+      </section>
+    </>
+  );
+}

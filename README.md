@@ -85,16 +85,16 @@ PAYMENTS_PROVIDER_KEY=sk_test_yourStripeKeyHere
 
 ## API Reference
 
-| Method   | Endpoint             | Description                    | Auth  |
-| -------- | -------------------- | ------------------------------ | :---: |
-| `POST`   | `/api/auth/register` | Register a new merchant        |   –   |
-| `POST`   | `/api/auth/login`    | Authenticate and receive a JWT |   –   |
-| `GET`    | `/api/shops`         | List active shops              |   –   |
-| `POST`   | `/api/shops`         | Create a shop                  |   ✅   |
-| `GET`    | `/api/products`      | Fetch product catalog          |   –   |
-| `POST`   | `/api/products`      | Add a product                  |   ✅   |
-| `PUT`    | `/api/products/:id`  | Update a product               |   ✅   |
-| `DELETE` | `/api/products/:id`  | Remove a product               |   ✅   |
+| Method   | Endpoint             | Description                    | Auth |
+| -------- | -------------------- | ------------------------------ | :--: |
+| `POST`   | `/api/auth/register` | Register a new merchant        |  –   |
+| `POST`   | `/api/auth/login`    | Authenticate and receive a JWT |  –   |
+| `GET`    | `/api/shops`         | List active shops              |  –   |
+| `POST`   | `/api/shops`         | Create a shop                  |  ✅  |
+| `GET`    | `/api/products`      | Fetch product catalog          |  –   |
+| `POST`   | `/api/products`      | Add a product                  |  ✅  |
+| `PUT`    | `/api/products/:id`  | Update a product               |  ✅  |
+| `DELETE` | `/api/products/:id`  | Remove a product               |  ✅  |
 
 ## Scripts
 

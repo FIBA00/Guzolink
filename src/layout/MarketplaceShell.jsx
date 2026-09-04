@@ -12,8 +12,8 @@ import LanguageSelector from "../components/LanguageSelector";
 import { useTranslation } from "../i18n/useTranslation.js";
 
 // fix-me: ? fix this missing imports
-import { useAuthStore } from "../../store/authStore";
-import { useCartStore } from "../../store/cartStore";
+import useAuthStore  from "../../store/authStore";
+import useCartStore  from "../../store/cartStore";
 
 export default function MarketplaceShell({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);

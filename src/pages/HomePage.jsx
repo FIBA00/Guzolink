@@ -13,15 +13,16 @@ import {
 import { Link } from "react-router-dom";
 
 // ! internal imports
-import MarketplaceShell from "../layout/MarketplaceShell";
-import ProductCard from "../components/ProductCard";
-import ShopCard from "../components/ShopCard";
+import MarketplaceShell from "../layout/MarketplaceShell.jsx";
+import ProductCard from "../components/ProductCard.jsx";
+import ShopCard from "../components/ShopCard.jsx";
 import LoadingBlock from "../components/LoadingBlock.jsx";
 
 // # utils
-import { categories } from "../data/data.customers.js";
+import { categories } from "../data/data.categories.js";
 
-import { useProducts, useShops } from "../features/catalogue/catalogueQueries";
+import useProducts from "../features/products/hooks/useProducts.js";
+import useShops from "../features/shops/hooks/useShops.js";
 
 // TODO: fix this by using real image.
 const heroUrl = "/manus-storage/guzolink-market-ledger-hero_59c54f29.png";
@@ -32,12 +33,10 @@ export default function HomePage() {
   const shopsQuery = useShops({});
   const products = productsQuery.data?.items || [];
   const shops = shopsQuery.data?.items || [];
-  
+
   return (
     <MarketplaceShell>
       <div className="page-enter">
-
-
         <section className="mx-auto grid max-w-[1440px] gap-0 px-0 md:grid-cols-[.82fr_1.18fr] md:px-8">
           <div className="order-2 flex flex-col justify-between bg-[#e7dfcf] px-5 py-10 sm:px-10 md:order-1 md:min-h-[580px] md:px-12">
             <div>
@@ -68,7 +67,7 @@ export default function HomePage() {
                 </button>
               </form>
             </div>
-            
+
             <div className="mt-12 flex items-center gap-4 border-t border-[#bcb3a2] pt-5 text-xs font-bold text-[#596058]">
               <Store size={17} className="text-ochre-dark" /> Browse what local
               merchants are making and stocking now.
@@ -91,7 +90,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
 
         <section className="mx-auto max-w-[1440px] px-4 py-14 md:px-8">
           <div className="flex items-end justify-between gap-5">
@@ -128,7 +126,6 @@ export default function HomePage() {
             })}
           </div>
         </section>
-
 
         <section className="mx-auto max-w-[1440px] px-4 md:px-8">
           <div className="grid gap-8 border-y border-line py-12 lg:grid-cols-[.66fr_1.34fr]">
@@ -217,7 +214,6 @@ export default function HomePage() {
           </div>
         </section>
       </div>
-
     </MarketplaceShell>
   );
 }

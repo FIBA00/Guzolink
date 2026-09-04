@@ -1,16 +1,21 @@
 /** Style: Market Ledger — product cards resemble catalogued goods with registration corners, shop provenance, and decisive purchase actions. */
 import { ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
-import { formatCurrency } from "../lib/utils";
-import { useCartStore } from "../../store/cartStore";
 import { toast } from "sonner";
+
+// ! internal imports
+import { formatCurrency } from "../lib/utils.js";
+
+// ? missing internal import 
+// import { useCartStore } from "../../store/cartStore";
+
 export default function ProductCard({ product, priority = false }) {
-  const addItem = useCartStore(state => state.addItem);
+  // const addItem = useCartStore(state => state.addItem);
   const soldOut = Number(product.stock) === 0;
-  function addToCart() {
-    addItem(product);
-    toast.success(`${product.name} is in your cart.`);
-  }
+  // function addToCart() {
+  //   addItem(product);
+  //   toast.success(`${product.name} is in your cart.`);
+  // }
   return (
     <article className="card-hover registration-mark group border border-line bg-[#fffdf7]">
       <Link to={`/products/${product.id}`} className="block overflow-hidden">
